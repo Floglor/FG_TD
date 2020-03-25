@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5387240311529309503}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 6702962538568995052}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.3012817, y: 2.1664946, z: 82.04962}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -94,3 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0a61bbf596b4444ac4e13bd9427d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  health: 18
+  price: 1
+  deathEffect: {fileID: 2523267147374552803, guid: 5bca4dc10b755a949bb6bb59a62738f7,
+    type: 3}

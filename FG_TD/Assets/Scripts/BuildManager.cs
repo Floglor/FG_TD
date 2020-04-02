@@ -18,24 +18,69 @@ public class BuildManager : MonoBehaviour
 
     public GameObject standartTurretPrefab;
     public GameObject secondaryTurretPrefab;
+    public GameObject aoeTurretPrefab;
+
+    public NodeUI nodeUI;
+    public Shop shop;
 
     private TurretBlueprint turretToBuild;
+    private Node selectedTurret;
+    private Node selectedNode;
 
 
-    public bool CanBuild
+
+
+   // public bool HasMoney
+   // {
+   //     get { return PlayerStats.Money >= turretToBuild.cost; }
+   // }
+
+  
+    public void SelectNode(Node node)
     {
-        get { return turretToBuild != null; }
+        if (selectedNode != null)
+            DeselectNode();
+
+        selectedNode = node;
+        node.SetSelected();
+        shop.Show();
     }
 
-    public bool HasMoney
+    public void DeselectNode()
     {
-        get { return PlayerStats.Money >= turretToBuild.cost; }
+        selectedNode.SetNormalColor();
+        selectedNode = null;
+        shop.Hide();
     }
 
+    public void SelectTurret(Node nodeWithTurret)
+    {
+        shop.Hide();
+        if (selectedTurret == nodeWithTurret)
+        {
+            DeselectTurret();
+            return;
+
+        }
+
+        selectedTurret = nodeWithTurret;
+        turretToBuild = null;
+
+        nodeUI.SetTarget(nodeWithTurret);
+
+    }
+    private void DeselectTurret()
+    {
+        selectedTurret = null;
+        nodeUI.Hide();
+    }
 
     public void SetTurretToBuild(TurretBlueprint turret)
     {
         turretToBuild = turret;
+        selectedTurret = null;
+        BuildOn(selectedNode);
+        nodeUI.Hide();
     }
 
     internal void BuildOn(Node node)
@@ -48,15 +93,10 @@ public class BuildManager : MonoBehaviour
 
         PlayerStats.Money -= turretToBuild.cost;
 
-        GameObject turret = Instantiate(turretToBuild.prefab, node.transform.position, Quaternion.identity);
+        GameObject turret = Instantiate(turretToBuild.prefab, new Vector3(node.transform.position.x, node.transform.position.y, -2), Quaternion.identity);
         node.turret = turret;
+        DeselectNode();
     }
 
-
-
-
-
-
-    // Start is called before the first frame update
 
 }

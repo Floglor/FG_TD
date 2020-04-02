@@ -9,6 +9,8 @@ public class Node : MonoBehaviour
 
     public Color notEnoughMoneyColor;
 
+    public Color selectedColor;
+
     [Header("Optional")]
     public GameObject turret;
 
@@ -27,41 +29,64 @@ public class Node : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (!buildManager.CanBuild)
-            return;
-        
         if (turret != null)
         {
-            Debug.Log("Can't build there");
+
+            buildManager.SelectTurret(this);
             return;
         }
+        else
+        {
+            buildManager.SelectNode(this);
+        }
 
-        buildManager.BuildOn(this);
-        
 
-        //Build a turret
+
+        // buildManager.BuildOn(this);
+
     }
 
     private void OnMouseEnter()
     {
-        if (!buildManager.CanBuild)
-            return;
+        // if (!buildManager.CanBuild)
+        //     return;
 
-        if (buildManager.HasMoney)
-        {
+        //  if (buildManager.HasMoney)
+        //  {
+        if (rend.material.color != selectedColor)
             rend.material.color = hoverColor;
 
-        }
-        else
-        {
-            rend.material.color = notEnoughMoneyColor;
-        }
+        // }
+        // else
+        // {
+        //     rend.material.color = notEnoughMoneyColor;
+        // }
 
-       
+
     }
 
-    private void OnMouseExit()
+    public Vector3 GetBuildPosition()
+    {
+        return transform.position;
+    }
+
+    public void OnMouseExit()
+    {
+        if (rend.material.color != selectedColor)
+            rend.material.color = startColor;
+    }
+
+    public void SetNormalColor()
     {
         rend.material.color = startColor;
     }
+
+
+
+    public void SetSelected()
+    {
+        rend.material.color = selectedColor;
+    }
+
+
 }

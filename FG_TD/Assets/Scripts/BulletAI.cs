@@ -8,6 +8,10 @@ public class BulletAI : MonoBehaviour
     private Transform target;
 
     public int damage = 1;
+    public bool shouldTurn;
+
+    [Header("For AOE")]
+    public float aoeRadius = 0;
 
    
 
@@ -29,14 +33,33 @@ public class BulletAI : MonoBehaviour
 
         if (dir.magnitude <= distanseThisFrame)
         {
+            if (aoeRadius > 0f)
+            {
+                Explode();
+            } 
+            else
             Damage(target.gameObject);
         }
 
         transform.Translate(dir.normalized * distanseThisFrame, Space.World);
 
+        if (shouldTurn)
         transform.right = -dir.normalized;
 
 
+    }
+
+    private void Explode()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, aoeRadius);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.tag == "Enemy")
+            {
+                Damage(collider.transform.gameObject);
+            }
+        }
+       
     }
 
     void Damage(GameObject enemy)
@@ -49,5 +72,10 @@ public class BulletAI : MonoBehaviour
         }
     }
 
-   
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, aoeRadius);
+    }
+
 }

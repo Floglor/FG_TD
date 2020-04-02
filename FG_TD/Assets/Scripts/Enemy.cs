@@ -1,21 +1,24 @@
 ﻿using System;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Enemy: MonoBehaviour
 {
-    public float speed = 10f;
-
-    public int health = 1;
-
-    public int price = 1;
+    public float speed;
+    public int startHealth;
+    public int worth;
+    public int armor;
+    private int health;
 
     private Transform target;
     private int waypointIndex = 0;
 
+    [Header("Unity Specific")]
     public GameObject deathEffect;
+    public Image healthBar;
 
     private void Start()
     {
+        health = startHealth; 
         target = Waypoints.points[0];
     }
 
@@ -46,8 +49,12 @@ public class Enemy: MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-       
+        if (damage - armor <= 0)
+            return; 
+
         health -= damage;
+
+        healthBar.fillAmount = (float) health / (float) startHealth;
      
         if (health <= 0)
             Die();
@@ -59,7 +66,7 @@ public class Enemy: MonoBehaviour
         GameObject effectInst = (GameObject)Instantiate(deathEffect, new Vector3(transform.position.x, transform.position.y, -100), transform.rotation);
        
         Destroy(effectInst, 2f);
-        PlayerStats.Money += price;
+        PlayerStats.Money += worth;
     }
 
     void DamagePlayer()

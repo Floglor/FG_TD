@@ -4,7 +4,9 @@ public class Shop : MonoBehaviour
 {
     public TurretBlueprint standartPinar;
     public TurretBlueprint fastPinar;
+    public TurretBlueprint aoePinar;
     BuildManager buildManager;
+    public GameObject shopCanvas;
 
     private void Start()
     {
@@ -12,14 +14,29 @@ public class Shop : MonoBehaviour
     }
     public void SelectStandartTurret()
     {
-        Debug.Log("Pinar turret selected");
+    
         buildManager.SetTurretToBuild(standartPinar);
     }
 
     public void SelectFastTurret()
     {
-        Debug.Log("Pinar second turret selected");
+      
         buildManager.SetTurretToBuild(fastPinar);
 
+    }
+
+    public void SelectAOEturret()
+    {
+        buildManager.SetTurretToBuild(aoePinar);
+    }
+
+    public void Hide()
+    {
+        shopCanvas.SetActive(false);
+    }
+
+    public void Show()
+    {
+        shopCanvas.SetActive(true);
     }
 }

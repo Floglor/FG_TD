@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TowerAI : MonoBehaviour
 {
@@ -10,19 +11,24 @@ public class TowerAI : MonoBehaviour
 
     [Header("UnitySetup")]
     public string enemyTag = "Enemy";
-
     public GameObject bulletPrefab;
     public Transform firePoint;
- 
+
+    [Header("Upgrades")]
+    public List<UpgradeVariants> upgradeVariants;
 
     private void Start()
     {
-        InvokeRepeating("UpdateTarget", 0f, 0.2f);
+        InvokeRepeating("UpdateTarget", 0f, 0.15f);
     }
 
     private void Update()
     {
-      if(target == null)
+
+
+        fireCountdown -= Time.deltaTime;
+
+        if (target == null)
         {
             return;
         }
@@ -33,12 +39,12 @@ public class TowerAI : MonoBehaviour
             fireCountdown = 1f / fireRate;
         }
 
-        fireCountdown -= Time.deltaTime;
+       
     }
 
     void UpdateTarget()
     {
-       
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
         float shortestDistance = Mathf.Infinity;

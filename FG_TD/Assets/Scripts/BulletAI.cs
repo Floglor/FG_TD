@@ -27,18 +27,15 @@ public class BulletAI : MonoBehaviour
 
     private void Update()
     {
-        if (target == null && aoeRadius <= 0)
+        if (aoeRadius <= 0)
         {
-            Destroy(gameObject);
-            return;
+            MoveSingleTargetProjectile();
         }
-        else if (target == null != aoeRadius > 0)
+        else
         {
             MoveAoeProjectile();
-            return;
         }
-
-        MoveSingleTargetProjectile();
+      
     }
 
     private void MoveAoeProjectile()
@@ -67,14 +64,13 @@ public class BulletAI : MonoBehaviour
         }
         else
         {
-            Vector2 dir = target.position - lastTargetPosition;
+           
+            Vector2 dir = lastTargetPosition - transform.position;
             float distanseThisFrame = speed * Time.deltaTime;
 
             if (dir.magnitude <= distanseThisFrame)
             {
-               
                     Explode();
-                
             }
 
             transform.Translate(dir.normalized * distanseThisFrame, Space.World);
@@ -86,7 +82,11 @@ public class BulletAI : MonoBehaviour
 
     void MoveSingleTargetProjectile()
     {
-
+        if (target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Vector2 dir = target.position - transform.position;
         float distanseThisFrame = speed * Time.deltaTime;
 

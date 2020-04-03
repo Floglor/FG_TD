@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,7 +14,6 @@ public class Stats
 
 [CreateAssetMenu(fileName = "Upgrade Data", menuName = "ScriptableObjects/UpgradeDataFile", order = 1)]
 [System.Serializable]
-[CanEditMultipleObjects]
 public class UpgradeVariants : ScriptableObject
 {
 
@@ -25,5 +23,5 @@ public class UpgradeVariants : ScriptableObject
     public List<UpgradeVariants> nextUpgrades;
 
     [Header("Tower Variant")]
-    public GameObject towerUpgrade;
+    public List<GameObject> towerUpgrade;
 }

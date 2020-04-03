@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 0
   statList: []
-  nextUpgrades: []
+  nextUpgrades:
+  - {fileID: 0}
   towerUpgrade: {fileID: 0}

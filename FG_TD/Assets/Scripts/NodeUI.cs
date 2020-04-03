@@ -6,10 +6,12 @@ public class NodeUI : MonoBehaviour
 {
     public GameObject ui;
     private Node target;
+    private TowerAI tower;
 
     public void SetTarget(Node node)
     {
         target = node;
+        tower = node.turret.GetComponent<TowerAI>();
 
         
         ui.SetActive(true);

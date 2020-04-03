@@ -6,6 +6,7 @@ public class BulletAI : MonoBehaviour
 {
     public float speed = 10f;
     private Transform target;
+    private Vector3 lastTargetPosition;
 
     public int damage = 1;
     public bool shouldTurn;
@@ -13,7 +14,11 @@ public class BulletAI : MonoBehaviour
     [Header("For AOE")]
     public float aoeRadius = 0;
 
-   
+
+    private void Awake()
+    {
+        lastTargetPosition = new Vector3();
+    }
 
     public void Seek(Transform _target)
     {
@@ -22,11 +27,65 @@ public class BulletAI : MonoBehaviour
 
     private void Update()
     {
-        if (target == null)
+        if (target == null && aoeRadius <= 0)
         {
             Destroy(gameObject);
             return;
         }
+        else if (target == null != aoeRadius > 0)
+        {
+            MoveAoeProjectile();
+            return;
+        }
+
+        MoveSingleTargetProjectile();
+    }
+
+    private void MoveAoeProjectile()
+    {
+        if (target != null)
+        {
+            Vector2 dir = target.position - transform.position;
+            float distanseThisFrame = speed * Time.deltaTime;
+
+            if (dir.magnitude <= distanseThisFrame)
+            {
+                if (aoeRadius > 0f)
+                {
+                    Explode();
+                }
+                else
+                    Damage(target.gameObject);
+            }
+
+            transform.Translate(dir.normalized * distanseThisFrame, Space.World);
+
+            if (shouldTurn)
+                transform.right = -dir.normalized;
+
+            lastTargetPosition = target.transform.position;
+        }
+        else
+        {
+            Vector2 dir = target.position - lastTargetPosition;
+            float distanseThisFrame = speed * Time.deltaTime;
+
+            if (dir.magnitude <= distanseThisFrame)
+            {
+               
+                    Explode();
+                
+            }
+
+            transform.Translate(dir.normalized * distanseThisFrame, Space.World);
+
+            if (shouldTurn)
+                transform.right = -dir.normalized;
+        }
+    }
+
+    void MoveSingleTargetProjectile()
+    {
 
         Vector2 dir = target.position - transform.position;
         float distanseThisFrame = speed * Time.deltaTime;
@@ -36,17 +95,15 @@ public class BulletAI : MonoBehaviour
             if (aoeRadius > 0f)
             {
                 Explode();
-            } 
+            }
             else
-            Damage(target.gameObject);
+                Damage(target.gameObject);
         }
 
         transform.Translate(dir.normalized * distanseThisFrame, Space.World);
 
         if (shouldTurn)
-        transform.right = -dir.normalized;
-
-
+            transform.right = -dir.normalized;
     }
 
     private void Explode()

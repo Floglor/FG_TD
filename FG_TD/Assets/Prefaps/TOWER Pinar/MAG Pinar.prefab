@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 7162009060875751983}
   - component: {fileID: 7370315278563187094}
   m_Layer: 0
-  m_Name: pinar 2
+  m_Name: MAG Pinar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a51e07633a9d9147b5663d0f590a17c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 4
-  fireRate: 0.75
-  damage: 5
+  range: 6
+  fireRate: 0.9
+  damage: 8
   bulletSpeed: 10
   aOE: 0
   enemyTag: Enemy

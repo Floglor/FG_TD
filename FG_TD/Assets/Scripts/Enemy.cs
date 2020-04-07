@@ -16,16 +16,20 @@ public class Enemy: MonoBehaviour
     public GameObject deathEffect;
     public Image healthBar;
 
+    private Rigidbody2D rb;
+    private Vector2 direction;
+
     private void Start()
     {
         health = startHealth; 
         target = Waypoints.points[0];
+        rb = this.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        Vector2 dir = target.position - transform.position;
-        transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+        direction = target.position - transform.position;
+        MoveWithTranslate(direction);
 
         if (Vector2.Distance(transform.position, target.position) <= 0.04f)
         {
@@ -33,6 +37,21 @@ public class Enemy: MonoBehaviour
         }
 
 
+    }
+
+    void MoveWithPhysics(Vector2 dir)
+    {
+       rb.velocity = dir.normalized * speed;
+    }
+
+    void MoveWithTranslate(Vector2 dir)
+    {
+        transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+    }
+
+    private void FixedUpdate()
+    {
+        //MoveWithPhysics(direction);
     }
 
     private void GetNextWaypoint()

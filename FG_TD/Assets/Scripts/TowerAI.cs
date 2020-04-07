@@ -7,12 +7,17 @@ public class TowerAI : MonoBehaviour
     [Header("Attributes")]
     public float range = 2.3f;
     public float fireRate = 1f;
-    private float fireCountdown = 0f;
+
+    public int damage;
+    public float bulletSpeed;
+
+    public float aOE;
 
     [Header("UnitySetup")]
     public string enemyTag = "Enemy";
     public GameObject bulletPrefab;
     public Transform firePoint;
+    private float fireCountdown = 0f;
 
     [Header("Upgrades")]
     public List<UpgradeVariants> upgradeVariants;
@@ -75,6 +80,9 @@ public class TowerAI : MonoBehaviour
     {
         GameObject bulletGO = (GameObject) Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         BulletAI bullet = bulletGO.GetComponent<BulletAI>();
+        bullet.damage = damage;
+        bullet.speed = bulletSpeed;
+        bullet.aoeRadius = aOE;
         if (bullet != null)
             bullet.Seek(target);
     }
@@ -84,4 +92,6 @@ public class TowerAI : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, range);
     }
+
+   
 }

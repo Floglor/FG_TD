@@ -8,7 +8,7 @@ public class Stats
     public enum StatsNames { Damage, AttackSpeed, AOE, range }
 
     public StatsNames statName;
-    public float stat;
+    public float statValue;
 }
 
 
@@ -23,5 +23,5 @@ public class UpgradeVariants : ScriptableObject
     public List<UpgradeVariants> nextUpgrades;
 
     [Header("Tower Variant")]
-    public List<GameObject> towerUpgrade;
+    public List<GameObject> towerUpgrades;
 }

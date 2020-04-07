@@ -4936,38 +4936,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13333334, y: 0.13333334}
   m_EdgeRadius: 0
---- !u!1 &508670041 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5238206925171358048, guid: f18bef5efbb10c64ab1ac4fd9a904eb4,
-    type: 3}
-  m_PrefabInstance: {fileID: 5130606787207397178}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &508670043
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 508670041}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.13333334, y: 0.13333334}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.13333334, y: 0.13333334}
-  m_EdgeRadius: 0
 --- !u!4 &508673925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 859444538890507761, guid: 0c8f4e56c1a53cd4eb526e9ae5394529,
@@ -8035,38 +8003,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1434486920}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &777580760 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 155835251575064736, guid: 0cdd7b59b264eb54aadf5b87d90d7d25,
-    type: 3}
-  m_PrefabInstance: {fileID: 8023716820201398484}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &777580762
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777580760}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.13333334, y: 0.13333334}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.13333334, y: 0.13333334}
-  m_EdgeRadius: 0
 --- !u!1 &782487163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3570200350724768271, guid: 0c8f4e56c1a53cd4eb526e9ae5394529,
@@ -16309,7 +16245,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

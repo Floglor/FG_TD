@@ -110,6 +110,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cb656d23a89ddba4ebb566f2a3d11701,
         type: 2}
+    - target: {fileID: 7370315278563187094, guid: 00db3008867da3e4b96ebc0edf99bf30,
+        type: 3}
+      propertyPath: bulletSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7370315278563187094, guid: 00db3008867da3e4b96ebc0edf99bf30,
+        type: 3}
+      propertyPath: damage
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7513188836591107569, guid: 00db3008867da3e4b96ebc0edf99bf30,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BulletAI : MonoBehaviour
 {
-    public float speed = 10f;
+    public float speed { get; set; }
     private Transform target;
     private Vector3 lastTargetPosition;
 
-    public int damage = 1;
+    public int damage { get; set; }
     public bool shouldTurn;
 
-    [Header("For AOE")]
-    public float aoeRadius = 0;
+   
+    public float aoeRadius { get; set; }
 
 
     private void Awake()

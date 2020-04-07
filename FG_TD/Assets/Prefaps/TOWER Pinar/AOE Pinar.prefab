@@ -127,20 +127,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 3
   fireRate: 0.33
+  damage: 3
+  bulletSpeed: 3
+  aOE: 3
   enemyTag: Enemy
   bulletPrefab: {fileID: 5954932775887454202, guid: 9d763ee202d5cc448a5547f4b6779346,
     type: 3}
   firePoint: {fileID: 1526430499198224079}
   upgradeVariants:
-  - cost: 0
-    statList: []
-    nextUpgrades:
-    - cost: 0
-      statList: []
-      nextUpgrades: []
-      towerUpgrade: {fileID: 0}
-    towerUpgrade: {fileID: 0}
-  - cost: 0
-    statList: []
-    nextUpgrades: []
-    towerUpgrade: {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

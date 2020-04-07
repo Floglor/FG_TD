@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
   m_Name: P. UP2 mag
   m_EditorClassIdentifier: 
-  cost: 0
-  statList: []
+  cost: 10
+  statList:
+  - statName: 3
+    statValue: 0.5
+  - statName: 0
+    statValue: 1
   nextUpgrades:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: d5b1a4c9fb616b54eacd0b5d2f37e449, type: 2}
   towerUpgrades: []

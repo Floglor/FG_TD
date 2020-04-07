@@ -15,11 +15,12 @@ MonoBehaviour:
   cost: 0
   statList:
   - statName: 0
-    statValue: 2
-  - statName: 1
-    statValue: 3
-  - statName: 2
     statValue: 1
-  nextUpgrades: []
-  towerUpgrades:
-  - {fileID: 7950006273266695334, guid: 90da13f92b5099842b4286e880851a27, type: 3}
+  - statName: 1
+    statValue: 0.15
+  - statName: 3
+    statValue: 1
+  nextUpgrades:
+  - {fileID: 11400000, guid: e59358c66818c9e4b9d877a11213cb19, type: 2}
+  - {fileID: 11400000, guid: cb656d23a89ddba4ebb566f2a3d11701, type: 2}
+  towerUpgrades: []

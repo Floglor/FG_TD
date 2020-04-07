@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
   m_Name: P. UP2 MAg1
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 30
   statList: []
   nextUpgrades: []
-  towerUpgrades: []
+  towerUpgrades:
+  - {fileID: 0}

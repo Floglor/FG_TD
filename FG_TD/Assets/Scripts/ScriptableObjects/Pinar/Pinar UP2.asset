@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
-  m_Name: P. UP2 fast
+  m_Name: Pinar UP2
   m_EditorClassIdentifier: 
-  cost: 20
+  cost: 0
   statList:
+  - statName: 0
+    statValue: 1
   - statName: 1
-    statValue: 0.3
+    statValue: 0.15
+  - statName: 3
+    statValue: 1
   nextUpgrades:
-  - {fileID: 11400000, guid: fda2b5e5856ac0c41a6012acb96cf51b, type: 2}
+  - {fileID: 11400000, guid: e59358c66818c9e4b9d877a11213cb19, type: 2}
+  - {fileID: 11400000, guid: cb656d23a89ddba4ebb566f2a3d11701, type: 2}
   towerUpgrades: []

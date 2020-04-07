@@ -10,6 +10,12 @@ public class Stats
     public StatsNames statName;
     public float statValue;
 }
+[System.Serializable]
+public class TowerVariant
+{
+    public int cost;
+    public GameObject tower;
+}
 
 
 [CreateAssetMenu(fileName = "Upgrade Data", menuName = "ScriptableObjects/UpgradeDataFile", order = 1)]
@@ -23,6 +29,6 @@ public class UpgradeVariants : ScriptableObject
     public List<UpgradeVariants> nextUpgrades;
 
     [Header("Tower Variant")]
-    public List<GameObject> towerUpgrades;
+    public List<TowerVariant> towerUpgrades;
    
 }

@@ -76,7 +76,7 @@ public class NodeUI : MonoBehaviour
         {
             if (upgradeVariant.towerUpgrades.Count > 0)
             {
-                foreach (GameObject tower in upgradeVariant.towerUpgrades)
+                foreach (TowerVariant tower in upgradeVariant.towerUpgrades)
                 {
                     GameObject newButton = Instantiate(buttonPrefab) as GameObject;
 
@@ -84,14 +84,14 @@ public class NodeUI : MonoBehaviour
                     newButton.transform.SetParent(panel.transform, false);
 
                     Button buttonComponent = newButton.GetComponent<Button>();
-                    buttonComponent.onClick.AddListener(delegate { node.ReplaceTowerFromPrefab(tower); });
+                    buttonComponent.onClick.AddListener(delegate { node.ReplaceTowerFromPrefab(tower.tower, tower.cost); });
 
 
                     StringBuilder sb = new StringBuilder();
 
                     Text text = newButton.GetComponentInChildren<Text>();
 
-                    sb.Append(tower.name);
+                    sb.Append(tower.tower.name);
 
                     text.text = sb.ToString();
                     buttons.Add(newButton);

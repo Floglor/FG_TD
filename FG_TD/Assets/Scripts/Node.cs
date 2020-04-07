@@ -142,8 +142,15 @@ public class Node : MonoBehaviour
         ui.SetActive(false);
     }
 
-    public void ReplaceTowerFromPrefab(GameObject prefab)
+    public void ReplaceTowerFromPrefab(GameObject prefab, int cost)
     {
+        if (PlayerStats.Money < cost)
+        {
+            Debug.Log("Not enough money");
+            return;
+        }
+
+        PlayerStats.Money -= cost;
         Destroy(turret.gameObject);
         GameObject currentTurret = Instantiate(prefab, new Vector3(this.transform.position.x, this.transform.position.y, -2), Quaternion.identity);
         turret = currentTurret;

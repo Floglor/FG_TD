@@ -16,4 +16,5 @@ MonoBehaviour:
   statList: []
   nextUpgrades: []
   towerUpgrades:
-  - {fileID: 2476632279043047183, guid: cdf37d5b965051c4abb6fc5c4100c288, type: 3}
+  - cost: 30
+    tower: {fileID: 2476632279043047183, guid: cdf37d5b965051c4abb6fc5c4100c288, type: 3}

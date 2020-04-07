@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
   m_Name: P. UP2 fast
   m_EditorClassIdentifier: 
-  cost: 20
+  cost: 35
   statList:
   - statName: 1
     statValue: 0.3

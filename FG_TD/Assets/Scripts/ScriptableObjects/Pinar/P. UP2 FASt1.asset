@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
   m_Name: P. UP2 FASt1
   m_EditorClassIdentifier: 
-  cost: 50
+  cost: 40
   statList: []
   nextUpgrades: []
   towerUpgrades:
-  - {fileID: 7558108109502744211, guid: 095856a212046204195fb9adc82a8c92, type: 3}
+  - cost: 35
+    tower: {fileID: 7558108109502744211, guid: 095856a212046204195fb9adc82a8c92, type: 3}

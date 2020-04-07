@@ -56,6 +56,7 @@ public class BuildManager : MonoBehaviour
     public void SelectTurret(Node nodeWithTurret)
     {
         shop.Hide();
+        nodeUI.Hide();
         if (selectedTurret == nodeWithTurret)
         {
             DeselectTurret();

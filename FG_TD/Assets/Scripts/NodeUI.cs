@@ -96,6 +96,7 @@ public class NodeUI : MonoBehaviour
     public void Hide()
     {
         ui.SetActive(false);
+        ClearButtons();
     }
 
     void ClearButtons()

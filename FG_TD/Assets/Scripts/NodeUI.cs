@@ -68,7 +68,7 @@ public class NodeUI : MonoBehaviour
             buttons.Add(newButton);
 
         }
-
+       
         foreach (UpgradeVariants upgradeVariant in turretUpgrades)
         {
             if (upgradeVariant.towerUpgrades.Count > 0)
@@ -83,7 +83,6 @@ public class NodeUI : MonoBehaviour
                     Button buttonComponent = newButton.GetComponent<Button>();
                     buttonComponent.onClick.AddListener(delegate { node.ReplaceTowerFromPrefab(tower); });
 
-                    Debug.Log("node" + node.name + "got buttons");
 
                     StringBuilder sb = new StringBuilder();
 
@@ -98,7 +97,7 @@ public class NodeUI : MonoBehaviour
                 }
 
             }
-            else return;
+            
 
         }
 

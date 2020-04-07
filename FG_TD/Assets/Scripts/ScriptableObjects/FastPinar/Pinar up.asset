@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: Pinar up
   m_EditorClassIdentifier: 
   cost: 0
-  statList: []
+  statList:
+  - statName: 0
+    statValue: 2
+  - statName: 1
+    statValue: 3
+  - statName: 2
+    statValue: 1
   nextUpgrades: []
-  towerUpgrade: {fileID: 0}
+  towerUpgrades:
+  - {fileID: 7950006273266695334, guid: 90da13f92b5099842b4286e880851a27, type: 3}

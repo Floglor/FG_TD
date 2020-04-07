@@ -22123,8 +22123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: turret
       value: 
-      objectReference: {fileID: 7558108109502744211, guid: 095856a212046204195fb9adc82a8c92,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 859444538890507761, guid: 0c8f4e56c1a53cd4eb526e9ae5394529,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
-  m_Name: FastPinar1Layer
+  m_Name: P. UP2 mag
   m_EditorClassIdentifier: 
   cost: 0
   statList: []
   nextUpgrades:
   - {fileID: 0}
-  towerUpgrade: {fileID: 0}
+  towerUpgrades: []

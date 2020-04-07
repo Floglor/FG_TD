@@ -41,6 +41,9 @@ public class BuildManager : MonoBehaviour
         if (selectedNode != null)
             DeselectNode();
 
+        if (selectedTurret != null)
+            DeselectTurret();
+
         selectedNode = node;
         node.SetSelected();
         shop.Show();
@@ -48,9 +51,12 @@ public class BuildManager : MonoBehaviour
 
     public void DeselectNode()
     {
-        selectedNode.SetNormalColor();
-        selectedNode = null;
-        shop.Hide();
+        if (selectedNode != null)
+        {
+            selectedNode.SetNormalColor();
+            selectedNode = null;
+            shop.Hide();
+        }
     }
 
     public void SelectTurret(Node nodeWithTurret)

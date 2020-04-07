@@ -135,5 +135,4 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 1526430499198224079}
   upgradeVariants:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: cb656d23a89ddba4ebb566f2a3d11701, type: 2}

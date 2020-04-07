@@ -24,4 +24,5 @@ public class UpgradeVariants : ScriptableObject
 
     [Header("Tower Variant")]
     public List<GameObject> towerUpgrades;
+   
 }

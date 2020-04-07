@@ -12,16 +12,20 @@ public class NodeUI : MonoBehaviour
     List<UpgradeVariants> turretUpgrades;
     List<GameObject> buttons;
 
+    BuildManager buildManager;
+
     public GameObject buttonPrefab;
 
     private void Awake()
     {
         buttons = new List<GameObject>();
         gameObject.SetActive(false);
+        buildManager = BuildManager.instance;
     }
 
     public void SetTarget(Node node)
     {
+        buildManager.DeselectNode();
         ClearButtons();
         target = node;
         tower = node.turret.GetComponent<TowerAI>();
@@ -33,17 +37,23 @@ public class NodeUI : MonoBehaviour
         Canvas canvas = ui.GetComponentInChildren<Canvas>();
         HorizontalLayoutGroup panel = canvas.GetComponentInChildren<HorizontalLayoutGroup>();
 
+
        
 
         foreach (UpgradeVariants upgradeVariant in turretUpgrades)
         {
+            if (upgradeVariant == null) return;
+
             GameObject newButton = Instantiate(buttonPrefab) as GameObject;
+
+            
             
 
             newButton.transform.SetParent(panel.transform, false);
 
             Button buttonComponent = newButton.GetComponent<Button>();
             buttonComponent.onClick.AddListener(delegate { node.UpgrageTower(upgradeVariant); });
+
 
             Text text = newButton.GetComponentInChildren<Text>();
 
@@ -54,9 +64,9 @@ public class NodeUI : MonoBehaviour
                 sb.Append(" " + stat.statName + "+" + stat.statValue);
                 text.text = sb.ToString();
             }
-            
 
- 
+            buttons.Add(newButton);
+
         }
 
         foreach (UpgradeVariants upgradeVariant in turretUpgrades)
@@ -73,6 +83,8 @@ public class NodeUI : MonoBehaviour
                     Button buttonComponent = newButton.GetComponent<Button>();
                     buttonComponent.onClick.AddListener(delegate { node.ReplaceTowerFromPrefab(tower); });
 
+                    Debug.Log("node" + node.name + "got buttons");
+
                     StringBuilder sb = new StringBuilder();
 
                     Text text = newButton.GetComponentInChildren<Text>();
@@ -80,6 +92,7 @@ public class NodeUI : MonoBehaviour
                     sb.Append(tower.name);
 
                     text.text = sb.ToString();
+                    buttons.Add(newButton);
 
 
                 }
@@ -101,8 +114,14 @@ public class NodeUI : MonoBehaviour
 
     void ClearButtons()
     {
-        if (buttons != null)
+        if (buttons.Count > 0)
+        {
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                Destroy(buttons[i].gameObject);
+            }
             buttons.Clear();
-        else Debug.LogError("buttons is null!");
+        }
+       
     }
 }

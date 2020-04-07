@@ -39,33 +39,36 @@ public class NodeUI : MonoBehaviour
 
 
        
-
+        
         foreach (UpgradeVariants upgradeVariant in turretUpgrades)
         {
             if (upgradeVariant == null) return;
 
-            GameObject newButton = Instantiate(buttonPrefab) as GameObject;
-
-            
-            
-
-            newButton.transform.SetParent(panel.transform, false);
-
-            Button buttonComponent = newButton.GetComponent<Button>();
-            buttonComponent.onClick.AddListener(delegate { node.UpgrageTower(upgradeVariant); });
-
-
-            Text text = newButton.GetComponentInChildren<Text>();
-
-            StringBuilder sb = new StringBuilder();
-
-            foreach (Stats stat in upgradeVariant.statList)
+            if (upgradeVariant.statList.Count > 0)
             {
-                sb.Append(" " + stat.statName + "+" + stat.statValue);
-                text.text = sb.ToString();
-            }
+                GameObject newButton = Instantiate(buttonPrefab) as GameObject;
 
-            buttons.Add(newButton);
+
+
+
+                newButton.transform.SetParent(panel.transform, false);
+
+                Button buttonComponent = newButton.GetComponent<Button>();
+                buttonComponent.onClick.AddListener(delegate { node.UpgrageTower(upgradeVariant); });
+
+
+                Text text = newButton.GetComponentInChildren<Text>();
+
+                StringBuilder sb = new StringBuilder();
+
+                foreach (Stats stat in upgradeVariant.statList)
+                {
+                    sb.Append(" " + stat.statName + "+" + stat.statValue);
+                    text.text = sb.ToString();
+                }
+
+                buttons.Add(newButton);
+            }
 
         }
        

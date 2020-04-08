@@ -136,6 +136,14 @@ public class Node : MonoBehaviour
                 case Stats.StatsNames.Range:
                     towerAI.range += stat.statValue;
                     break;
+                case Stats.StatsNames.Magical:
+                    if (stat.statValue == 0)
+                    break;
+                    else
+                    {
+                        towerAI.isMagical = true;
+                        break;
+                    }
             }
         }
 

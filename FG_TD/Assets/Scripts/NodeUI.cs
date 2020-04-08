@@ -107,6 +107,8 @@ public class NodeUI : MonoBehaviour
                         + towerAttr.aOE 
                         + " AOE/");
 
+                    
+
                     text.text = sb.ToString();
                     buttons.Add(newButton);
 

@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Stats
 {
-    public enum StatsNames { Damage, AttackSpeed, AOE, range }
+    public enum StatsNames { Damage, AttackSpeed, AOE, Range, Magical }
 
     public StatsNames statName;
     public float statValue;

@@ -133,7 +133,7 @@ public class Node : MonoBehaviour
                 case Stats.StatsNames.Damage:
                     towerAI.damage += (int) stat.statValue;
                     break;
-                case Stats.StatsNames.range:
+                case Stats.StatsNames.Range:
                     towerAI.range += stat.statValue;
                     break;
             }

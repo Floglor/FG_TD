@@ -9,6 +9,10 @@ public class BulletAI : MonoBehaviour
     private Vector3 lastTargetPosition;
 
     public int damage { get; set; }
+    public bool isMagical { get; set; }
+    public bool isLinearAOE { get; set; }
+
+
     public bool shouldTurn;
 
    
@@ -49,10 +53,10 @@ public class BulletAI : MonoBehaviour
             {
                 if (aoeRadius > 0f)
                 {
-                    Explode();
+                    RoundExplode();
                 }
                 else
-                    Damage(target.gameObject);
+                    Damage(target.gameObject, magical: isMagical);
             }
 
             transform.Translate(dir.normalized * distanseThisFrame, Space.World);
@@ -70,7 +74,7 @@ public class BulletAI : MonoBehaviour
 
             if (dir.magnitude <= distanseThisFrame)
             {
-                    Explode();
+                    RoundExplode();
             }
 
             transform.Translate(dir.normalized * distanseThisFrame, Space.World);
@@ -94,10 +98,10 @@ public class BulletAI : MonoBehaviour
         {
             if (aoeRadius > 0f)
             {
-                Explode();
+                RoundExplode();
             }
             else
-                Damage(target.gameObject);
+                Damage(target.gameObject, magical: isMagical);
         }
 
         transform.Translate(dir.normalized * distanseThisFrame, Space.World);
@@ -106,20 +110,26 @@ public class BulletAI : MonoBehaviour
             transform.right = -dir.normalized;
     }
 
-    private void Explode()
+    private void RoundExplode()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, aoeRadius);
         foreach (Collider2D collider in colliders)
         {
             if (collider.tag == "Enemy")
             {
-                Damage(collider.transform.gameObject);
+               
+                Damage(collider.transform.gameObject, magical: isMagical);
             }
         }
        
     }
 
-    void Damage(GameObject enemy)
+    private void LinearExlode()
+    {
+
+    }
+
+    void Damage(GameObject enemy, bool magical)
     {
         Destroy(gameObject);
         if (enemy != null)

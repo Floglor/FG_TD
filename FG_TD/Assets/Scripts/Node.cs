@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 public class Node : MonoBehaviour
 {
 
@@ -13,16 +15,19 @@ public class Node : MonoBehaviour
     public Color selectedColor;
 
     private GameObject ui;
+    private NodeUI uiScript;
     private static string uiTag = "NodeUI";
 
     [Header("Optional")]
     public GameObject turret;
+    public GameObject upgradeMark;
 
     BuildManager buildManager;
 
     private void Awake()
     {
         ui = GameObject.FindGameObjectsWithTag(uiTag)[0];
+        uiScript = ui.GetComponent<NodeUI>();
     }
 
     private void Start()
@@ -97,14 +102,15 @@ public class Node : MonoBehaviour
     {
         rend.material.color = selectedColor;
     }
-
+     
     public void UpgrageTower(UpgradeVariants variant)
     {
-        if (PlayerStats.Money < variant.cost)
+        if (!PlayerStats.SpendMoney(variant.cost))
         {
             Debug.Log("No money");
             return;
         }
+
         TowerAI towerAI;
         if (turret.GetComponent<TowerAI>() != null)
             towerAI = turret.GetComponent<TowerAI>();
@@ -137,24 +143,41 @@ public class Node : MonoBehaviour
             towerAI.upgradeVariants = variant.nextUpgrades;
         Debug.Log("Tower Upgraded～");
 
-        PlayerStats.Money -= variant.cost;
 
-        ui.SetActive(false);
+
+        SpawnUpgradeMark();
+
+        uiScript.UIDeselect();
+       
+    }
+
+   
+
+    private void SpawnUpgradeMark()
+    {
+       
+        Canvas canvas = turret.GetComponentInChildren<Canvas>();
+        HorizontalLayoutGroup panel = canvas.GetComponentInChildren<HorizontalLayoutGroup>();
+
+        GameObject upgradeMark_ = Instantiate(upgradeMark) as GameObject;
+
+        upgradeMark_.transform.SetParent(panel.transform, false);
+
     }
 
     public void ReplaceTowerFromPrefab(GameObject prefab, int cost)
     {
-        if (PlayerStats.Money < cost)
+        if (!PlayerStats.SpendMoney(cost))
         {
             Debug.Log("Not enough money");
             return;
         }
 
-        PlayerStats.Money -= cost;
+       
         Destroy(turret.gameObject);
         GameObject currentTurret = Instantiate(prefab, new Vector3(this.transform.position.x, this.transform.position.y, -2), Quaternion.identity);
         turret = currentTurret;
-        ui.SetActive(false);
+        uiScript.UIDeselect();
     }
 
 }

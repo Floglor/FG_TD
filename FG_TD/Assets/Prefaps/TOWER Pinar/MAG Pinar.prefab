@@ -101,7 +101,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 36d07a56f9ff6d745a657d1dac2b4297, type: 3}
   m_Color: {r: 0.041251317, g: 0.14778596, b: 0.9716981, a: 1}
   m_FlipX: 0
@@ -131,8 +131,10 @@ MonoBehaviour:
   bulletSpeed: 10
   aOE: 0
   enemyTag: Enemy
-  bulletPrefab: {fileID: 555802578716727818, guid: e0236a7093f32e543a7ef065c655ad9e,
+  bulletPrefab: {fileID: 4844423745587019280, guid: b280bfec87091c0459c926ab69fb51b2,
     type: 3}
   firePoint: {fileID: 576826696}
   upgradeVariants:
   - {fileID: 11400000, guid: f965ad0a410fadd45ba2646ee04f5180, type: 2}
+  isLinearAOE: 0
+  isMagical: 0

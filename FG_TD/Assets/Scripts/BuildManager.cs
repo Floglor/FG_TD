@@ -76,7 +76,7 @@ public class BuildManager : MonoBehaviour
         nodeUI.SetTarget(nodeWithTurret);
 
     }
-    private void DeselectTurret()
+    public void DeselectTurret()
     {
         selectedTurret = null;
         nodeUI.Hide();

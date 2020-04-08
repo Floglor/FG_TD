@@ -4931,7 +4931,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4844423745289980627}
   serializedVersion: 6
-  lengthInSec: 0.5
+  lengthInSec: 6
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -5006,7 +5006,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9656,7 +9656,7 @@ GameObject:
   - component: {fileID: 4844423745587019281}
   - component: {fileID: 2726849633307108815}
   m_Layer: 0
-  m_Name: VFX
+  m_Name: MAG Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9691,7 +9691,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9f6fb6a8fb9404fb5e75deaba9792c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  damage: 6
   shouldTurn: 1
-  aoeRadius: 0

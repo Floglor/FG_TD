@@ -33,6 +33,7 @@ public class Shop : MonoBehaviour
     public void Hide()
     {
         shopCanvas.SetActive(false);
+        buildManager.DeselectNode();
     }
 
     public void Show()

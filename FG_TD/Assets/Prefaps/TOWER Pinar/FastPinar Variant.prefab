@@ -32,6 +32,11 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.764151
       objectReference: {fileID: 0}
+    - target: {fileID: 7162009060875751983, guid: 00db3008867da3e4b96ebc0edf99bf30,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7370315278563187094, guid: 00db3008867da3e4b96ebc0edf99bf30,
         type: 3}
       propertyPath: upgradeVariants.Array.size
@@ -56,7 +61,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bulletPrefab
       value: 
-      objectReference: {fileID: 4844423745587019280, guid: b280bfec87091c0459c926ab69fb51b2,
+      objectReference: {fileID: 3511239155561610579, guid: 4ed1b6400aece144e86a9f5445f05ada,
         type: 3}
     - target: {fileID: 7370315278563187094, guid: 00db3008867da3e4b96ebc0edf99bf30,
         type: 3}

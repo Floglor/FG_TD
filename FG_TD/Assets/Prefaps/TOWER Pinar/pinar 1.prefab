@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 7162009060875751983}
   - component: {fileID: 7370315278563187094}
   m_Layer: 0
-  m_Name: pinar
+  m_Name: pinar 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 36d07a56f9ff6d745a657d1dac2b4297, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -136,3 +136,5 @@ MonoBehaviour:
   firePoint: {fileID: 576826696}
   upgradeVariants:
   - {fileID: 11400000, guid: f965ad0a410fadd45ba2646ee04f5180, type: 2}
+  isLinearAOE: 0
+  isMagical: 0

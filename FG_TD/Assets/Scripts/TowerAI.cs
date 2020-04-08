@@ -22,6 +22,13 @@ public class TowerAI : MonoBehaviour
     [Header("Upgrades")]
     public List<UpgradeVariants> upgradeVariants;
 
+
+    [Header("Linear AOE")]
+    public bool isLinearAOE;
+
+    [Header("Magical")]
+    public bool isMagical;
+
     private void Start()
     {
         InvokeRepeating("UpdateTarget", 0f, 0.15f);
@@ -83,6 +90,7 @@ public class TowerAI : MonoBehaviour
         bullet.damage = damage;
         bullet.speed = bulletSpeed;
         bullet.aoeRadius = aOE;
+        bullet.isMagical = isMagical;
         if (bullet != null)
             bullet.Seek(target);
     }

@@ -1,11 +1,12 @@
 ﻿
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LivesUI : MonoBehaviour
 {
 
-    public Text livesText;
+    public TextMeshProUGUI livesText;
    
     void Update()
     {

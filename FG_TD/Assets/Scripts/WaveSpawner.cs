@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class WaveSpawner : MonoBehaviour
     public float timeBetweenWaves = 500f;
     private float countdown = 2f;
 
-    public Text waveCountDownText;
+    public TextMeshProUGUI waveCountDownText;
 
     public Transform spawnPoint;
 

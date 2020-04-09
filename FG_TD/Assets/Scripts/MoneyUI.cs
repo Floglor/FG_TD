@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MoneyUI : MonoBehaviour
 {
-    public Text moneyText;
+    public TextMeshProUGUI moneyText;
 
     private void Update()
     {

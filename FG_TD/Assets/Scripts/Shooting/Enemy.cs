@@ -12,12 +12,14 @@ public class Enemy: MonoBehaviour
     private Transform target;
     private int waypointIndex = 0;
 
+   
+
     [Header("Unity Specific")]
     public GameObject deathEffect;
     public Image healthBar;
 
     private Rigidbody2D rb;
-    private Vector2 direction;
+    public Vector2 movingDirection { get; set; }
 
     private void Start()
     {
@@ -28,8 +30,8 @@ public class Enemy: MonoBehaviour
 
     private void Update()
     {
-        direction = target.position - transform.position;
-        MoveWithTranslate(direction);
+        movingDirection = target.position - transform.position;
+        MoveWithTranslate(movingDirection);
 
         if (Vector2.Distance(transform.position, target.position) <= 0.04f)
         {

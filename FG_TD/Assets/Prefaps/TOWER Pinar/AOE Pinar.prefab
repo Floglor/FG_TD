@@ -129,15 +129,19 @@ MonoBehaviour:
   range: 3
   fireRate: 0.33
   damage: 3
-  bulletSpeed: 3
-  aOE: 3
+  bulletSpeed: 5
   enemyTag: Enemy
   bulletPrefab: {fileID: 5954932775887454202, guid: 9d763ee202d5cc448a5547f4b6779346,
     type: 3}
   firePoint: {fileID: 1526430499198224079}
   upgradeVariants:
   - {fileID: 11400000, guid: cb656d23a89ddba4ebb566f2a3d11701, type: 2}
-  isLinearAOE: 0
+  isLinearAOE: 1
+  aOE: 1
+  linearAOEProjectile: {fileID: 8086809444864487078, guid: 74e102d4d98511a40b917afc0b6ea636,
+    type: 3}
+  linearTravelDistance: 6
+  linearTravelSpeed: 1
   isMagical: 0
 --- !u!1001 &6711200176949118098
 PrefabInstance:

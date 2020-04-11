@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MyBox;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,6 +7,7 @@ using UnityEngine;
 public class TowerAI : MonoBehaviour
 {
     private Transform target;
+    private Enemy enemyTarget;
     [Header("Attributes")]
     public float range = 2.3f;
     public float fireRate = 1f;
@@ -13,7 +15,7 @@ public class TowerAI : MonoBehaviour
     public int damage;
     public float bulletSpeed;
 
-    public float aOE;
+    
 
     [Header("UnitySetup")]
     public string enemyTag = "Enemy";
@@ -27,6 +29,10 @@ public class TowerAI : MonoBehaviour
 
     [Header("Linear AOE")]
     public bool isLinearAOE;
+    [ConditionalField(nameof(isLinearAOE))] public float aOE;
+    [ConditionalField(nameof(isLinearAOE))] public GameObject linearAOEProjectile;
+    [ConditionalField(nameof(isLinearAOE))] public float linearTravelDistance;
+    [ConditionalField(nameof(isLinearAOE))] public float linearTravelSpeed;
 
     [Header("Magical")]
     public bool isMagical;
@@ -78,6 +84,7 @@ public class TowerAI : MonoBehaviour
         if (nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
+            enemyTarget = nearestEnemy.GetComponent<Enemy>();
         }
         else
         {
@@ -93,6 +100,16 @@ public class TowerAI : MonoBehaviour
         bullet.speed = bulletSpeed;
         bullet.aoeRadius = aOE;
         bullet.isMagical = isMagical;
+        bullet.targetEnemy = enemyTarget;
+        if (isLinearAOE)
+        {
+            bullet.isLinearAOE = true;
+            bullet.linearAOEProjectile = linearAOEProjectile;
+            bullet.travelDistance = linearTravelDistance;
+            
+            bullet.travelSpeed = linearTravelSpeed;
+            
+        }
         if (bullet != null)
             bullet.Seek(target);
     }

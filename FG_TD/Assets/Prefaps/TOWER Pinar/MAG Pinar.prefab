@@ -129,7 +129,6 @@ MonoBehaviour:
   fireRate: 0.9
   damage: 8
   bulletSpeed: 10
-  aOE: 0
   enemyTag: Enemy
   bulletPrefab: {fileID: 4844423745587019280, guid: b280bfec87091c0459c926ab69fb51b2,
     type: 3}
@@ -137,4 +136,10 @@ MonoBehaviour:
   upgradeVariants:
   - {fileID: 11400000, guid: f965ad0a410fadd45ba2646ee04f5180, type: 2}
   isLinearAOE: 0
-  isMagical: 0
+  aOE: 0
+  linearAOEProjectile: {fileID: 0}
+  linearTravelDistance: 0
+  linearTravelSpeed: 0
+  isMagical: 1
+  isPenetrative: 0
+  penetration: 0

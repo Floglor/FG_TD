@@ -6,7 +6,7 @@ using UnityEngine;
 public class BulletAI : MonoBehaviour
 {
     public float speed { get; set; }
-    private Transform target;
+    public Transform target { get; set; }
     public Enemy targetEnemy { get; set; }
     private Vector3 lastTargetPosition;
 
@@ -14,6 +14,9 @@ public class BulletAI : MonoBehaviour
 
     public int damage { get; set; }
     public bool isMagical { get; set; }
+
+    public bool isPenetrative { get; set; }
+    public int penetration { get; set; }
 
     //LINEAR AOE====================
     public bool isLinearAOE { get; set; }
@@ -29,6 +32,9 @@ public class BulletAI : MonoBehaviour
     public TowerAI motherTower;
     //==============================
 
+
+
+
     public bool shouldTurn;
 
 
@@ -38,6 +44,22 @@ public class BulletAI : MonoBehaviour
     private void Awake()
     {
         lastTargetPosition = new Vector3();
+        
+        
+
+    }
+
+    private void Start()
+    {
+        if (target != null)
+        {
+            Seek(target.transform);
+            lastTargetPosition = target.transform.position;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     public void Seek(Transform _target)
@@ -48,6 +70,7 @@ public class BulletAI : MonoBehaviour
 
     private void Update()
     {
+
         if (aoeRadius <= 0)
         {
             MoveSingleTargetProjectile();
@@ -56,6 +79,7 @@ public class BulletAI : MonoBehaviour
         {
             MoveAoeProjectile();
         }
+
 
     }
 
@@ -95,7 +119,10 @@ public class BulletAI : MonoBehaviour
 
             if (dir.magnitude <= distanseThisFrame)
             {
-                RoundExplode();
+                if (isLinearAOE)
+                    LinearExlode();
+                else
+                    RoundExplode();
             }
 
             transform.Translate(dir.normalized * distanseThisFrame, Space.World);
@@ -146,7 +173,6 @@ public class BulletAI : MonoBehaviour
         {
             if (collider.CompareTag(RailTag))
             {
-                Debug.Log("Rail Found");
                 rail = collider.gameObject;
                 SpawnLinearWaves(transform);
                 Destroy(gameObject);
@@ -157,7 +183,7 @@ public class BulletAI : MonoBehaviour
 
     private void SpawnLinearWaves(Transform transfom)
     {
-        Debug.Log("Spawning Waves");
+
         linearWaves = new List<LinearWaveScript>();
 
         if (rail != null)
@@ -175,18 +201,22 @@ public class BulletAI : MonoBehaviour
                 linearWaveScript.damage = damage;
                 linearWaveScript.travelSpeed = travelSpeed;
                 linearWaveScript.travelDistance = travelDistance;
+                linearWaveScript.isMagical = isMagical;
+                if (isPenetrative)
+                    linearWaveScript.penetration = penetration;
 
 
                 if (!firstSpawned)
                 {
                     switch (railScript.orientation)
                     {
-                        case Orientation.Horisontal:
+                        case Orientation.Horizontal:
                             linearWaveScript.travelVector = Vector2.right;
                             linearWaveScript.gameObject.transform.position =
-                                new Vector3(railScript.xAlignment,
-                                lastTargetPosition.y,
+                                new Vector3(lastTargetPosition.x,
+                               railScript.yAlignment,
                                 lastTargetPosition.z);
+                            linearWaveScript.gameObject.transform.Rotate(0, 0, 90);
                             break;
                         case Orientation.Vertical:
                             linearWaveScript.travelVector = Vector2.up;
@@ -202,27 +232,29 @@ public class BulletAI : MonoBehaviour
                 {
                     switch (railScript.orientation)
                     {
-                        case Orientation.Horisontal:
+                        case Orientation.Horizontal:
                             linearWaveScript.travelVector = Vector2.left;
                             linearWaveScript.gameObject.transform.position =
                             new Vector3(lastTargetPosition.x,
                               railScript.yAlignment,
                                lastTargetPosition.z);
+                            linearWaveScript.gameObject.transform.Rotate(0, 0, 90);
                             break;
                         case Orientation.Vertical:
                             linearWaveScript.travelVector = Vector2.down;
                             linearWaveScript.gameObject.transform.position =
-                            new Vector3(lastTargetPosition.x,
-                              railScript.yAlignment,
+                            new Vector3(railScript.xAlignment,
+                              lastTargetPosition.y,
                                lastTargetPosition.z);
                             break;
                     }
                 }
-                Damage(target.gameObject, isMagical);
+
                 if (targetEnemy != null)
                     linearWaveScript.damagedEnemies.Add(targetEnemy);
                 else
                     Debug.Log("Target Enemy is null");
+
                 linearWaves.Add(linearWaveScript);
 
             }
@@ -235,7 +267,9 @@ public class BulletAI : MonoBehaviour
         if (enemy != null)
         {
             Enemy EnemyObj = enemy.GetComponent<Enemy>();
-            EnemyObj.TakeDamage(damage);
+            if (isPenetrative)
+                EnemyObj.TakeDamage(damage, penetration);
+            else EnemyObj.TakeDamage(damage);
         }
     }
 

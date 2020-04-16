@@ -11,11 +11,15 @@ public class LinearWaveScript : MonoBehaviour
     public int damage { get; set; }
     public Vector2 travelVector { get; set; }
 
+    public int penetration { get; set; }
+
     public List<Enemy> damagedEnemies { get; set; }
 
     private float travelledDistance;
 
     private string enemyTag = "Enemy";
+    private string nodeTag = "Node";
+    public bool isMagical { get; set; }
 
     private void Awake()
     {
@@ -40,20 +44,27 @@ public class LinearWaveScript : MonoBehaviour
         transform.Translate(travelVector.normalized * distanseThisFrame, Space.World);
     }
 
-   
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.CompareTag(enemyTag))
+        if (collision.gameObject.CompareTag(enemyTag))
+                Damage(collision.gameObject);
+
+        if (collision.gameObject.CompareTag(nodeTag))
+        {
             Destroy(gameObject);
+       
+        }
     }
 
-    public void Damage(GameObject enemy, bool magical)
+    public void Damage(GameObject enemy)
     { 
         if (enemy != null)
         {
             Enemy EnemyObj = enemy.GetComponent<Enemy>();
-            EnemyObj.TakeDamage(damage);
+            if (penetration > 0)
+            EnemyObj.TakeDamage(damage, penetration);
+            else EnemyObj.TakeDamage(damage, isMagical);
         }
     }
 }

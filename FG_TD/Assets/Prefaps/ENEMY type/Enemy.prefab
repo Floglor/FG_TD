@@ -175,6 +175,8 @@ MonoBehaviour:
   startHealth: 18
   worth: 1
   armor: 0
+  isFlying: 1
+  health: 0
   deathEffect: {fileID: 2523267147374552803, guid: 5bca4dc10b755a949bb6bb59a62738f7,
     type: 3}
   healthBar: {fileID: 8149405427341159410}

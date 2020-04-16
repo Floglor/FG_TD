@@ -1,10 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using MyBox;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public enum Alignment { Vertical, Horizontal, Corner}
+public enum Corner { Upper, Lower}
+
+
 public class Node : MonoBehaviour
 {
+    public Alignment alignment;
+    [ConditionalField(nameof(alignment), false, Alignment.Corner)] public Corner cornerAlignment;
+    [ConditionalField(nameof(alignment), false, Alignment.Corner)] public bool isSpecial;
+    public bool isExternal;
 
     public Color hoverColor;
     private SpriteRenderer rend;
@@ -38,6 +47,8 @@ public class Node : MonoBehaviour
         
     }
 
+ 
+
     private void OnMouseDown()
     {
 
@@ -55,29 +66,19 @@ public class Node : MonoBehaviour
             buildManager.SelectNode(this);
         }
 
+    }
 
-
-        // buildManager.BuildOn(this);
-
+    public void UpdateTowerNode()
+    {
+        TowerAI towerAI = turret.GetComponent<TowerAI>();
+        towerAI.motherNode = this;
     }
 
     private void OnMouseEnter()
     {
-        // if (!buildManager.CanBuild)
-        //     return;
-
-        //  if (buildManager.HasMoney)
-        //  {
+ 
         if (rend.material.color != selectedColor)
             rend.material.color = hoverColor;
-
-        // }
-        // else
-        // {
-        //     rend.material.color = notEnoughMoneyColor;
-        // }
-
-
     }
 
     public Vector3 GetBuildPosition()
@@ -144,6 +145,11 @@ public class Node : MonoBehaviour
                         towerAI.isMagical = true;
                         break;
                     }
+                case Stats.StatsNames.Penetrative:
+                    towerAI.isPenetrative = true;
+                    towerAI.penetration += (int) stat.statValue;
+                    break;
+                    
             }
         }
 
@@ -154,6 +160,7 @@ public class Node : MonoBehaviour
 
 
         SpawnUpgradeMark();
+
 
         uiScript.UIDeselect();
        
@@ -186,6 +193,7 @@ public class Node : MonoBehaviour
         GameObject currentTurret = Instantiate(prefab, new Vector3(this.transform.position.x, this.transform.position.y, -2), Quaternion.identity);
         turret = currentTurret;
         uiScript.UIDeselect();
+        UpdateTowerNode();
     }
 
 }

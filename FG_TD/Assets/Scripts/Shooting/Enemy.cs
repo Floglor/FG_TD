@@ -1,18 +1,20 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-public class Enemy: MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float speed;
     public int startHealth;
     public int worth;
     public int armor;
+    public bool isFlying;
+    [SerializeField]
     private int health;
 
     private Transform target;
     private int waypointIndex = 0;
 
-   
+
 
     [Header("Unity Specific")]
     public GameObject deathEffect;
@@ -23,7 +25,7 @@ public class Enemy: MonoBehaviour
 
     private void Start()
     {
-        health = startHealth; 
+        health = startHealth;
         target = Waypoints.points[0];
         rb = this.GetComponent<Rigidbody2D>();
     }
@@ -43,7 +45,7 @@ public class Enemy: MonoBehaviour
 
     void MoveWithPhysics(Vector2 dir)
     {
-       rb.velocity = dir.normalized * speed;
+        rb.velocity = dir.normalized * speed;
     }
 
     void MoveWithTranslate(Vector2 dir)
@@ -71,21 +73,54 @@ public class Enemy: MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (damage - armor <= 0)
-            return; 
+            return;
 
-        health -= damage;
+        if (armor < 0)
+            health -= damage - (armor * 2);
+        else
+            health -= damage - armor;
 
-        healthBar.fillAmount = (float) health / (float) startHealth;
-     
+        healthBar.fillAmount = (float)health / (float)startHealth;
+
         if (health <= 0)
             Die();
     }
+
+    public void TakeDamage(int damage, bool isMagical)
+    {
+        if (isMagical)
+        {
+            health -= damage;
+
+            healthBar.fillAmount = (float)health / (float)startHealth;
+
+            if (health <= 0)
+                Die();
+        }
+        else TakeDamage(damage);
+    }
+
+    public void TakeDamage(int damage, int penetrationDamage)
+    {
+        if (penetrationDamage - armor > 0)
+        {
+            health -= damage + ((penetrationDamage - armor)*2);
+
+            healthBar.fillAmount = (float)health / (float)startHealth;
+
+            if (health <= 0)
+                Die();
+        }
+        else TakeDamage(damage+penetrationDamage);
+    }
+
+
 
     private void Die()
     {
         Destroy(gameObject);
         GameObject effectInst = (GameObject)Instantiate(deathEffect, new Vector3(transform.position.x, transform.position.y, -100), transform.rotation);
-       
+
         Destroy(effectInst, 2f);
         PlayerStats.Money += worth;
     }

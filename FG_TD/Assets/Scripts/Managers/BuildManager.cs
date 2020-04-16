@@ -102,6 +102,7 @@ public class BuildManager : MonoBehaviour
 
         GameObject turret = Instantiate(turretToBuild.prefab, new Vector3(node.transform.position.x, node.transform.position.y, -2), Quaternion.identity);
         node.turret = turret;
+        node.UpdateTowerNode();
         DeselectNode();
     }
 

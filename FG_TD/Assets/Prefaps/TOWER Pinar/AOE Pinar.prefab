@@ -131,6 +131,7 @@ MonoBehaviour:
   damage: 3
   bulletSpeed: 5
   enemyTag: Enemy
+  nodeTag: Node
   bulletPrefab: {fileID: 5954932775887454202, guid: 9d763ee202d5cc448a5547f4b6779346,
     type: 3}
   firePoint: {fileID: 1526430499198224079}
@@ -140,9 +141,16 @@ MonoBehaviour:
   aOE: 1
   linearAOEProjectile: {fileID: 8086809444864487078, guid: 74e102d4d98511a40b917afc0b6ea636,
     type: 3}
-  linearTravelDistance: 6
-  linearTravelSpeed: 1
+  linearTravelDistance: 3
+  linearTravelSpeed: 5
   isMagical: 0
+  isPenetrative: 0
+  penetration: 2
+  isGroundType: 0
+  isRay: 0
+  hitEffect: {fileID: 0}
+  isSplitshot: 0
+  targetCount: 3
 --- !u!1001 &6711200176949118098
 PrefabInstance:
   m_ObjectHideFlags: 0

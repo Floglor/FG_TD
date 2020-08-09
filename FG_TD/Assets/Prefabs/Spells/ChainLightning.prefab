@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4812849933978788505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7648027914090583308}
+  - component: {fileID: -4040186196435625562}
+  m_Layer: 0
+  m_Name: ChainLightning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7648027914090583308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812849933978788505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 24.181034, y: 0.12601879, z: -100.17522}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4040186196435625562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812849933978788505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72cb545ae0576c44f9bbf99ad6ece7ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 35
+  buttonPrefab: {fileID: 1562962351513386855, guid: bcef9f58f5c124147a7ec7049082ecf4,
+    type: 3}
+  aoe: 0.3
+  bulletPrefab: {fileID: 555802578716727818, guid: e0236a7093f32e543a7ef065c655ad9e,
+    type: 3}
+  damage: 17
+  isMagical: 0
+  isChainLighting: 1
+  chainLength: 3
+  chainSeekRadius: 3
+  isPenetrative: 0
+  penetration: 0
+  isDOT: 0
+  dOTDamage: 0
+  dOTPenetration: 0
+  dOTMagical: 0
+  dOTUniqueIdentifier: 
+  debuffDuration: 0
+  debuffTickFrequency: 0

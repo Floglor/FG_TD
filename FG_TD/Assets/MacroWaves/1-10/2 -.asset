@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd7e3b4b69e4b04c9503d0cbfffd2bf, type: 3}
+  m_Name: 2 -
+  m_EditorClassIdentifier: 
+  microwaves:
+  - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
+      type: 3}
+    enemyCount: 15
+    nextDelay: 9
+  - enemyType: {fileID: 6702962538568995052, guid: c8ba5b4b37ffa394cb224eb40554d47d,
+      type: 3}
+    enemyCount: 15
+    nextDelay: 5
+  - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
+      type: 3}
+    enemyCount: 6
+    nextDelay: 1
+  - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
+      type: 3}
+    enemyCount: 6
+    nextDelay: 1
+  - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
+      type: 3}
+    enemyCount: 6
+    nextDelay: 0
+  nextMacroWave: {fileID: 11400000, guid: b88739d4db5e6f54480960ccf32cc37b, type: 2}
+  moneyGain: 30
+  manaGain: 15

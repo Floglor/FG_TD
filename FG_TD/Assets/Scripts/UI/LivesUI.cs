@@ -10,6 +10,6 @@ public class LivesUI : MonoBehaviour
    
     void Update()
     {
-        livesText.text = "<3 " + PlayerStats.Lives;
+        livesText.text = PlayerStats.Lives.ToString();
     }
 }

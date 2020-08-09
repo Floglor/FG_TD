@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b3fcb15930e22004babab7e1237061be
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - spellImage: {instanceID: 0}
+  - buttonPrefab: {instanceID: 0}
+  - spellEffect: {fileID: 7575957312766680331, guid: 7574724e222808e489f8c808f921f513,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

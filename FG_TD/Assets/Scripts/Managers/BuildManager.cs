@@ -1,11 +1,17 @@
 ﻿
 using System;
+using Managers;
+using Shooting;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
 
     public static BuildManager instance;
+
+    private ItemManager itemManager;
+    
+    
 
     private void Awake()
     {
@@ -14,11 +20,8 @@ public class BuildManager : MonoBehaviour
             Debug.LogError("More than one BuildManager in scene. ");
         }
         instance = this;
+        itemManager = ItemManager.instance;
     }
-
-    public GameObject standartTurretPrefab;
-    public GameObject secondaryTurretPrefab;
-    public GameObject aoeTurretPrefab;
 
     public NodeUI nodeUI;
     public Shop shop;
@@ -27,14 +30,7 @@ public class BuildManager : MonoBehaviour
     private Node selectedTurret;
     private Node selectedNode;
 
-
-
-
-   // public bool HasMoney
-   // {
-   //     get { return PlayerStats.Money >= turretToBuild.cost; }
-   // }
-
+    
   
     public void SelectNode(Node node)
     {
@@ -67,7 +63,6 @@ public class BuildManager : MonoBehaviour
         {
             DeselectTurret();
             return;
-
         }
 
         selectedTurret = nodeWithTurret;
@@ -101,8 +96,14 @@ public class BuildManager : MonoBehaviour
         PlayerStats.Money -= turretToBuild.cost;
 
         GameObject turret = Instantiate(turretToBuild.prefab, new Vector3(node.transform.position.x, node.transform.position.y, -2), Quaternion.identity);
+
+        turret.GetComponent<TowerAI>().totalCost = turretToBuild.cost;
+
+        //Debug.Log(turret.GetComponent<TowerAI>().totalCost);
+        
         node.turret = turret;
         node.UpdateTowerNode();
+        node.SetTowerColor();
         DeselectNode();
     }
 

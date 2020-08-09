@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd7e3b4b69e4b04c9503d0cbfffd2bf, type: 3}
+  m_Name: 31
+  m_EditorClassIdentifier: 
+  microwaves:
+  - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 10
+  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 20
+  - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 20
+  - enemyType: {fileID: 6702962538568995052, guid: 8b885edc6bb74934185db3cca3a37199,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 0
+  nextMacroWave: {fileID: 11400000, guid: eccda415cc6c6e24fabf974c525d4729, type: 2}

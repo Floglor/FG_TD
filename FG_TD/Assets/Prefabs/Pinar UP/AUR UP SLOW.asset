@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
+  m_Name: AUR UP SLOW
+  m_EditorClassIdentifier: 
+  cost: 5
+  statList:
+  - intStatName: 0
+    floatStatName: 0
+    boolStatName: 0
+    statValue: 0
+    falseCrits:
+    - attackCounter: 0
+      effect: {fileID: 0}
+  nextUpgrades: []
+  towerUpgrades:
+  - cost: 0
+    tower: {fileID: 2476632279043047183, guid: 392477b13e64ea848ae013d728845882, type: 3}

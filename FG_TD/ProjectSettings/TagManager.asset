@@ -8,6 +8,9 @@ TagManager:
   - NodeUI
   - Rail
   - Node
+  - Waypoint
+  - PitTrap
+  - Tower
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Node
   - 
   - 
   - 

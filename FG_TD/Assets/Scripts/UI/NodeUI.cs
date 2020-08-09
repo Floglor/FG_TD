@@ -1,16 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Managers;
+using MyBox;
+using Shooting;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NodeUI : MonoBehaviour
 {
     public GameObject ui;
-    private Node target;
-    private TowerAI tower;
-    List<UpgradeVariants> turretUpgrades;
-    List<GameObject> buttons;
+    private Node targetNode;
+    private TowerAI selectedTower;
+    private List<UpgradeVariants> turretUpgrades;
+    private List<GameObject> buttons;
+
+    public GameObject sellButton;
 
     BuildManager buildManager;
 
@@ -18,26 +25,43 @@ public class NodeUI : MonoBehaviour
 
     private void Awake()
     {
+        HideSellButton();
+        CalculateSellPercentageText();
         buttons = new List<GameObject>();
         gameObject.SetActive(false);
         buildManager = BuildManager.instance;
     }
-    
+
+    private void CalculateSellPercentageText()
+    {
+        TextMeshProUGUI text = sellButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        text.text = $"Sell ({PlayerStats.instance.sellingPercentage}%)";
+    }
+
     public void UIDeselect()
     {
         ui.SetActive(false);
         buildManager.DeselectNode();
         buildManager.DeselectTurret();
+        HideSellButton();
     }
+
     public void SetTarget(Node node)
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+        
+        ShowSellButton();
         buildManager.DeselectNode();
         ClearButtons();
-        target = node;
-        tower = node.turret.GetComponent<TowerAI>();
+        targetNode = node;
+        selectedTower = node.turret.GetComponent<TowerAI>();
+        
+        if (selectedTower.GetComponent<Inventory>() != null)
+            ItemManager.instance.InvokeInventory(selectedTower.GetComponent<Inventory>());
 
-        if (tower.upgradeVariants != null && tower.upgradeVariants.Count > 0)
-            turretUpgrades = tower.upgradeVariants;
+        if (selectedTower.upgradeVariants != null && selectedTower.upgradeVariants.Count > 0)
+            turretUpgrades = selectedTower.upgradeVariants;
         else
         {
             Debug.Log("No buttons in tower " + node.turret.name);
@@ -48,20 +72,17 @@ public class NodeUI : MonoBehaviour
         HorizontalLayoutGroup panel = canvas.GetComponentInChildren<HorizontalLayoutGroup>();
 
 
-       
         //Upgrade Buttons
         foreach (UpgradeVariants upgradeVariant in turretUpgrades)
         {
             if (upgradeVariant == null) return;
 
-            if (upgradeVariant.statList.Count > 0)
+            if (!upgradeVariant.statList.IsNullOrEmpty())
             {
-                GameObject newButton = Instantiate(buttonPrefab) as GameObject;
-
-                newButton.transform.SetParent(panel.transform, false);
+                GameObject newButton = Instantiate(buttonPrefab, panel.transform, false);
 
                 Button buttonComponent = newButton.GetComponent<Button>();
-                buttonComponent.onClick.AddListener(delegate { node.UpgrageTower(upgradeVariant); });
+                buttonComponent.onClick.AddListener(delegate { node.UpgradeTower(upgradeVariant); });
 
                 Text text = newButton.GetComponentInChildren<Text>();
 
@@ -69,15 +90,14 @@ public class NodeUI : MonoBehaviour
                 sb.Append(upgradeVariant.cost + "G|| ");
                 foreach (Stats stat in upgradeVariant.statList)
                 {
-                    sb.Append(stat.statName + "+" + stat.statValue + "|| ");
+                    sb.Append(stat.intStatName + "+" + stat.statValue + "|| ");
                     text.text = sb.ToString();
                 }
 
                 buttons.Add(newButton);
             }
-
         }
-       
+
         //New Tower Buttons
         foreach (UpgradeVariants upgradeVariant in turretUpgrades)
         {
@@ -85,12 +105,13 @@ public class NodeUI : MonoBehaviour
             {
                 foreach (TowerVariant tower in upgradeVariant.towerUpgrades)
                 {
-                    GameObject newButton = Instantiate(buttonPrefab) as GameObject;
-
-                    newButton.transform.SetParent(panel.transform, false);
+                    GameObject newButton = Instantiate(buttonPrefab, panel.transform, false) as GameObject;
 
                     Button buttonComponent = newButton.GetComponent<Button>();
-                    buttonComponent.onClick.AddListener(delegate { node.ReplaceTowerFromPrefab(tower.tower, tower.cost); });
+                    buttonComponent.onClick.AddListener(delegate
+                    {
+                        node.ReplaceTowerFromPrefab(tower.tower, tower.cost);
+                    });
 
                     StringBuilder sb = new StringBuilder();
 
@@ -99,34 +120,29 @@ public class NodeUI : MonoBehaviour
                     TowerAI towerAttr = tower.tower.GetComponent<TowerAI>();
 
                     //Button text
-                    sb.Append("/" 
-                        + tower.tower.name + " " 
-                        + tower.cost + "G|| "
-                        + towerAttr.damage + " damage|| "
-                        + towerAttr.fireRate + " attackspeed|| "
-                        + towerAttr.aOE 
-                        + " AOE/");
+                    sb.Append("/"
+                              + tower.tower.name + " "
+                              + tower.cost + "G|| "
+                              + towerAttr.startDamage + " damage|| "
+                              + towerAttr.startingFireRate + " attackspeed|| "
+                              + towerAttr.aoe
+                              + " AOE/");
 
-                    
 
                     text.text = sb.ToString();
                     buttons.Add(newButton);
-
-
                 }
-
             }
-            
-
         }
 
         ui.SetActive(true);
-        target.OnMouseExit();
+        targetNode.OnMouseExit();
     }
 
     public void Hide()
     {
         ui.SetActive(false);
+        ItemManager.instance.HideInventory();
         ClearButtons();
     }
 
@@ -138,8 +154,30 @@ public class NodeUI : MonoBehaviour
             {
                 Destroy(buttons[i].gameObject);
             }
+
             buttons.Clear();
         }
-       
+    }
+
+    private void ShowSellButton()
+    {
+        CalculateSellPercentageText();
+        sellButton.GetComponent<Button>().enabled = true;
+    }
+
+    private void HideSellButton()
+    {
+        sellButton.GetComponent<Button>().enabled = false;
+    }
+
+    public void SellTower()
+    {
+        //Debug.Log($"blurp { targetNode.turret.GetComponent<TowerAI>().totalCost *( (float) PlayerStats.instance.sellingPercentage / 100)}");
+        PlayerStats.instance.SpendMoney((int) -(targetNode.turret.GetComponent<TowerAI>().totalCost *
+                                                ((float) PlayerStats.instance.sellingPercentage / 100)));
+        targetNode.DestroyTurretGroundShit();
+        Destroy(targetNode.turret);
+        targetNode.turret = null;
+        UIDeselect();
     }
 }

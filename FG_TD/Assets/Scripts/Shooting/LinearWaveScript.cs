@@ -1,29 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using MyBox;
+using Shooting;
 using UnityEngine;
 
-public class LinearWaveScript : MonoBehaviour
+public class LinearWaveScript : Projectile
 {
-
-    public float travelDistance { get; set; }
-    public TowerAI motherTower {get; set;}
-    public float travelSpeed { get; set; }
-    public int damage { get; set; }
     public Vector2 travelVector { get; set; }
 
-    public int penetration { get; set; }
-
-    public List<Enemy> damagedEnemies { get; set; }
+  
 
     private float travelledDistance;
-
-    private string enemyTag = "Enemy";
+    
     private string nodeTag = "Node";
-    public bool isMagical { get; set; }
-
+    
+   
     private void Awake()
     {
-        damagedEnemies = new List<Enemy>();
+        damagedEnemies = new List<Transform>();
     }
 
     private void Update()
@@ -33,38 +28,39 @@ public class LinearWaveScript : MonoBehaviour
 
     private void Move()
     {
-        float distanseThisFrame = travelSpeed * Time.deltaTime;
-        travelledDistance += distanseThisFrame;
+        float distanceThisFrame = travelSpeed * Time.deltaTime * PlayerStats.instance.gameSpeedMultiplier;
+        travelledDistance += distanceThisFrame;
         if (travelledDistance- travelDistance >= 0.04f)
         {
             Destroy(gameObject);
             return;
         }
 
-        transform.Translate(travelVector.normalized * distanseThisFrame, Space.World);
+        transform.Translate(travelVector.normalized * distanceThisFrame, Space.World);
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision is CircleCollider2D) return;
         if (collision.gameObject.CompareTag(enemyTag))
                 Damage(collision.gameObject);
 
         if (collision.gameObject.CompareTag(nodeTag))
         {
-            Destroy(gameObject);
-       
+            travelVector *= -1;
         }
     }
 
-    public void Damage(GameObject enemy)
-    { 
-        if (enemy != null)
-        {
-            Enemy EnemyObj = enemy.GetComponent<Enemy>();
-            if (penetration > 0)
-            EnemyObj.TakeDamage(damage, penetration);
-            else EnemyObj.TakeDamage(damage, isMagical);
-        }
+    private void Damage(GameObject enemy)
+    {
+        if (enemy == null) return;
+        Enemy enemyObj = enemy.GetComponent<Enemy>();
+            
+        if (isDamaging) CheckAndApplyDot(enemyObj);
+            
+        if (penetration > 0)
+            enemyObj.TakeDamage(damage, penetration);
+        else enemyObj.TakeDamage(damage, isMagical);
     }
 }

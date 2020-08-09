@@ -1,92 +1,148 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using MyBox;
+using ScriptableObjects;
+using Shooting;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public Transform enemyPrefab;
-
     public MacroWave macroWave;
 
-    
-    private float countdown = 2f;
+    public GameObject nextWaveButton;
+
+    private float countdown = 0;
 
     public TextMeshProUGUI waveCountDownText;
+    public TextMeshProUGUI macroWaveNumberText;
 
     public Transform spawnPoint;
 
-    public int numberOfEnemies = 4;
-
-    private int waveNumber = 0;
+    private int waveNumber;
+    private int macroWaveNumber;
 
     private bool gameOver;
-    private void Update()
+    private bool awaitingNextWaveButtonPress;
+
+    public static WaveSpawner instance;
+
+    //For wave end events
+    public List<TowerAI> mineTowerList { get; set; }
+
+
+    private void Awake()
     {
-        if (countdown <= 0f)
+        instance = this;
+        mineTowerList = new List<TowerAI>();
+        awaitingNextWaveButtonPress = true;
+        nextWaveButton.SetActive(true);
+        macroWaveNumber = 1;
+        macroWaveNumberText.text = $"Wave {macroWaveNumber}";
+    }
+
+    public void MakeWaveRelatedThings()
+    {
+        awaitingNextWaveButtonPress = false;
+        nextWaveButton.SetActive(false);
+
+        foreach (TowerAI tower in mineTowerList)
         {
-            if (waveNumber >= macroWave.microwaves.Count && macroWave.nextMacroWave == null && !gameOver)
-            {
-                Debug.Log("That's it.");
-                gameOver = true;
-            }
-
-            if (!gameOver)
-            {
-                StartCoroutine(SpawnWave());
-                countdown = macroWave.microwaves[waveNumber].nextDelay
-                + (macroWave.microwaves[waveNumber].enemyCount * 0.3f);
-            }
-
-
-        }
-
-        if (!gameOver)
-        {
-            countdown -= Time.deltaTime;
-            countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
-            waveCountDownText.text = string.Format("{0:00.00}", countdown);
+            tower.SpawnMine(tower.mineSpawnPerWave);
         }
     }
 
-    IEnumerator SpawnWave()
+    private void Update()
     {
-        Debug.Log(waveNumber);
+        //Debug.Log(PlayerStats.enemiesAlive);
+        if (gameOver) return;
 
-        if (waveNumber >= macroWave.microwaves.Count && macroWave.nextMacroWave != null)
+        if (countdown <= 0f)
         {
-            macroWave = macroWave.nextMacroWave;
-            waveNumber = 0;
-            yield break;
+            if (waveNumber >= macroWave.microwaves.Count
+                && System.Object.ReferenceEquals(macroWave.nextMacroWave, null)
+                && !gameOver)
+            {
+                Debug.Log("That's it.");
+                countdown = 0;
+                gameOver = true;
+            }
+
+
+            if (gameOver) return;
+
+
+            if (waveNumber >= macroWave.microwaves.Count && macroWave.nextMacroWave != null)
+            {
+                if (PlayerStats.enemiesAlive == 0)
+                {
+                    PlayerStats.Money += macroWave.moneyGain;
+                    PlayerStats.instance.SpendMana(-macroWave.manaGain);
+
+                    macroWave = macroWave.nextMacroWave;
+                    macroWaveNumber++;
+                    waveNumber = 0;
+                    countdown = 0;
+                    awaitingNextWaveButtonPress = true;
+                    nextWaveButton.SetActive(true);
+                }
+            }
+            else if (!awaitingNextWaveButtonPress)
+            {
+                for (int i = waveNumber; i < macroWave.microwaves.Count; i++)
+                {
+                    
+                    AdvanceWave();
+
+                    if (!macroWave.microwaves[i].nextIsSimultaneous)
+                        break;
+                    
+                }
+            }
         }
 
-        if (macroWave.microwaves.Count >= waveNumber)
-        for (int i = 0; i < macroWave.microwaves[waveNumber].enemyCount; i++)
+        if (awaitingNextWaveButtonPress) return;
+        macroWaveNumberText.text = $"Wave {macroWaveNumber}";
+        countdown -= Time.deltaTime * PlayerStats.instance.gameSpeedMultiplier;
+        countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
+        waveCountDownText.text = $"{countdown:00.00}";
+    }
+
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    public void AdvanceWave()
+    {
+        //Debug.Log(nextIsSimultaneous);
+        
+        StartCoroutine(SpawnWave(macroWave.microwaves[waveNumber]));
+        
+        if (!macroWave.microwaves[waveNumber].nextIsSimultaneous)
         {
-
-            SpawnEnemy(macroWave.microwaves[waveNumber].enemyType.transform);
-            yield return new WaitForSeconds(0.3f);
+            countdown = macroWave.microwaves[waveNumber].nextDelay +
+                        macroWave.microwaves[waveNumber].enemyCount * 0.3f;
+            
         }
+        
+        PlayerStats.enemiesAlive += macroWave.microwaves[waveNumber].enemyCount;
+        waveNumber++;
+    }
 
-        if (macroWave.microwaves.Count != waveNumber)
+    private IEnumerator SpawnWave(MicroWave wave)
+    {
+        for (int i = 0; i < wave.enemyCount; i++)
         {
-            waveNumber++;
+            SpawnEnemy(wave.enemyType.transform);
+            yield return new WaitForSeconds(0.3f / PlayerStats.instance.gameSpeedMultiplier);
         }
-
-        Debug.Log(waveNumber);
-
-
     }
 
     void SpawnEnemy(Transform enemyPrefab)
     {
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        Enemy enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation).GetComponent<Enemy>();
+        
+        
     }
-
-
-
-
-
-
 }

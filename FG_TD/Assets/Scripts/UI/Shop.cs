@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Shop : MonoBehaviour
 {
-    public TurretBlueprint standartPinar;
-    public TurretBlueprint fastPinar;
-    public TurretBlueprint aoePinar;
+    [FormerlySerializedAs("standartPinar")] public TurretBlueprint firstPinar;
+    [FormerlySerializedAs("fastPinar")] public TurretBlueprint secondPinar;
+    [FormerlySerializedAs("aoePinar")] public TurretBlueprint thirdPinar;
+    public TurretBlueprint fourthPinar;
+    
+    
     BuildManager buildManager;
     public GameObject shopCanvas;
 
@@ -15,19 +19,25 @@ public class Shop : MonoBehaviour
     public void SelectStandartTurret()
     {
     
-        buildManager.SetTurretToBuild(standartPinar);
+        buildManager.SetTurretToBuild(firstPinar);
     }
 
     public void SelectFastTurret()
     {
       
-        buildManager.SetTurretToBuild(fastPinar);
+        buildManager.SetTurretToBuild(secondPinar);
 
     }
 
+    public void SelectFourthTurret()
+    {
+        buildManager.SetTurretToBuild(fourthPinar);
+    }
+    
+
     public void SelectAOEturret()
     {
-        buildManager.SetTurretToBuild(aoePinar);
+        buildManager.SetTurretToBuild(thirdPinar);
     }
 
     public void Hide()

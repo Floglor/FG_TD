@@ -5,6 +5,8 @@ using UnityEngine;
 public class WaypointGizmos : MonoBehaviour
 {
     public float range;
+
+    public static readonly string MyTag = "Waypoint";
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.magenta;

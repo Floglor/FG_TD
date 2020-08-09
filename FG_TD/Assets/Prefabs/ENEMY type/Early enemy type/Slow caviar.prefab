@@ -251,7 +251,7 @@ Transform:
   m_GameObject: {fileID: 6702962538568995052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.3012817, y: 2.1664946, z: 82.04962}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 1}
   m_Children:
   - {fileID: 3362981267527877201}
   m_Father: {fileID: 0}
@@ -332,11 +332,13 @@ MonoBehaviour:
   isFlyingNow: 0
   flyStrengthOnStart: 0
   flyStrength: 0
-  deathEffect: {fileID: 2523267147374552803, guid: 5bca4dc10b755a949bb6bb59a62738f7,
+  deathEffect: {fileID: 5658822117075438716, guid: 8b0e5085ef41c2f4c9cff6f1a5cc1319,
     type: 3}
   healthBar: {fileID: 8149405427341159410}
   shieldBar: {fileID: 3320802384523222930}
   shieldBackground: {fileID: 473531412542324187}
+  hitEffect: {fileID: 8569929630282105157, guid: c6bf6b1d9b6e3df4facacd80e4585e30,
+    type: 3}
   healthText: {fileID: 6162581079635154073}
   shieldText: {fileID: 3383242061222770590}
   auraPrefab: {fileID: 1073667011701062853, guid: 0dcf2564a6f5f0c46bde17919345bad3,

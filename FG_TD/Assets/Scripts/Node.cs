@@ -125,7 +125,7 @@ public class Node : MonoBehaviour
         towerColor = turret.gameObject.GetComponent<Renderer>().material.color;
         towerColor = new Color(towerColor.r*intensity, towerColor.g*intensity, towerColor.b*intensity, 0f);
         rend.material.color = towerColor;
-        Debug.Log(rend.material.color);
+        //Debug.Log(rend.material.color);
     }
 
 
@@ -169,31 +169,31 @@ public class Node : MonoBehaviour
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.SplitshotTargetsCount);
                     break;
                 case Stats.IntStatName.ChainLength:
-                    towerAI.startChainLength = (int) stat.statValue;
+                    towerAI.startChainLength += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.ChainLength);
                     break;
                 case Stats.IntStatName.SnaringStrength:
-                    towerAI.startSnaringStrength = (int) stat.statValue;
+                    towerAI.startSnaringStrength += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.SnaringStrength);
                     break;
                 case Stats.IntStatName.DOTTickDamage:
-                    towerAI.startDOTDamage = (int) stat.statValue;
+                    towerAI.startDOTDamage += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.DOTTickDamage);
                     break;
                 case Stats.IntStatName.DOTSlowPercentage:
-                    towerAI.startDotSlowRate = (int) stat.statValue;
+                    towerAI.startDotSlowRate += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.DOTSlowPercentage);
                     break;
                 case Stats.IntStatName.DOTPenetrativeDamage:
-                    towerAI.startingDOTPenetration = (int) stat.statValue;
+                    towerAI.startingDOTPenetration += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.DOTPenetrativeDamage);
                     break;
                 case Stats.IntStatName.SlowingAuraPercentage:
-                    towerAI.startDotSlowRate = (int) stat.statValue;
+                    towerAI.startDotSlowRate += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.SlowingAuraPercentage);
                     break;
                 case Stats.IntStatName.Disruption:
-                    towerAI.startDisruption = (int) stat.statValue;
+                    towerAI.startDisruption += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.Disruption);
                     break;
                 case Stats.IntStatName.None:
@@ -217,27 +217,27 @@ public class Node : MonoBehaviour
                     towerAI.FloatStatRecalculate(Stats.FloatStatName.Range);
                     break;
                 case Stats.FloatStatName.AoeProjectileSpeed:
-                    towerAI.startingLinearTravelSpeed = stat.statValue;
+                    towerAI.startingLinearTravelSpeed += stat.statValue;
                     towerAI.FloatStatRecalculate(Stats.FloatStatName.AoeProjectileSpeed);
                     break;
                 case Stats.FloatStatName.AoeProjectileTravelRange:
-                    towerAI.startLinearTravelDistance = stat.statValue;
+                    towerAI.startLinearTravelDistance += stat.statValue;
                     towerAI.FloatStatRecalculate(Stats.FloatStatName.AoeProjectileTravelRange);
                     break;
                 case Stats.FloatStatName.ChainSeekRadius:
-                    towerAI.startChainSeekRadius = stat.statValue;
+                    towerAI.startChainSeekRadius += stat.statValue;
                     towerAI.FloatStatRecalculate(Stats.FloatStatName.ChainSeekRadius);
                     break;
                 case Stats.FloatStatName.AuraRadius:
-                    towerAI.startAuraRadius = stat.statValue;
+                    towerAI.startAuraRadius += stat.statValue;
                     towerAI.FloatStatRecalculate(Stats.FloatStatName.AuraRadius);
                     break;
                 case Stats.FloatStatName.DotDuration:
-                    towerAI.startDotDuration = stat.statValue;
+                    towerAI.startDotDuration += stat.statValue;
                     towerAI.FloatStatRecalculate(Stats.FloatStatName.DotDuration);
                     break;
                 case Stats.FloatStatName.DOTTickInterval:
-                    towerAI.startDebuffTickFrequency = stat.statValue;
+                    towerAI.startDebuffTickFrequency += stat.statValue;
                     towerAI.FloatStatRecalculate(Stats.FloatStatName.DOTTickInterval);
                     break;
                 case Stats.FloatStatName.DOTChangingIdentifier:

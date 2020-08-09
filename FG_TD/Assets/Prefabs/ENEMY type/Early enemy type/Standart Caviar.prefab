@@ -190,7 +190,7 @@ MonoBehaviour:
   healthBar: {fileID: 8149405427341159410}
   shieldBar: {fileID: 7992575729457626813}
   shieldBackground: {fileID: 5775496407584545993}
-  hitEffect: {fileID: 7016905648000424549, guid: 78568f449883ecd4ca8014e42fd76617,
+  hitEffect: {fileID: 6581645130138873485, guid: 78568f449883ecd4ca8014e42fd76617,
     type: 3}
   healthText: {fileID: 6162581079635154073}
   shieldText: {fileID: 8452111965125395176}

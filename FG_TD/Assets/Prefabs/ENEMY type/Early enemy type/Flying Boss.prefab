@@ -492,6 +492,8 @@ MonoBehaviour:
   healthBar: {fileID: 8149405427341159410}
   shieldBar: {fileID: 35103227779919943}
   shieldBackground: {fileID: 436858203619084766}
+  hitEffect: {fileID: 8569929630282105157, guid: e2aba77e8d2201340b27c6d140e291c7,
+    type: 3}
   healthText: {fileID: 2086758910097875086}
   shieldText: {fileID: 5523976999957648119}
   auraPrefab: {fileID: 1073667011701062853, guid: 0dcf2564a6f5f0c46bde17919345bad3,

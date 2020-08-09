@@ -512,7 +512,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: f1d0f5a80832b654cb7fe9a035a11d87, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -574,6 +574,8 @@ MonoBehaviour:
   healthBar: {fileID: 8149405427341159410}
   shieldBar: {fileID: 6952687946968455250}
   shieldBackground: {fileID: 4641428545775684086}
+  hitEffect: {fileID: 8569929630282105157, guid: 8d9367c3a8dc4e54b841df54a2a7f50d,
+    type: 3}
   healthText: {fileID: 4695839737075577479}
   shieldText: {fileID: 5148091287890905626}
   auraPrefab: {fileID: 1073667011701062853, guid: 0dcf2564a6f5f0c46bde17919345bad3,

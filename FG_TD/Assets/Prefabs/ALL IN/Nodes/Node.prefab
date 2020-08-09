@@ -99,6 +99,7 @@ MonoBehaviour:
   cornerAlignment: 0
   isSpecial: 0
   isExternal: 0
+  towerColor: {r: 0, g: 0, b: 0, a: 0}
   hoverColor: {r: 6.712903, g: 7.498038, b: 0.15702698, a: 1}
   notEnoughMoneyColor: {r: 0.8584906, g: 0.21462265, b: 0.21462265, a: 1}
   selectedColor: {r: 0, g: 9.082411, b: 0, a: 0.59607846}
@@ -119,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.00059065595, y: 0.000000007450581}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -130,5 +131,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.13333334, y: 0.13333334}
+  m_Size: {x: 0.11640134, y: 0.11522004}
   m_EdgeRadius: 0

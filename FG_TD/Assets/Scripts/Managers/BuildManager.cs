@@ -49,6 +49,7 @@ public class BuildManager : MonoBehaviour
     {
         if (selectedNode != null)
         {
+            selectedNode.isSelected = false;
             selectedNode.SetNormalColor();
             selectedNode = null;
             shop.Hide();

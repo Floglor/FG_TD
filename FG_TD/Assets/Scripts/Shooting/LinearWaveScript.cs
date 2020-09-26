@@ -9,13 +9,12 @@ public class LinearWaveScript : Projectile
 {
     public Vector2 travelVector { get; set; }
 
-  
 
     private float travelledDistance;
-    
+
     private string nodeTag = "Node";
-    
-   
+
+
     private void Awake()
     {
         damagedEnemies = new List<Transform>();
@@ -30,7 +29,7 @@ public class LinearWaveScript : Projectile
     {
         float distanceThisFrame = travelSpeed * Time.deltaTime * PlayerStats.instance.gameSpeedMultiplier;
         travelledDistance += distanceThisFrame;
-        if (travelledDistance- travelDistance >= 0.04f)
+        if (travelledDistance - travelDistance >= 0.04f)
         {
             Destroy(gameObject);
             return;
@@ -44,7 +43,7 @@ public class LinearWaveScript : Projectile
     {
         if (collision is CircleCollider2D) return;
         if (collision.gameObject.CompareTag(enemyTag))
-                Damage(collision.gameObject);
+            DamageWithoutDestroy(collision.gameObject, isMagical);
 
         if (collision.gameObject.CompareTag(nodeTag))
         {
@@ -52,15 +51,5 @@ public class LinearWaveScript : Projectile
         }
     }
 
-    private void Damage(GameObject enemy)
-    {
-        if (enemy == null) return;
-        Enemy enemyObj = enemy.GetComponent<Enemy>();
-            
-        if (isDamaging) CheckAndApplyDot(enemyObj);
-            
-        if (penetration > 0)
-            enemyObj.TakeDamage(damage, penetration);
-        else enemyObj.TakeDamage(damage, isMagical);
-    }
+  
 }

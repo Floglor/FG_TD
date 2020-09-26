@@ -14,12 +14,14 @@ namespace Items
     {
         public bool isBasic; 
         public Sprite itemImage;
+        public int tier;
     
         [Header("Buffs/Debuffs")]
         public List<IntegerTowerBuff> integerTowerBuffs;
         public List<IntegerTowerDebuff> integerTowerDebuffs;
         public List<FloatTowerBuff> floatTowerBuffs;
         public List<FloatTowerDebuff> floatTowerDebuffs;
+        
 
         [Header("Effects")]
         public  List<FalseCrit> falseCrits;

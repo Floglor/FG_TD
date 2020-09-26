@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Items;
+using Managers;
 using MyBox;
 using ScriptableObjects;
 using Shooting;
@@ -9,6 +12,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -30,29 +34,50 @@ public class WaveSpawner : MonoBehaviour
     private bool awaitingNextWaveButtonPress;
 
     public static WaveSpawner instance;
+    private Random rng = new Random();
 
     //For wave end events
     public List<TowerAI> mineTowerList { get; set; }
+    public List<TowerAI> essenceTowerList { get; set; } 
+    
 
 
     private void Awake()
     {
         instance = this;
+        essenceTowerList = new List<TowerAI>();
         mineTowerList = new List<TowerAI>();
         awaitingNextWaveButtonPress = true;
-        nextWaveButton.SetActive(true);
+        NextWaveButtonOn();
         macroWaveNumber = 1;
         macroWaveNumberText.text = $"Wave {macroWaveNumber}";
+    }
+
+    private void NextWaveButtonOff()
+    {
+        nextWaveButton.GetComponent<Button>().interactable = false;
     }
 
     public void MakeWaveRelatedThings()
     {
         awaitingNextWaveButtonPress = false;
-        nextWaveButton.SetActive(false);
+      NextWaveButtonOff();
 
         foreach (TowerAI tower in mineTowerList)
         {
             tower.SpawnMine(tower.mineSpawnPerWave);
+        }
+        
+    }
+
+    private void GainEssences()
+    {
+        foreach (TowerAI tower in essenceTowerList)
+        {
+            PlayerStats.Essences += tower.essenceGainAmount;
+            PlayerStats.Essences += tower.suckAmount;
+            tower.suckAmount = 0;
+            tower.isFullOfEssence = false;
         }
     }
 
@@ -82,13 +107,20 @@ public class WaveSpawner : MonoBehaviour
                 {
                     PlayerStats.Money += macroWave.moneyGain;
                     PlayerStats.instance.SpendMana(-macroWave.manaGain);
+                    PlayerStats.Essences += macroWave.essenceGain;
 
                     macroWave = macroWave.nextMacroWave;
                     macroWaveNumber++;
                     waveNumber = 0;
                     countdown = 0;
                     awaitingNextWaveButtonPress = true;
-                    nextWaveButton.SetActive(true);
+                    NextWaveButtonOn();
+                    GainEssences();
+                    if (macroWaveNumber % 2 == 0)
+                    {
+                        Debug.Log($"MacroWaveNumber ({macroWaveNumber} % 2 = 0 ). Giving {macroWaveNumber/10} tier item");
+                        GainItems(macroWaveNumber/10);
+                    }
                 }
             }
             else if (!awaitingNextWaveButtonPress)
@@ -110,6 +142,20 @@ public class WaveSpawner : MonoBehaviour
         countdown -= Time.deltaTime * PlayerStats.instance.gameSpeedMultiplier;
         countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
         waveCountDownText.text = $"{countdown:00.00}";
+    }
+
+    private void NextWaveButtonOn()
+    {
+        nextWaveButton.GetComponent<Button>().interactable = true;
+    }
+
+    private void GainItems(int tier)
+    {
+        List<Item> itemsByTier = ItemManager.instance.allItems.Where(item => item.tier == tier).ToList();
+
+        if (!itemsByTier.IsNullOrEmpty())
+            ItemManager.instance.GetItemByArgument(itemsByTier[rng.Next(0, itemsByTier.Count)]);
+        
     }
 
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]

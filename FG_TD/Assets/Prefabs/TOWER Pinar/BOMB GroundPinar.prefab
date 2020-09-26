@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8067780550972636081}
   - component: {fileID: -6791522531512021763}
   - component: {fileID: -1699905745889330695}
+  - component: {fileID: 2988794890820417717}
   m_Layer: 2
   m_Name: BOMB GroundPinar
   m_TagString: Tower
@@ -159,7 +160,6 @@ MonoBehaviour:
   isChainLighting: 0
   startChainLength: 0
   startChainSeekRadius: 0
-  chainSeekRadius: 0
   isAura: 0
   startAuraRadius: 0
   auraRadius: 0
@@ -254,6 +254,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2988794890820417717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3161772091527896360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3653348cb2a7df24da615657df765345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 1
+  items: []
 --- !u!1001 &1353418664872077589
 PrefabInstance:
   m_ObjectHideFlags: 0

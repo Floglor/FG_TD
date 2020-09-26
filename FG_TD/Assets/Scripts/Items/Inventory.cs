@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
     public List<Recipe> possibleRecipes { get; set; }
     private Canvas possibleItemsCanvas;
     private bool initialized;
+    
 
     public int FindFirstFreeSlot()
     {
@@ -177,6 +178,8 @@ public class Inventory : MonoBehaviour
         items = new List<Item>();
         possibleRecipes = new List<Recipe>();
         tower = transform.GetComponentInParent<TowerAI>();
+        
+        ItemManager.instance.allInventories.Add(this);
 
         for (int i = 0; i < capacity; i++)
         {
@@ -185,6 +188,11 @@ public class Inventory : MonoBehaviour
 
         possibleItemsCanvas = ItemManager.instance.possibleItemsCanvas;
         initialized = true;
+    }
+
+    public void Remove()
+    {
+        ItemManager.instance.allInventories.Remove(this);
     }
 
     public void CheckForPossibleRecipes()
@@ -219,7 +227,7 @@ public class Inventory : MonoBehaviour
 
 
         //Debug.Log(possibleItems.Count);
-        ItemManager.instance.CreatePossibleItemsButtons();
+        ItemManager.instance.GICreatePossibleItemsButtons();
     }
 
     private bool IsEnoughItems(Recipe recipe, List<Item> inventoryItems)

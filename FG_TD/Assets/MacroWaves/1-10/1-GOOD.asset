@@ -15,20 +15,25 @@ MonoBehaviour:
   microwaves:
   - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
       type: 3}
-    enemyCount: 13
-    nextDelay: 1
+    enemyCount: 14
+    nextDelay: 2
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
       type: 3}
     enemyCount: 7
     nextDelay: 1
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
       type: 3}
     enemyCount: 7
     nextDelay: 7
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: c8ba5b4b37ffa394cb224eb40554d47d,
       type: 3}
     enemyCount: 15
     nextDelay: 0
+    nextIsSimultaneous: 0
   nextMacroWave: {fileID: 11400000, guid: e30288657d461d745bf4ca49a4dbde06, type: 2}
-  moneyGain: 20
+  moneyGain: 35
   manaGain: 10
+  essenceGain: 0

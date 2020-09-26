@@ -17,30 +17,38 @@ MonoBehaviour:
       type: 3}
     enemyCount: 4
     nextDelay: 1
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
       type: 3}
     enemyCount: 22
     nextDelay: 9
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: c05e48de3afb60d4b99742c61626c85d,
       type: 3}
     enemyCount: 12
     nextDelay: 1
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
       type: 3}
     enemyCount: 12
     nextDelay: 1
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
       type: 3}
     enemyCount: 12
     nextDelay: 2
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
       type: 3}
     enemyCount: 10
     nextDelay: 12
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 8b885edc6bb74934185db3cca3a37199,
       type: 3}
     enemyCount: 1
     nextDelay: 0
+    nextIsSimultaneous: 0
   nextMacroWave: {fileID: 11400000, guid: d07c6c77303f5ac4690890a3631eafba, type: 2}
-  moneyGain: 50
+  moneyGain: 25
   manaGain: 25
+  essenceGain: 0

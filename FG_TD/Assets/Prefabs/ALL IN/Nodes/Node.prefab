@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 7700036339406508951}
   - component: {fileID: -78905230131726449}
   - component: {fileID: 621973298}
+  - component: {fileID: 372512680}
+  - component: {fileID: 1107517143}
+  - component: {fileID: 1439123898}
   m_Layer: 8
   m_Name: Node
   m_TagString: Node
@@ -73,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 53f1c95a5f8b3fe408289e08d9fe412b, type: 3}
-  m_Color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
+  m_Color: {r: 0.52156866, g: 0.4039216, b: 0.69803923, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,14 +98,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c001402465c4f5843af331c1bf6659a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alignment: 1
+  alignment: 2
   cornerAlignment: 0
-  isSpecial: 0
+  isSpecial: 1
   isExternal: 0
   towerColor: {r: 0, g: 0, b: 0, a: 0}
-  hoverColor: {r: 6.712903, g: 7.498038, b: 0.15702698, a: 1}
+  hoverColor: {r: 0.47058824, g: 0.27450982, b: 0.89411765, a: 1}
   notEnoughMoneyColor: {r: 0.8584906, g: 0.21462265, b: 0.21462265, a: 1}
-  selectedColor: {r: 0, g: 9.082411, b: 0, a: 0.59607846}
+  selectedColor: {r: 0.47058824, g: 0.27450982, b: 0.89411765, a: 1}
   ui: {fileID: 0}
   turret: {fileID: 0}
   upgradeMark: {fileID: 4534170299108708092, guid: 8a94f9e8185ff204483b6d661edd56ec,
@@ -132,4 +135,82 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.11640134, y: 0.11522004}
+  m_EdgeRadius: 0
+--- !u!61 &372512680
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3570200350724768271}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.11904762, y: 0.11904762}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.13333334, y: 0.13333334}
+  m_EdgeRadius: 0
+--- !u!61 &1107517143
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3570200350724768271}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.11904762, y: 0.11904762}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.13333334, y: 0.13333334}
+  m_EdgeRadius: 0
+--- !u!61 &1439123898
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3570200350724768271}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.11904762, y: 0.11904762}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.13333334, y: 0.13333334}
   m_EdgeRadius: 0

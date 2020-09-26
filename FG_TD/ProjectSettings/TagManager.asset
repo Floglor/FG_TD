@@ -21,7 +21,7 @@ TagManager:
   - 
   - 
   - Node
-  - 
+  - UILMAO
   - 
   - 
   - 
@@ -47,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 3457845645
     locked: 0

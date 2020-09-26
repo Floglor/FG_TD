@@ -45,7 +45,7 @@ namespace Shooting
 
             isMineBlownOff = true;
 
-            if (!isChainLighting)
+            if (!isChainLightning)
             {
                 Destroy(gameObject);
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using Items;
 using MyBox;
 using UI;
@@ -38,7 +37,85 @@ namespace Managers
         public Canvas possibleItemsCanvas;
         public Button possibleItemBTNPrefab;
         public List<Button> possibleItemsButtons;
+        public List<Recipe> possibleRecipes { get; set; }
+        private List<Item> savedItems { get; set; }
+        public List<Inventory> allInventories;
+        public int maxInventoryCapacity;
 
+        
+        public void ClearPossibleItems()
+        {
+            possibleRecipes.Clear();
+            ClearPossibleItemsButtons();
+        }
+        
+        private bool IsEnoughItems(Recipe recipe, List<Item> inventoryItems)
+        {
+            Dictionary<string, int> itemMap = new Dictionary<string, int>();
+            foreach (Item recipeItem in recipe.combination)
+            {
+                if (itemMap.ContainsKey(recipeItem.name))
+                {
+                    itemMap[recipeItem.name]++;
+                }
+                else
+                {
+                    itemMap.Add(recipeItem.name, 1);
+                }
+            }
+
+
+            return !(from keyValuePair in itemMap
+                let count = inventoryItems.Where(inventoryItem => inventoryItem != null).Count(inventoryItem => inventoryItem.name == keyValuePair.Key)
+                where keyValuePair.Value > count select keyValuePair).Any();
+        }
+
+        public void SeekForBiggestInventory()
+        {
+            maxInventoryCapacity = 0;
+            foreach (Inventory inventory in allInventories.Where(inventory => inventory.capacity > maxInventoryCapacity))
+            {
+                maxInventoryCapacity = inventory.capacity;
+            }
+        }
+        public void GICheckForPossibleRecipes()
+        {
+            ClearPossibleItems();
+            SeekForBiggestInventory();
+            //if (capacity <= GetItemsCount()) return;
+
+            if (freeItems.Count == 1) return;
+
+            savedItems = new List<Item>();
+
+            foreach (Recipe recipe in instance.recipes)
+            {
+                if (recipe == null) return;
+                if (recipe.combination.Count > maxInventoryCapacity) return;
+                
+                if (recipe.combination.Count <= freeItems.Count)
+                {
+                    bool combinationFound = true;
+                    foreach (Item recipeItem in recipe.combination)
+                    {
+                        if (!freeItems.Contains(recipeItem))
+                        {
+                            combinationFound = false;
+                            break;
+                        }
+                    }
+
+                    if (!combinationFound) continue;
+                
+                    if (!possibleRecipes.Contains(recipe) && IsEnoughItems(recipe, freeItems))
+                        possibleRecipes.Add(recipe);
+                }
+            }
+
+
+            //Debug.Log(possibleItems.Count);
+            GICreatePossibleItemsButtons();
+        }
         public void InvokeInventory(Inventory inventory)
         {
             //TODO: more of a good optimization 
@@ -70,6 +147,8 @@ namespace Managers
             }
         }
 
+        
+            
         public void ClearInventoryPanels()
         {
             if (currentInventory != null)
@@ -83,16 +162,15 @@ namespace Managers
             inventoryPanels.Clear();
         }
 
-        public void CreatePossibleItemsButtons()
+        public void GICreatePossibleItemsButtons()
         {
-            if (currentInventory == null) return;
-            
-            foreach (Recipe possibleItem in currentInventory.possibleRecipes)
+
+            foreach (Recipe possibleItem in possibleRecipes)
             {
                 Button button = Instantiate(possibleItemBTNPrefab, possibleItemsCanvas.transform);
                 button.image.sprite = possibleItem.result.itemImage;
                 possibleItemsButtons.Add(button);
-                button.onClick.AddListener(delegate { CraftItem(possibleItem); });
+                button.onClick.AddListener(delegate { GICraftItem(possibleItem); });
                 
             }
         }
@@ -107,18 +185,57 @@ namespace Managers
             possibleItemsButtons.Clear();
         }
 
-        private void CraftItem(Recipe possibleItem)
+        private void GICraftItem(Recipe possibleItem)
         {
             foreach (Item item in possibleItem.combination)
             {
-                currentInventory.DeleteItem(item.itemID);
+                GIDeleteItem(item.itemID);
             }
 
             //Debug.Log(FindFirstFreeInventorySlot());
-            CreateItemInSlot(possibleItem.result, FindFirstFreeInventorySlot());
+            CreateItemInSlot(possibleItem.result, GIFindFirstFreeInventorySlot());
 
-            currentInventory.ClearPossibleItems();
-            currentInventory.CheckForPossibleRecipes();
+            ClearPossibleItems();
+            GICheckForPossibleRecipes();
+            
+        }
+        
+        public void GIDeleteItem(int itemID)
+        {
+            //Debug.Log($"Item count: {GetItemsCount()}");
+
+            for (int i = 0; i < freeItems.Count; i++)
+            {
+                if (freeItems[i] == null) continue;
+                if (itemID != freeItems[i].itemID) continue;
+
+
+                // Debug.Log($"*E*: {i}");
+
+                GameObject instanceInventoryPanel = freeItemSlots[i];
+
+                ItemSlot itemSlot = instanceInventoryPanel.GetComponent<ItemSlot>();
+
+
+                if (itemSlot.item != null && itemSlot.item.itemID == itemID)
+                {
+                    if (instanceInventoryPanel.GetAllChildren().IsNullOrEmpty())
+                    {
+                        Debug.LogError("DELETE ITEM: instanceInventoryPanel: NO CHILDREN");
+                    }
+
+                    //   Debug.Log(
+                    //       $"deleting item{instanceInventoryPanel.GetAllChildren()[0].GetComponent<ItemDragNDrop>().item}");
+                    foreach (Transform child in instanceInventoryPanel.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+                
+                freeItems[i] = null;
+                itemSlot.item = null;
+                break;
+            }
         }
 
 
@@ -133,6 +250,9 @@ namespace Managers
             //allItems = new List<Item>();
             recipes = new List<Recipe>();
             freeItems = new List<Item> {Capacity = FreeItemsCapacity};
+            savedItems = new List<Item>();
+            possibleRecipes = new List<Recipe>();
+            allInventories = new List<Inventory>();
             possibleItemsButtons = new List<Button>();
 
             inventoryPanels = new List<GameObject>();
@@ -187,7 +307,14 @@ namespace Managers
         }
 
 
-        public void GetItem(int i)
+        public void GetItemByArgument(Item item)
+        {
+            GameObject itemSlot = FindFirstFreeItemSlot();
+            CreateItemInSlot(item, itemSlot);
+            GICheckForPossibleRecipes();
+        }
+        
+        public void GetItemByNumber(int i)
         {
            // Debug.Log("getting random item");
             GameObject itemSlot = FindFirstFreeItemSlot();
@@ -197,6 +324,7 @@ namespace Managers
                 Item item = allItems[i];
 
                 CreateItemInSlot(item, itemSlot);
+                GICheckForPossibleRecipes();
             }
             else
             {
@@ -241,8 +369,8 @@ namespace Managers
                 currentInventory.items[index] = item;
                 currentInventory.ApplyEffects(item);
             }
-
-
+            
+            GICheckForPossibleRecipes();
             // Debug.Log(itemPanel.GetComponent<RectTransform>().localScale);
         }
 
@@ -251,9 +379,9 @@ namespace Managers
             return freeItemSlots.FirstOrDefault(freeItemSlot => freeItemSlot.GetComponent<ItemSlot>().item == null);
         }
         
-        private GameObject FindFirstFreeInventorySlot()
+        private GameObject GIFindFirstFreeInventorySlot()
         {
-            foreach (GameObject freeItemSlot in inventoryPanels)
+            foreach (GameObject freeItemSlot in freeItemSlots)
             {
                 if (freeItemSlot.GetComponent<ItemSlot>().item == null) return freeItemSlot;
             }
@@ -296,21 +424,32 @@ namespace Managers
         public void OpenCloseAllItemsMenu()
         {
             allItemsCanvas.enabled = !allItemsCanvas.isActiveAndEnabled;
-        }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            for (int i = 0; i < 2; i++)
+            if (allItemsCanvas.isActiveAndEnabled)
             {
-                GetItem(i);  
-                GetItem(i);
+                GICheckForPossibleRecipes();
+            }
+            else
+            {
+                ClearPossibleItemsButtons();
             }
         }
 
-        // Update is called once per frame
-        void Update()
+       
+        
+        void Start()
         {
+            /*for (int i = 0; i < 2; i++)
+            {
+                GetItemByNumber(i);  
+                GetItemByNumber(i);
+            }*/
+            
+            
+            
         }
+        
+
+       
     }
 }

@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 6716770814947315874}
   - component: {fileID: 4717275212869967397}
   - component: {fileID: 4222570282522699834}
+  - component: {fileID: -7382684588025215758}
   m_Layer: 2
   m_Name: TestingPinar
   m_TagString: Tower
@@ -231,6 +232,7 @@ MonoBehaviour:
   startingFireRate: 0.75
   startAOE: 0
   startDamage: 5
+  damage: 0
   startDisruption: 0
   disruption: 0
   bulletSpeed: 10
@@ -241,69 +243,79 @@ MonoBehaviour:
   firePoint: {fileID: 2104791701685128098}
   upgradeVariants:
   - {fileID: 11400000, guid: f965ad0a410fadd45ba2646ee04f5180, type: 2}
-  isLinearAOE: 0
+  isLinearAOE: 1
   linearAOEProjectile: {fileID: 0}
   startLinearTravelDistance: 0
   linearTravelDistance: 0
   startingLinearTravelSpeed: 0
-  isMagical: 0
-  isPenetrative: 0
+  isMagical: 1
+  isPenetrative: 1
   startPenetration: 0
   penetration: 0
-  isGroundType: 0
-  isRay: 0
+  isGroundType: 1
+  isRay: 1
   hitEffect: {fileID: 0}
-  isSplitshot: 0
+  isSplitshot: 1
   startSplitshotTargetCount: 3
-  splitshotTargetCount: 0
   isChainLighting: 1
   startChainLength: 5
   startChainSeekRadius: 2
-  chainSeekRadius: 2
-  isAura: 0
+  isAura: 1
   startAuraRadius: 0
   auraRadius: 0
-  isSlowing: 0
+  isSlowing: 1
   startSlowingAuraPercentage: 0
   slowingAuraPercentage: 0
-  isSnaring: 0
+  isSnaring: 1
   startSnaringStrength: 0
   snaringStrength: 0
-  isAffectingTowers: 0
-  isAttackBuffAura: 0
+  isAffectingTowers: 1
+  isAttackBuffAura: 1
   flatAttackBuff: 0
+  auraAffectsPenDamage: 1
+  auraAffectsOnlyPen: 1
+  auraAffectsDisruptionDamage: 1
+  auraAffectsOnlyDisruption: 1
   percentageAttackBuff: 0
-  isAttackSpeedBuffAura: 0
+  isAttackSpeedBuffAura: 1
   flatAttackSpeedBuff: 0
   percentageAttackSpeedBuff: 0
-  isRadiusBuff: 0
+  isRadiusBuff: 1
+  radiusBuffFlat: 0
   radiusBuffPercentage: 0
-  isMineTrap: 0
+  isMineTrap: 1
   mineCountOneSide: 0
   mineAOE: 0
   mineSpawnPerWave: 0
   waveCounterMineSpawn: 0
   mineGameObject: {fileID: 0}
   blowEffect: {fileID: 0}
-  isDOT: 0
+  isFreeEssenceGain: 1
+  essenceGainAmount: 0
+  isEnemySuckGain: 1
+  maxSuckAmount: 0
+  isFullOfEssence: 0
+  suckAOE: 0
+  suckAmount: 0
+  isDOT: 1
   startDOTDamage: 0
   dOTDamage: 0
   startingDOTPenetration: 0
   dOTPenetration: 0
-  dOTMagical: 0
+  dOTMagical: 1
   startingDOTUniqueIdentifier: 
   dOTUniqueIdentifier: 
   startDotDuration: 0
   dotDuration: 0
   startDebuffTickFrequency: 0
   debuffTickFrequency: 0
-  isDOTSlowing: 0
-  isStackable: 0
-  updatesCooldown: 0
+  isDOTSlowing: 1
+  isStackable: 1
+  updatesCooldown: 1
   startDotSlowRate: 0
   dotSlowRate: 0
-  isRoundAttacking: 0
-  oneShotTargetFist: 0
+  isRoundAttacking: 1
+  oneShotTargetFist: 1
   targetPriority: 0
   shootingMode: 0
   isHoldingTarget: 0
@@ -316,6 +328,7 @@ MonoBehaviour:
   editorShowExternalBuffs: 0
   externalStatsBoostFloat: []
   externalStatsBoostInt: []
+  shootEffect: {fileID: 0}
 --- !u!58 &4717275212869967397
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -353,6 +366,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-7382684588025215758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373355419225571022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3653348cb2a7df24da615657df765345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 1
+  items: []
 --- !u!1 &6949369866644763230
 GameObject:
   m_ObjectHideFlags: 0

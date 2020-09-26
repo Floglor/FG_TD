@@ -18,7 +18,12 @@ namespace Shooting
 
         public bool isSpawnedWithSkill;
         public Vector3 spawnCoordinatesChainLightning;
-     
+
+        private GameObject lightningGO;
+        private GameObject firstLightningPoint;
+        private GameObject secondLightningPoint;
+
+        private byte lightningOrder;
 
 
         //private bool chainLightingStarted;
@@ -34,15 +39,17 @@ namespace Shooting
         {
             //Debug.Log(effects.Count);
             ApplyEffectStatChanges();
-            
+
             isMine = false;
             isMineBlownOff = false;
 
-            if (isChainLighting)
+            if (isChainLightning)
             {
                 gameObject.GetComponent<SpriteRenderer>().color = Color.clear;
                 damagedEnemies = new List<Transform>();
-                sprites = Resources.LoadAll<Sprite>("Graphics/" + lightingTextures.name);
+
+                //sprites = Resources.LoadAll<Sprite>("Graphics/" + lightningTextures.name);
+
                 pauseTimeCurrent = GraphicPauseTime;
                 previousTarget = target;
                 if (target == null)
@@ -78,7 +85,7 @@ namespace Shooting
             {
                 if (isMineBlownOff)
                 {
-                    if (isChainLighting)
+                    if (isChainLightning)
                     {
                         if (ChainUpdate()) return;
                         return;
@@ -87,7 +94,7 @@ namespace Shooting
             }
             else
             {
-                if (isChainLighting)
+                if (isChainLightning)
                 {
                     if (ChainUpdate()) return;
                     return;
@@ -163,6 +170,10 @@ namespace Shooting
                 {
                     if (colliderTwoDee.gameObject == previousTarget.gameObject) continue;
                 }
+                else
+                {
+                    Destroy(lightningGO);
+                }
 
                 float distanceToEnemy = Vector2.Distance(prevTargetPosition,
                     colliderTwoDee.transform.position);
@@ -180,11 +191,12 @@ namespace Shooting
                 Vector3 closestEnemyPosition = closestEnemyPosition1;
                 if (previousTarget != null)
                 {
-                    SpawnLightingTexture(previousTarget.transform.position, closestEnemyPosition);
+                    SpawnLightingTexture(previousTarget.transform, closestEnemy.transform);
                 }
                 else
                 {
-                    SpawnLightingTexture(prevTargetPosition, closestEnemyPosition);
+                    //SpawnLightingTexture(prevTargetPosition, closestEnemyPosition);
+                    MoveLightningTexture(closestEnemyPosition);
                 }
 
                 previousTarget = closestEnemy.transform;
@@ -197,55 +209,138 @@ namespace Shooting
             }
             else
             {
+                Destroy(lightningGO);
                 Destroy(gameObject);
             }
         }
 
+        private void SpawnLightingTexture(Transform previousTargetTransform, Transform closestEnemyTransform)
+        {
+            Vector3 firstPoint = previousTargetTransform.position;
+            Vector3 secondPoint = closestEnemyTransform.position;
+
+            lightningOrder = 1;
+
+            if (isChainLightning)
+                lightning = PlayerStats.instance.lightning;
+
+            if (lightningGO != null)
+            {
+                Destroy(lightningGO);
+            }
+
+            lightningGO = Instantiate(
+                lightning,
+                new Vector3(0, 0, -100),
+                Quaternion.identity);
+
+            List<GameObject> lightObjects = lightningGO.GetAllChildren();
+
+
+            firstLightningPoint = lightObjects[0];
+            secondLightningPoint = lightObjects[1];
+
+            firstLightningPoint.transform.position = firstPoint;
+            firstLightningPoint.transform.parent = previousTargetTransform;
+            previousTargetTransform.GetComponent<Enemy>().lightningPoints.Add(firstLightningPoint);
+            secondLightningPoint.transform.position = secondPoint;
+            closestEnemyTransform.GetComponent<Enemy>().lightningPoints.Add(secondLightningPoint);
+            secondLightningPoint.transform.parent = closestEnemyTransform;
+
+            GameObject beam1 = Instantiate(PlayerStats.instance.lightningBeam, firstLightningPoint.transform.position,
+                Quaternion.identity,
+                previousTargetTransform);
+            GameObject beam2 = Instantiate(PlayerStats.instance.lightningBeam, secondLightningPoint.transform.position,
+                Quaternion.identity,
+                closestEnemyTransform);
+
+            Destroy(beam1, 1f);
+            Destroy(beam2, 1f);
+            Destroy(lightningGO, GraphicPauseTime);
+        }
+
+
+        private void MoveLightningTexture(Vector3 closestEnemyPosition)
+        {
+            if (firstLightningPoint == null || secondLightningPoint == null)
+                return;
+
+            if (lightningOrder == 1)
+            {
+                firstLightningPoint.transform.position = closestEnemyPosition;
+                lightningOrder = 2;
+            }
+            else
+            {
+                secondLightningPoint.transform.position = closestEnemyPosition;
+                lightningOrder = 1;
+            }
+        }
 
         private void SpawnLightingTexture(Vector3 firstPoint, Vector3 secondPoint, bool firstTime = false)
         {
-            firstPoint.z = 0;
-            secondPoint.z = 0;
+            /* firstPoint.z = 0;
+             secondPoint.z = 0;
+ 
+             // Debug.Log($@"firstPoint = {firstPoint}, secondPoint = {secondPoint}");
+             float firstToSecondVectorDistance = Vector3.Distance(firstPoint, secondPoint);
+             Vector2 dir = secondPoint - firstPoint;
+ 
+             Vector3 spawnPoint = (firstPoint + secondPoint) / 2;
+ 
+             spawnPoint.z = -100;*/
 
-            // Debug.Log($@"firstPoint = {firstPoint}, secondPoint = {secondPoint}");
-            float firstToSecondVectorDistance = Vector3.Distance(firstPoint, secondPoint);
-            Vector2 dir = secondPoint - firstPoint;
+            lightningOrder = 1;
 
-            Vector3 spawnPoint = (firstPoint + secondPoint) / 2;
+            if (isChainLightning)
+                lightning = PlayerStats.instance.lightning;
 
-            spawnPoint.z = -100;
-
-
-            GameObject go = Instantiate(
-                spritePrefab,
-                spawnPoint,
-                Quaternion.identity);
-
-            go.transform.up = dir.normalized;
-
-            SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
-            if (spriteRenderer == null)
+            if (lightningGO != null)
             {
-                Debug.LogError("GO = NULL");
+                Destroy(lightningGO);
             }
 
-            spriteRenderer.sprite = sprites[(int) Random.Range(1f, 8f)];
+            lightningGO = Instantiate(
+                lightning,
+                new Vector3(0, 0, -100),
+                Quaternion.identity);
 
-            Vector3 transformLocalScale = go.transform.localScale;
-
-
-            transformLocalScale.x = 1f;
-            transformLocalScale.y = firstToSecondVectorDistance;
-
-
-            go.transform.localScale = transformLocalScale;
+            List<GameObject> lightObjects = lightningGO.GetAllChildren();
 
 
-            //Debug.Log(firstToSecondVectorDistance);
+            firstLightningPoint = lightObjects[0];
+            secondLightningPoint = lightObjects[1];
 
-            //if (firstTime) firstToSecondVectorDistance /= 2.95f;
-            //ConvertDistanceToScale(go, firstToSecondVectorDistance);
-            Destroy(go, 0.2f);
+            firstLightningPoint.transform.position = firstPoint;
+            secondLightningPoint.transform.position = secondPoint;
+
+
+            /* go.transform.up = dir.normalized;
+ 
+             SpriteRenderer spriteRenderer = go.GetComponent<SpriteRenderer>();
+             if (spriteRenderer == null)
+             {
+                 Debug.LogError("GO = NULL");
+             }
+ 
+             spriteRenderer.sprite = sprites[(int) Random.Range(1f, 8f)];
+ 
+             Vector3 transformLocalScale = go.transform.localScale;
+ 
+ 
+             transformLocalScale.x = 1f;
+             transformLocalScale.y = firstToSecondVectorDistance;
+ 
+ 
+             go.transform.localScale = transformLocalScale;
+ 
+ 
+             //Debug.Log(firstToSecondVectorDistance);
+ 
+             //if (firstTime) firstToSecondVectorDistance /= 2.95f;
+             //ConvertDistanceToScale(go, firstToSecondVectorDistance);
+             Destroy(go, 0.2f);
+             */
         }
 
         public void ConvertDistanceToScale(GameObject go, float distance)
@@ -347,28 +442,7 @@ namespace Shooting
             }
         }
 
-
-        public void Damage(GameObject enemy, bool magical)
-        {
-            Destroy(gameObject);
-            if (enemy != null)
-            {
-                Enemy enemyObj = enemy.GetComponent<Enemy>();
-
-                if (isDamaging) CheckAndApplyDot(enemyObj);
-
-                if (isPenetrative)
-                    enemyObj.TakeDamage(damage, penetration, disruption);
-                else enemyObj.TakeDamage(damage, magical, disruption);
-
-                if (motherTower != null)
-                {
-                    motherTower.damageTotal += damage;
-                }
-
-                //motherTower.showTotalDamage();
-            }
-        }
+        
 
 
         private void OnDrawGizmosSelected()

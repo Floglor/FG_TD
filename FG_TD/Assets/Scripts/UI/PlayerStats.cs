@@ -20,15 +20,15 @@ public class PlayerStats : MonoBehaviour
     public int startLives = 30;
 
     public static readonly float NodeWidth = 0.875f;
-    
+
     public int startMana;
     public int maxMana;
     public int Mana;
 
     public int maxEssences;
     public int startEssences;
-    public int Essences;
-    
+    public static int Essences;
+
     public static int enemiesAlive;
 
     public static PlayerStats instance;
@@ -37,18 +37,20 @@ public class PlayerStats : MonoBehaviour
     public List<TowerAI> towers { get; set; }
     public Spell chargedSpell { get; set; }
     public Consumable chargedConsumable { get; set; }
-    
-    
-    [Range(0, 100)]
-    public int sellingPercentage;
 
-    [Header("GLOBAL VALUES")]
-    public int disruptionMultiplier;
-    
-    [Header("GLOBAL VISUAL EFFECTS")]
-    public GameObject shieldHitEffect;
+
+    [Range(0, 100)] public int sellingPercentage;
+
+    [Header("GLOBAL VALUES")] public int disruptionMultiplier;
+
+    public float flightSpeedBuffFlat;
+    [Range(0, 100)] public int flightSpeedBuffPercentage;
+
+    [Header("GLOBAL VISUAL EFFECTS")] public GameObject shieldHitEffect;
     public GameObject shieldBreakEffect;
     public GameObject shield;
+    public GameObject lightning;
+    public GameObject lightningBeam;
 
     [Header("Unity Specific")] public Image manaBar;
 
@@ -57,11 +59,24 @@ public class PlayerStats : MonoBehaviour
     public TextMeshProUGUI gameSpeedText;
 
     public int gameSpeedMultiplier { get; set; }
+
+    [Header("GLOBAL ALIGNMENT MVSP CHANGE")]
     
+    public float smallMVSPDifferenceBarrier;
+    [Range(0, 100)] public int smallMVSPChangePercent;
+
+    public float mediumMVSPDifferenceBarrier;
+    [Range(0, 100)] public int mediumMVSPChangePercent;
+
+    public float bossMVSPDifferenceBarrier;
+    [Range(0, 100)] public int bossMVSPChangePercent;
+
+    public float uniqueMVSPDifferenceBarrier;
+    [Range(0, 100)] public int uniqueMVSPChangePercent;
+
 
     private void Awake()
     {
-        
         towers = new List<TowerAI>();
         gameSpeedText.text = "1x";
         gameSpeedMultiplier = 1;
@@ -74,25 +89,22 @@ public class PlayerStats : MonoBehaviour
 
         instance = this;
 
-        foreach (GameObject spell in spells)
-        {
-            
-            Button newButton = Instantiate(spell.GetComponent<Spell>().buttonPrefab, panel.transform, false);
-            Button buttonComponent = newButton.GetComponent<Button>();
+        if (spells != null)
+            foreach (GameObject spell in spells)
+            {
+                Button newButton = Instantiate(spell.GetComponent<Spell>().buttonPrefab, panel.transform, false);
+                Button buttonComponent = newButton.GetComponent<Button>();
 
-            buttonComponent.onClick.AddListener(delegate { ChargeSpell(spell.GetComponent<Spell>()); });
-        }
-        
+                buttonComponent.onClick.AddListener(delegate { ChargeSpell(spell.GetComponent<Spell>()); });
+            }
+
         foreach (GameObject consumable in consumables)
         {
-            
             Button newButton = Instantiate(consumable.GetComponent<Consumable>().buttonPrefab, panel.transform, false);
             Button buttonComponent = newButton.GetComponent<Button>();
 
             buttonComponent.onClick.AddListener(delegate { ChargeConsumable(consumable.GetComponent<Consumable>()); });
         }
-        
-        
     }
 
     private void Start()
@@ -106,7 +118,7 @@ public class PlayerStats : MonoBehaviour
 
     public bool SpendMoney(int cost)
     {
-        if(cost > 0)
+        if (cost > 0)
             if (Money < cost)
                 return false;
 
@@ -114,7 +126,7 @@ public class PlayerStats : MonoBehaviour
         return true;
     }
 
-    public  bool SpendEssences(int cost)
+    public bool SpendEssences(int cost)
     {
         if (cost > 0)
             if (Essences < cost)
@@ -161,6 +173,7 @@ public class PlayerStats : MonoBehaviour
         chargedConsumable = consumable;
         Debug.Log($"{consumable.name} consumable charged");
     }
+
     public void CancelConsumable()
     {
         chargedConsumable = null;
@@ -185,11 +198,10 @@ public class PlayerStats : MonoBehaviour
     public void GameSpeedDown()
     {
         if (gameSpeedMultiplier == 1) return;
-        
+
         gameSpeedMultiplier--;
         gameSpeedText.text = gameSpeedMultiplier + "x";
-        
+
         ReinvokeTowers();
     }
-    
 }

@@ -13,22 +13,87 @@ MonoBehaviour:
   m_Name: 8
   m_EditorClassIdentifier: 
   microwaves:
-  - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
-      type: 3}
-    enemyCount: 35
-    nextDelay: 10
-  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
+  - enemyType: {fileID: 6702962538568995052, guid: 570b632dfa9a8e64497a4d68132e87ef,
       type: 3}
     enemyCount: 1
-    nextDelay: 20
-  - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
+    nextDelay: 5
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 570b632dfa9a8e64497a4d68132e87ef,
       type: 3}
     enemyCount: 1
-    nextDelay: 20
-  - enemyType: {fileID: 6702962538568995052, guid: 8b885edc6bb74934185db3cca3a37199,
+    nextDelay: 5
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: c05e48de3afb60d4b99742c61626c85d,
       type: 3}
     enemyCount: 2
     nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 0de9604b957786a45846b9f158aeef47,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: c05e48de3afb60d4b99742c61626c85d,
+      type: 3}
+    enemyCount: 3
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 0de9604b957786a45846b9f158aeef47,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: c05e48de3afb60d4b99742c61626c85d,
+      type: 3}
+    enemyCount: 3
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 0de9604b957786a45846b9f158aeef47,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: c05e48de3afb60d4b99742c61626c85d,
+      type: 3}
+    enemyCount: 3
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 0de9604b957786a45846b9f158aeef47,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: c05e48de3afb60d4b99742c61626c85d,
+      type: 3}
+    enemyCount: 3
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 0de9604b957786a45846b9f158aeef47,
+      type: 3}
+    enemyCount: 1
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: c05e48de3afb60d4b99742c61626c85d,
+      type: 3}
+    enemyCount: 2
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 0de9604b957786a45846b9f158aeef47,
+      type: 3}
+    enemyCount: 2
+    nextDelay: 0
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: c8ba5b4b37ffa394cb224eb40554d47d,
+      type: 3}
+    enemyCount: 15
+    nextDelay: 0
+    nextIsSimultaneous: 1
+  - enemyType: {fileID: 6702962538568995052, guid: c8ba5b4b37ffa394cb224eb40554d47d,
+      type: 3}
+    enemyCount: 15
+    nextDelay: 0
+    nextIsSimultaneous: 0
   nextMacroWave: {fileID: 11400000, guid: 05c0d0c2ea6fbd84db3761b9aa543dfe, type: 2}
-  moneyGain: 30
+  moneyGain: 35
   manaGain: 35
+  essenceGain: 0

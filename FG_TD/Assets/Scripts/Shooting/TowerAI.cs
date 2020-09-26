@@ -17,7 +17,7 @@ namespace Shooting
         public int instanceId { get; set; }
         public bool isTimed { get; set; }
         public bool isPercentage;
-        public bool isFromAura { get; set; }
+        public bool isFromAura { get; set; }    
 
         protected Modifier(int instanceId, bool isTimed, bool isPercentage, bool isFromAura)
         {
@@ -104,7 +104,7 @@ namespace Shooting
         [FormerlySerializedAs("aOE")] public float startAOE;
         public float aoe { get; set; }
         [FormerlySerializedAs("damage")] public int startDamage;
-        public int damage { get; set; }
+        public int damage;
 
         public int startDisruption;
         public int disruption;
@@ -176,10 +176,10 @@ namespace Shooting
 
         public int chainLength { get; set; }
 
-        [FormerlySerializedAs("chainSeekRadius")] [ConditionalField(nameof(isChainLighting))]
+        [ConditionalField(nameof(isChainLighting))]
         public float startChainSeekRadius;
 
-        public float chainSeekRadius;
+        public float chainSeekRadius { get; set; }
 
         [Header("Aura")] public bool isAura;
 
@@ -212,13 +212,25 @@ namespace Shooting
         public int flatAttackBuff;
 
         [ConditionalField(nameof(isAttackBuffAura))]
+        public bool auraAffectsPenDamage;
+        
+        [ConditionalField(nameof(auraAffectsPenDamage))]
+        public bool auraAffectsOnlyPen;
+        
+        [ConditionalField(nameof(isAttackBuffAura))]
+        public bool auraAffectsDisruptionDamage;
+        
+        [ConditionalField(nameof(auraAffectsDisruptionDamage))]
+        public bool auraAffectsOnlyDisruption;
+
+        [ConditionalField(nameof(isAttackBuffAura))]
         public int percentageAttackBuff;
 
         [ConditionalField(nameof(isAffectingTowers))]
         public bool isAttackSpeedBuffAura;
 
         [ConditionalField(nameof(isAttackSpeedBuffAura))]
-        public int flatAttackSpeedBuff;
+        public float flatAttackSpeedBuff;
 
         [ConditionalField(nameof(isAttackSpeedBuffAura))]
         public int percentageAttackSpeedBuff;
@@ -227,6 +239,8 @@ namespace Shooting
         [ConditionalField(nameof(isAffectingTowers))]
         public bool isRadiusBuff;
 
+        [ConditionalField(nameof(isRadiusBuff))]
+        public int radiusBuffFlat;
         [ConditionalField(nameof(isRadiusBuff))]
         public int radiusBuffPercentage;
 
@@ -239,6 +253,20 @@ namespace Shooting
         public int waveCounterForMines { get; set; }
         [ConditionalField(nameof(isMineTrap))] public GameObject mineGameObject;
         [ConditionalField(nameof(isMineTrap))] public GameObject blowEffect;
+
+        [Header("EssenceGain")]
+        public bool isFreeEssenceGain;
+
+        [ConditionalField(nameof(isFreeEssenceGain))]
+        public int essenceGainAmount;
+        
+        public bool isEnemySuckGain;
+
+        [ConditionalField(nameof(isEnemySuckGain))] public int maxSuckAmount;
+
+        [ConditionalField(nameof(isEnemySuckGain))] public bool isFullOfEssence;
+        [ConditionalField(nameof(isEnemySuckGain))] public float suckAOE;
+        [ConditionalField(nameof(isEnemySuckGain))] public int suckAmount;
 
         private List<Vector2> mineSpots;
         private List<Rail> railListForMines;
@@ -309,28 +337,17 @@ namespace Shooting
         public int damageTotal { get; set; }
         public int totalCost;
 
-        [Header("Buff Relation Logic")] public bool notAffectedByAttackAuras;
+        [Header("Buff Relation Logic (NOT USED)")] public bool notAffectedByAttackAuras;
         public bool notAffectedByAttackSpeedAuras;
         public bool notAffectedByRadiusAuras;
 
-        private int totalAttackBuffFlat;
-        private int totalAttackBuffPercentage;
-        public List<AttackBuffInstance> currentAttackBuffs { get; set; }
-
-        private float totalAttackSpeedBuffFlat;
-        private int totalAttackSpeedBuffPercentage;
-        public List<AttackSpeedBuffInstance> currentAttackSpeedBuffs { get; set; }
-
-        public List<RadiusBuffInstance> currentRadiusBuffInstances { get; set; }
 
         public List<IntegerTowerBuff> integerTowerBuffs { get; set; }
         public List<IntegerTowerDebuff> integerTowerDebuffs { get; set; }
         public List<FloatTowerBuff> floatTowerBuffs { get; set; }
         public List<FloatTowerDebuff> floatTowerDebuffs { get; set; }
 
-
-        private float totalRadiusBuffFlat;
-        private int totalRadiusBuffPercentage;
+        
 
         private int id;
 
@@ -359,9 +376,6 @@ namespace Shooting
 
 
             PlayerStats.instance.towers.Add(this);
-            currentAttackBuffs = new List<AttackBuffInstance>();
-            currentAttackSpeedBuffs = new List<AttackSpeedBuffInstance>();
-            currentRadiusBuffInstances = new List<RadiusBuffInstance>();
 
             //short
             waveCounterForMines = 1;
@@ -384,6 +398,7 @@ namespace Shooting
             dOTDamage = startDOTDamage;
             dOTPenetration = startingDOTPenetration;
             dOTUniqueIdentifier = startingDOTUniqueIdentifier;
+            
 
             if (motherNode != null)
                 if (motherNode.isExternal)
@@ -423,14 +438,27 @@ namespace Shooting
                 WaveSpawner.instance.mineTowerList.Add(this);
             }
 
+            if (isFreeEssenceGain || isEnemySuckGain)
+            {
+                WaveSpawner.instance.essenceTowerList.Add(this);
+            }
 
             railListForMines = new List<Rail>();
             treeTransformPosition = tree.transform.position;
-
-            if (isAura)
+            
+            if (!isEnemySuckGain && !(suckAOE > 0))
+            {
+                if (isAura)
+                {
+                    auraCollider = GetComponent<CircleCollider2D>();
+                    auraCollider.radius = auraRadius; //TODO: AuraradiusBuffChange
+                    return;
+                }
+            }
+            else
             {
                 auraCollider = GetComponent<CircleCollider2D>();
-                auraCollider.radius = auraRadius; //TODO: AuraradiusBuffChange
+                auraCollider.radius = suckAOE; //TODO: AuraradiusBuffChange
                 return;
             }
 
@@ -564,6 +592,8 @@ namespace Shooting
                 case Stats.FloatStatName.DOTChangingIdentifier:
                     dOTUniqueIdentifier = startingDOTUniqueIdentifier;
                     string.Concat(dOTUniqueIdentifier, totalStatFlatBuff);
+                    break;
+                case Stats.FloatStatName.None:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(floatStatName), floatStatName,
@@ -800,6 +830,8 @@ namespace Shooting
                         biggestDebuffFlatFromAura, biggestDebuffPercentageFromAura, totalStatFlatDebuff,
                         totalStatPercentageDebuff, findExternalBuff(Stats.IntStatName.Disruption));
                     break;
+                case Stats.IntStatName.None:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(intStatName), intStatName,
                         "Int stat recalculate out of range");
@@ -811,13 +843,13 @@ namespace Shooting
             int biggestDebuffFlatFromAura, int biggestDebuffPercentageFromAura, int totalStatFlatDebuff,
             int totalStatPercentageDebuff, int externalBuff = 0)
         {
-            return (int) ((int) ( //
+            return (int) Math.Round((int) Math.Round( //
                     (stat + totalStatFlatBuff + biggestBuffFlatFromAura - biggestDebuffFlatFromAura -
-                     totalStatFlatDebuff) / 100f *
-                    (100f + totalStatPercentageBuff - totalStatPercentageDebuff)
+                     totalStatFlatDebuff) / 100.0f *
+                    (100.0f + totalStatPercentageBuff - totalStatPercentageDebuff)
                     //
-                    / 100f * (100f + biggestBuffPercentageFromAura - biggestDebuffPercentageFromAura))
-                / 100f * (100f + externalBuff));
+                    / 100.0f * (100.0f + biggestBuffPercentageFromAura - biggestDebuffPercentageFromAura))
+                / 100.0f * (100.0f + externalBuff));
         }
 
         private int FindTotalBuffInt(int statFlatBuffValue, ref int statPercentageBuffValue,
@@ -907,48 +939,7 @@ namespace Shooting
 
             return biggestDebuffFlatFromAura;
         }
-
-        public void RecalculateDamage()
-        {
-            damage = startDamage;
-
-            if (currentAttackBuffs.IsNullOrEmpty()) return;
-
-
-            totalAttackBuffFlat = 0;
-            totalAttackBuffPercentage = 0;
-
-            int totalAttackBuffFlatFromAura = 0;
-            int totalAttackBuffPercentageFromAura = 0;
-
-            totalAttackBuffFlatFromAura =
-                FindBiggestAttackBuffFromAura(totalAttackBuffFlatFromAura, ref totalAttackBuffPercentageFromAura);
-
-
-            FindTotalAttackBuffs();
-
-            if (totalAttackBuffFlat > 0 || totalAttackBuffFlatFromAura > 0)
-                damage += totalAttackBuffFlat + totalAttackBuffFlatFromAura;
-
-            if (totalAttackBuffPercentage > 0 || totalAttackBuffPercentageFromAura > 0)
-                damage += (damage / 100) * (totalAttackBuffPercentage + totalAttackBuffPercentageFromAura);
-
-
-            if (motherNode == null) return;
-
-            if (!motherNode.isExternal) return;
-        }
-
-        private int FindIntegerStat(Stats.IntStatName intStatName)
-        {
-            switch (intStatName)
-            {
-                case Stats.IntStatName.Damage:
-                    return startDamage;
-                default: return int.MinValue;
-            }
-        }
-
+        
 
         public void InvokeRoundAttacking()
         {
@@ -965,145 +956,15 @@ namespace Shooting
             falseCrit.trueCounter = falseCrit.attackCounter;
         }
 
-
-        public void RecalculateAttackSpeed()
-        {
-            fireRate = startingFireRate;
-
-            if (currentAttackSpeedBuffs.IsNullOrEmpty()) return;
-
-
-            totalAttackSpeedBuffFlat = 0;
-            totalAttackSpeedBuffPercentage = 0;
-
-            float totalAttackSpeedBuffFlatFromAura = 0;
-            int totalAttackSpeedBuffPercentageFromAura = 0;
-
-
-            totalAttackSpeedBuffFlatFromAura =
-                FindBiggestAttackSpeedBuffFromAura(totalAttackSpeedBuffFlatFromAura,
-                    ref totalAttackSpeedBuffPercentageFromAura);
-
-            FindTotalAttackSpeedBuffs();
-
-            if (totalAttackSpeedBuffFlat > 0 || totalAttackSpeedBuffFlatFromAura > 0)
-                fireRate += totalAttackSpeedBuffFlat + totalAttackSpeedBuffFlatFromAura;
-
-            if (totalAttackSpeedBuffPercentage > 0 || totalAttackSpeedBuffPercentageFromAura > 0)
-                fireRate += (fireRate / 100) *
-                            (totalAttackSpeedBuffPercentage + totalAttackSpeedBuffPercentageFromAura);
-
-            if (motherNode == null) return;
-        }
-
-        public void RecalculateRadius()
-        {
-            range = startRange;
-
-            if (currentRadiusBuffInstances.IsNullOrEmpty()) return;
-
-
-            totalRadiusBuffPercentage = 0;
-            totalRadiusBuffFlat = 0;
-
-            int totalRadiusBuffPercentageFromAura = 0;
-            float totalRadiusBuffFlatFromAura = 0;
-
-            FindTotalRadiusBuff();
-
-            totalRadiusBuffPercentageFromAura =
-                FindBiggestRadiusBuffFromAura(totalRadiusBuffPercentageFromAura, ref totalRadiusBuffFlatFromAura);
-
-
-            if (totalRadiusBuffFlat > 0 || totalRadiusBuffFlatFromAura > 0)
-                range += totalRadiusBuffFlat + totalRadiusBuffFlatFromAura;
-
-            if (totalRadiusBuffPercentage > 0 || totalRadiusBuffPercentageFromAura > 0)
-                range += (range / 100) * (totalRadiusBuffPercentage + totalRadiusBuffPercentageFromAura);
-        }
-
-        private void FindTotalRadiusBuff()
-        {
-            foreach (RadiusBuffInstance radiusBuffInstance in currentRadiusBuffInstances.Where(radiusBuffInstance =>
-                !radiusBuffInstance.isFromAura))
-            {
-                totalRadiusBuffPercentage += radiusBuffInstance.percentageRadiusBuff;
-                totalRadiusBuffFlat += radiusBuffInstance.flatRadiusBuff;
-            }
-        }
-
-        private void FindTotalAttackSpeedBuffs()
-        {
-            foreach (AttackSpeedBuffInstance attackSpeedBuffInstance in currentAttackSpeedBuffs.Where(
-                attackSpeedBuffInstance =>
-                    !attackSpeedBuffInstance.isFromAura))
-            {
-                totalAttackSpeedBuffFlat += attackSpeedBuffInstance.flatAttackSpeedBuff;
-                totalAttackSpeedBuffPercentage += attackSpeedBuffInstance.percentageAttackSpeedBuff;
-            }
-        }
-
-        private void FindTotalAttackBuffs()
-        {
-            foreach (AttackBuffInstance attackBuffInstance in currentAttackBuffs.Where(attackBuffInstance =>
-                !attackBuffInstance.isFromAura))
-            {
-                totalAttackBuffFlat += attackBuffInstance.flatAttackBuff;
-                totalAttackBuffPercentage += attackBuffInstance.percentageAttackBuff;
-            }
-        }
-
-        private int FindBiggestRadiusBuffFromAura(int percentageRadiusBuffFromAura, ref float flatRadiusBuffFromAura)
-        {
-            flatRadiusBuffFromAura = currentRadiusBuffInstances
-                .Where(currentRadiusBuffInstance => currentRadiusBuffInstance.isFromAura)
-                .Select(currentRadiusBuffInstance => currentRadiusBuffInstance.flatRadiusBuff)
-                .Concat(new[] {flatRadiusBuffFromAura}).Max();
-
-            return currentRadiusBuffInstances.Where(currentRadiusBuffInstance => currentRadiusBuffInstance.isFromAura)
-                .Select(currentRadiusBuffInstance => currentRadiusBuffInstance.percentageRadiusBuff)
-                .Concat(new[] {percentageRadiusBuffFromAura}).Max();
-        }
-
-        private float FindBiggestAttackSpeedBuffFromAura(float totalAttackSpeedBuffFlatFromAura,
-            ref int totalAttackSpeedBuffPercentageFromAura)
-        {
-            foreach (AttackSpeedBuffInstance attackSpeedBuffInstance in currentAttackSpeedBuffs.Where(
-                attackSpeedBuffInstance =>
-                    attackSpeedBuffInstance.isFromAura))
-            {
-                if (totalAttackSpeedBuffFlatFromAura < attackSpeedBuffInstance.flatAttackSpeedBuff)
-                    totalAttackSpeedBuffFlatFromAura = attackSpeedBuffInstance.flatAttackSpeedBuff;
-
-                if (totalAttackSpeedBuffPercentageFromAura < attackSpeedBuffInstance.percentageAttackSpeedBuff)
-                    totalAttackSpeedBuffPercentageFromAura = attackSpeedBuffInstance.percentageAttackSpeedBuff;
-            }
-
-            return totalAttackSpeedBuffFlatFromAura;
-        }
-
-
-        private int FindBiggestAttackBuffFromAura(int totalAttackBuffFlatFromAura,
-            ref int totalAttackBuffPercentageFromAura)
-        {
-            foreach (AttackBuffInstance attackBuffInstance in currentAttackBuffs.Where(attackBuffInstance =>
-                attackBuffInstance.isFromAura))
-            {
-                if (totalAttackBuffFlatFromAura < attackBuffInstance.flatAttackBuff)
-                    totalAttackBuffFlatFromAura = attackBuffInstance.flatAttackBuff;
-
-                if (totalAttackBuffPercentageFromAura < attackBuffInstance.percentageAttackBuff)
-                    totalAttackBuffPercentageFromAura = attackBuffInstance.percentageAttackBuff;
-            }
-
-            return totalAttackBuffFlatFromAura;
-        }
+        
+        
 
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!isAura) return;
-
+           
+            if (!isAura && !isEnemySuckGain) return;
+           
             if (!isAffectingTowers)
             {
                 if (other is CircleCollider2D) return;
@@ -1125,6 +986,11 @@ namespace Shooting
                 if (isDOT)
                 {
                     CheckAndApplyDot(enemy);
+                }
+
+                if (isEnemySuckGain)
+                {
+                    AddEssenceInstance(enemy);
                 }
 
                 Utils.ApplyColliderEntry(enemy,
@@ -1159,10 +1025,32 @@ namespace Shooting
             }
         }
 
+        private void AddEssenceInstance(Enemy enemy)
+        {
+            enemy.essenceAOEInstances.Add(new EssenceAOEInstance(GetInstanceID(), this));
+        }
+
+        public bool GainEssences(int amount)
+        {
+            if (!isEnemySuckGain) return false;
+            if (isFullOfEssence) return false;
+
+            suckAmount += amount;
+
+            if (suckAmount > maxSuckAmount)
+            {
+                isFullOfEssence = true;
+                suckAmount = maxSuckAmount;
+                return true;
+            } 
+            
+            return true;
+        }
+
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (!isAura) return;
+            if (!isAura && !isEnemySuckGain) return;
 
             if (!isAffectingTowers)
             {
@@ -1187,6 +1075,11 @@ namespace Shooting
                     RemoveDOTInstance(enemy);
                 }*/
 
+                if (isEnemySuckGain)
+                {
+                    RemoveEssenceInstance(enemy);
+                }
+
                 Utils.DeleteColliderEntry(enemy, id);
             }
             else
@@ -1197,91 +1090,153 @@ namespace Shooting
 
                 if (isAttackBuffAura)
                 {
-                    RemoveAttackBuffInstance(towerAi);
+                    RemoveBuff(id, Stats.IntStatName.Damage);
                 }
 
                 if (isAttackSpeedBuffAura)
                 {
-                    RemoveAttackSpeedBuffInstance(towerAi);
+                    RemoveBuff(id, Stats.FloatStatName.AttackSpeed);
                 }
 
                 if (isRadiusBuff)
                 {
-                    RemoveRadiusBuffInstance(towerAi);
+                    RemoveBuff(id, Stats.FloatStatName.Range);
+                }
+                
+                
+            }
+        }
+
+        private void RemoveEssenceInstance(Enemy enemy)
+        {
+            for (int i = 0; i < enemy.essenceAOEInstances.Count; i++)
+            {
+                if (enemy.essenceAOEInstances[i].instanceID == GetInstanceID())
+                {
+                    enemy.essenceAOEInstances.RemoveAt(i);
                 }
             }
         }
-
-        private void RemoveRadiusBuffInstance(TowerAI towerAi)
+        
+        public void RemoveBuff(int id, Stats.FloatStatName floatStatName)
         {
-            List<RadiusBuffInstance> radiusBuffInstances = towerAi.currentRadiusBuffInstances;
-
-            for (int i = 0; i < radiusBuffInstances.Count; i++)
+            for (int i = 0; i < floatTowerBuffs.Count; i++)
             {
-                if (radiusBuffInstances[i].instanceId != id) continue;
+                if (floatTowerBuffs[i].instanceId != id) continue;
 
-                radiusBuffInstances.Remove(radiusBuffInstances[i]);
+                floatTowerBuffs.Remove(floatTowerBuffs[i]);
             }
 
-            towerAi.RecalculateRadius();
+            FloatStatRecalculate(floatStatName);;
         }
-
-        private void RemoveAttackSpeedBuffInstance(TowerAI towerAi)
+        
+        public void RemoveBuff(int id, Stats.IntStatName intStatName)
         {
-            List<AttackSpeedBuffInstance> attackSpeedBuffInstances = towerAi.currentAttackSpeedBuffs;
-
-            for (int i = 0; i < attackSpeedBuffInstances.Count; i++)
+            for (int i = 0; i < integerTowerBuffs.Count; i++)
             {
-                if (attackSpeedBuffInstances[i].instanceId != id) continue;
+                if (integerTowerBuffs[i].instanceId != id) continue;
 
-                attackSpeedBuffInstances.Remove(attackSpeedBuffInstances[i]);
+                integerTowerBuffs.Remove(integerTowerBuffs[i]);
             }
 
-            towerAi.RecalculateAttackSpeed();
+            IntegerStatRecalculate(intStatName);;
         }
-
-        private void RemoveAttackBuffInstance(TowerAI towerAi)
-        {
-            List<AttackBuffInstance> attackBuffInstances = towerAi.currentAttackBuffs;
-
-            for (int i = 0; i < attackBuffInstances.Count; i++)
-            {
-                if (attackBuffInstances[i].instanceId != id) continue;
-
-                attackBuffInstances.Remove(attackBuffInstances[i]);
-            }
-
-            towerAi.RecalculateDamage();
-        }
+        
+        
 
         private void ApplyRadiusBuff(TowerAI towerAi)
         {
-            towerAi.currentRadiusBuffInstances.Add(
-                new RadiusBuffInstance(radiusBuffPercentage, id, true, totalRadiusBuffFlat));
+            
+            if (radiusBuffPercentage != 0)
+                towerAi.floatTowerBuffs.Add(new FloatTowerBuff(id, false, true, true, Stats.FloatStatName.Range, radiusBuffPercentage ));
+            
+            if (radiusBuffFlat != 0)
+                towerAi.floatTowerBuffs.Add(new FloatTowerBuff(id, false, false, true, Stats.FloatStatName.Range, radiusBuffFlat ));
 
-            towerAi.RecalculateRadius();
+            towerAi.FloatStatRecalculate(Stats.FloatStatName.Range);
         }
 
         private void ApplyTowerDamageBuff(TowerAI towerAi)
         {
-            towerAi.currentAttackBuffs.Add(
-                new AttackBuffInstance(flatAttackBuff,
-                    id,
-                    percentageAttackBuff,
-                    true));
+            if (auraAffectsOnlyPen == false && auraAffectsOnlyDisruption == false )
+            {
+                AuraBuffDamage(towerAi);
 
-            towerAi.RecalculateDamage();
+                if (auraAffectsPenDamage)
+                {
+                    AuraBuffPenetration(towerAi);
+                }
+                
+                if (auraAffectsDisruptionDamage)
+                {
+                    AuraBuffDisruption(towerAi);
+                }
+                
+            }
+            else
+            {
+                if (auraAffectsOnlyPen)
+                {
+                    AuraBuffPenetration(towerAi);
+                }
+                
+                if (auraAffectsOnlyDisruption)
+                {
+                    AuraBuffDisruption(towerAi);
+                }
+            }
+        }
+
+        private void AuraBuffDamage(TowerAI towerAi)
+        {
+            if (percentageAttackBuff != 0)
+                towerAi.integerTowerBuffs.Add(new IntegerTowerBuff(id, false, true, true, Stats.IntStatName.Damage,
+                    percentageAttackBuff));
+
+            if (flatAttackBuff != 0)
+                towerAi.integerTowerBuffs.Add(new IntegerTowerBuff(id, false, false, true, Stats.IntStatName.Damage,
+                    flatAttackBuff));
+            towerAi.IntegerStatRecalculate(Stats.IntStatName.Damage);
+        }
+
+        private void AuraBuffPenetration(TowerAI towerAi)
+        {
+            if (percentageAttackBuff != 0)
+                towerAi.integerTowerBuffs.Add(new IntegerTowerBuff(id, false, true, true, Stats.IntStatName.PenetrateAmount,
+                    percentageAttackBuff));
+
+            if (flatAttackBuff != 0)
+                towerAi.integerTowerBuffs.Add(new IntegerTowerBuff(id, false, false, true, Stats.IntStatName.PenetrateAmount,
+                    flatAttackBuff));
+            towerAi.IntegerStatRecalculate(Stats.IntStatName.PenetrateAmount);
+        }
+
+        private void AuraBuffDisruption(TowerAI towerAi)
+        {
+            if (percentageAttackBuff != 0)
+                towerAi.integerTowerBuffs.Add(new IntegerTowerBuff(id, false, true, true, Stats.IntStatName.Disruption,
+                    percentageAttackBuff));
+
+            if (flatAttackBuff != 0)
+                towerAi.integerTowerBuffs.Add(new IntegerTowerBuff(id, false, false, true, Stats.IntStatName.Disruption,
+                    flatAttackBuff));
+            towerAi.IntegerStatRecalculate(Stats.IntStatName.Disruption);
         }
 
         private void ApplyTowerAttackSpeedBuff(TowerAI towerAi)
         {
-            towerAi.currentAttackSpeedBuffs.Add(
-                new AttackSpeedBuffInstance(flatAttackSpeedBuff,
-                    id,
-                    percentageAttackSpeedBuff,
-                    true));
 
-            towerAi.RecalculateAttackSpeed();
+            if (percentageAttackSpeedBuff != 0)
+                towerAi.floatTowerBuffs.Add(new FloatTowerBuff(GetInstanceID(), false, true, true,
+                    Stats.FloatStatName.AttackSpeed, percentageAttackSpeedBuff));
+
+            if (flatAttackSpeedBuff != 0)
+            {
+                towerAi.floatTowerBuffs.Add(new FloatTowerBuff(GetInstanceID(), false, false, true,
+                    Stats.FloatStatName.AttackSpeed, percentageAttackSpeedBuff));
+            }
+            
+            towerAi.FloatStatRecalculate(Stats.FloatStatName.AttackSpeed);
         }
 
 
@@ -2039,7 +1994,7 @@ namespace Shooting
 
         private void AssignChain(Projectile bullet)
         {
-            bullet.isChainLighting = isChainLighting;
+            bullet.isChainLightning = isChainLighting;
             bullet.chainLength = startChainLength;
             bullet.chainTargetRange = chainSeekRadius;
         }

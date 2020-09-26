@@ -23,7 +23,7 @@ MonoBehaviour:
     enemyCount: 9
     nextDelay: 0
     nextIsSimultaneous: 0
-  - enemyType: {fileID: 6702962538568995052, guid: 507e4b1e93c7580409a6bf636a4286fe,
+  - enemyType: {fileID: 6702962538568995052, guid: 47a91b6bb594829459f7e4edd99b17d9,
       type: 3}
     enemyCount: 2
     nextDelay: 0
@@ -64,5 +64,6 @@ MonoBehaviour:
     nextDelay: 0
     nextIsSimultaneous: 0
   nextMacroWave: {fileID: 11400000, guid: 9096a428231824b4db9fdaa1b7d67926, type: 2}
-  moneyGain: 30
+  moneyGain: 65
   manaGain: 35
+  essenceGain: 0

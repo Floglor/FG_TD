@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Prefaps.Spells.SpellScripts;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -21,5 +22,7 @@ namespace ScriptableObjects
         public MacroWave nextMacroWave;
         public int moneyGain;
         public int manaGain;
+        public int essenceGain;
+        private List<Spell> spellsGain;
     }
 }

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 7699620804413304840}
   - component: {fileID: 8067780550972636081}
   - component: {fileID: -6791522531512021763}
+  - component: {fileID: 2113260933562870020}
   m_Layer: 2
   m_Name: MUT GroundPinar
   m_TagString: Tower
@@ -136,7 +137,7 @@ MonoBehaviour:
   bulletSpeed: 10
   enemyTag: Enemy
   nodeTag: Node
-  bulletPrefab: {fileID: 6209443775395190770, guid: 7e4007a7cebee4a429c1bb83e698f4fa,
+  bulletPrefab: {fileID: 3869822627679098885, guid: f42981345d3cd8c4bb55d735c61359bc,
     type: 3}
   firePoint: {fileID: 702030583341141871}
   upgradeVariants:
@@ -155,11 +156,9 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   isSplitshot: 0
   startSplitshotTargetCount: 0
-  splitshotTargetCount: 0
   isChainLighting: 0
   startChainLength: 0
   startChainSeekRadius: 0
-  chainSeekRadius: 0
   isAura: 0
   startAuraRadius: 0
   auraRadius: 0
@@ -216,7 +215,8 @@ MonoBehaviour:
   editorShowExternalBuffs: 0
   externalStatsBoostFloat: []
   externalStatsBoostInt: []
---- !u!58 &-6791522531512021763
+  shootEffect: {fileID: 0}
+--- !u!58 &
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,6 +232,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.97
+--- !u!114 &2113260933562870020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3161772091527896360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3653348cb2a7df24da615657df765345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 1
+  items: []
 --- !u!1001 &1353418664872077589
 PrefabInstance:
   m_ObjectHideFlags: 0

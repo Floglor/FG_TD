@@ -106,22 +106,40 @@ public readonly struct AligningInstance
     }
 }
 
+public class EssenceAOEInstance
+{
+    public int instanceID;
+    public TowerAI tower;
+
+    public EssenceAOEInstance(int instanceID, TowerAI tower)
+    {
+        this.instanceID = instanceID;
+        this.tower = tower;
+    }
+}
+
 
 public class Enemy : MonoBehaviour
 {
     private float trueSpeed;
 
     public float startSpeed;
+
     public float speed;
+
     public int startHealth;
     [FormerlySerializedAs("armor")] public int startArmor;
     public int currentArmor;
-    public int currentArmorBuff;
+
+    public bool isUnstoppable;
     
     public int damage;
-
+    public int essences;
+    
     public int startShield;
     public int shield;
+    
+    public bool ignoresNextAttack { get; set; }
 
 
     // ReSharper disable once MemberCanBePrivate.Global
@@ -132,7 +150,8 @@ public class Enemy : MonoBehaviour
     public bool isFlyingNow;
     public int flyStrengthOnStart;
     public int flyStrength;
-    private const float FlySpeedBuff = 0.5f;
+    private float flySpeedBuffFlat;
+    private float flightSpeedBuffPercentage;
 
 
     public Transform target { get; set; }
@@ -145,8 +164,8 @@ public class Enemy : MonoBehaviour
     public Image shieldBackground;
     public GameObject hitEffect;
 
-    [FormerlySerializedAs("textMeshPro")] public TextMeshProUGUI healthText;
-    public TextMeshProUGUI shieldText;
+   // [FormerlySerializedAs("textMeshPro")] public TextMeshProUGUI healthText;
+   // public TextMeshProUGUI shieldText;
     public int slowAmountPercentage { get; set; }
 
     public GameObject auraPrefab;
@@ -167,6 +186,8 @@ public class Enemy : MonoBehaviour
     public List<RegenBuffInstance> regenBuffInstances { get; set; }
 
     public List<EnemySkillEffect> skills;
+
+    public List<EssenceAOEInstance> essenceAOEInstances;
 
 
     public Type type;
@@ -204,8 +225,12 @@ public class Enemy : MonoBehaviour
     private GameObject shieldBreakEffect;
     private GameObject shieldTexture;
     private GameObject currentShieldTexture;
+
+    public List<GameObject> lightningPoints { get; set; }
     private void Start()
     {
+        flightSpeedBuffPercentage = PlayerStats.instance.flightSpeedBuffPercentage;
+        flySpeedBuffFlat = PlayerStats.instance.flightSpeedBuffFlat;
         shieldTexture = PlayerStats.instance.shield;
         shieldHitEffect = PlayerStats.instance.shieldHitEffect;
         shieldBreakEffect = PlayerStats.instance.shieldBreakEffect;
@@ -221,7 +246,8 @@ public class Enemy : MonoBehaviour
         damageDotInstances = new List<DamageDotInstance>();
         contentTickets = new List<ColliderContentTicket>();
         regenBuffInstances = new List<RegenBuffInstance>();
-
+        lightningPoints = new List<GameObject>();
+        essenceAOEInstances = new List<EssenceAOEInstance>();
         if (skills.IsNullOrEmpty())
             skills = new List<EnemySkillEffect>();
         else
@@ -232,6 +258,7 @@ public class Enemy : MonoBehaviour
 
         currentArmor = startArmor;
 
+        
         if (isAura)
         {
             auraCollider = GetComponent<CircleCollider2D>();
@@ -267,11 +294,14 @@ public class Enemy : MonoBehaviour
             isFlyingNow = isFlyingOnStart;
 
         if (isFlyingNow)
-            startSpeed += FlySpeedBuff;
+        {
+            startSpeed += flySpeedBuffFlat;
+            startSpeed = (startSpeed / 100f) * (100 + flightSpeedBuffPercentage);
+        }
 
 
         health = startHealth;
-        healthText.text = $"{health}/{startHealth}";
+        //healthText.text = $"{health}/{startHealth}";
 
         shield = startShield;
 
@@ -286,11 +316,15 @@ public class Enemy : MonoBehaviour
         ResetMVSP();
     }
 
+    public void IgnoreAttackProc()
+    {
+        ignoresNextAttack = false;
+    }
     private void FindShit()
     {
         shieldBackground = gameObject.transform.Find("ShieldBackground").gameObject.GetComponent<Image>();
         shieldBar = gameObject.transform.Find("ShieldImage").gameObject.GetComponent<Image>();
-        shieldText = gameObject.transform.Find("ShieldText").gameObject.GetComponent<TextMeshProUGUI>();
+       // shieldText = gameObject.transform.Find("ShieldText").gameObject.GetComponent<TextMeshProUGUI>();
     }
 
     private void UpdateShieldBar()
@@ -304,12 +338,12 @@ public class Enemy : MonoBehaviour
         if (currentShieldTexture == null)
             currentShieldTexture = Instantiate(shieldTexture, transform.position, Quaternion.identity, transform);
         
-        shieldText.enabled = true;
+       // shieldText.enabled = true;
         shieldBar.enabled = true;
         shieldBackground.enabled = true;
 
 
-        shieldText.text = $"{shield}/{startShield}";
+      //  shieldText.text = $"{shield}/{startShield}";
         shieldBar.fillAmount = (float) shield / startShield;
     }
 
@@ -481,9 +515,15 @@ public class Enemy : MonoBehaviour
             slowAmountPercentage = 0;
         }
 
-        if (isFlyingNow) startSpeed = trueSpeed + FlySpeedBuff;
+        if (isFlyingNow)
+        {
+            startSpeed = trueSpeed + flySpeedBuffFlat;
+            startSpeed = startSpeed / 100f * (100f + flightSpeedBuffPercentage);
+        }
 
         speed = startSpeed;
+        
+        if (isUnstoppable) return;
 
         if (!moveSpeedBuffInstances.IsNullOrEmpty())
         {
@@ -510,7 +550,31 @@ public class Enemy : MonoBehaviour
         float lowestMoveSpeedAlignment = aligningInstances
             .Select(aligningInstance => aligningInstance.targetMoveSpeed).Concat(new[] {Mathf.Infinity}).Min();
 
-        speed = lowestMoveSpeedAlignment;
+        if (speed < lowestMoveSpeedAlignment) return;
+        
+        PlayerStats playerStats = PlayerStats.instance;
+        switch (type)
+        {
+            case Type.Small:
+                if (playerStats.smallMVSPDifferenceBarrier <= speed-lowestMoveSpeedAlignment) return;
+                speed -= (speed - lowestMoveSpeedAlignment)/ 100 * (100 - playerStats.smallMVSPChangePercent);
+                break;
+            case Type.Medium:
+                if (playerStats.mediumMVSPDifferenceBarrier <= speed-lowestMoveSpeedAlignment) return;
+                speed -= (speed - lowestMoveSpeedAlignment)/ 100 * (100 - playerStats.mediumMVSPChangePercent);
+                break;
+            case Type.Boss:
+                if (playerStats.bossMVSPDifferenceBarrier <= speed-lowestMoveSpeedAlignment) return;
+                speed -= (speed - lowestMoveSpeedAlignment)/ 100 * (100 - playerStats.bossMVSPChangePercent);
+                break;
+            case Type.Unique:
+                if (playerStats.uniqueMVSPDifferenceBarrier <= speed-lowestMoveSpeedAlignment) return;
+                speed -= (speed - lowestMoveSpeedAlignment)/ 100 * (100 - playerStats.uniqueMVSPChangePercent);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
     }
 
 
@@ -835,7 +899,7 @@ public class Enemy : MonoBehaviour
             healthBar.fillAmount = (float) health / (float) startHealth;
             SpawnHitEffect();
 
-            healthText.text = $"{health}/{startHealth}";
+            //healthText.text = $"{health}/{startHealth}";
 
             if (health <= 0)
                 Die();
@@ -869,7 +933,7 @@ public class Enemy : MonoBehaviour
                 health -= incomingDamage - currentArmor;
 
             healthBar.fillAmount = (float) health / (float) startHealth;
-            healthText.text = $"{health}/{startHealth}";
+        //    healthText.text = $"{health}/{startHealth}";
             
             SpawnHitEffect();
 
@@ -886,7 +950,7 @@ public class Enemy : MonoBehaviour
         
         shieldBackground.enabled = false;
         shieldBar.enabled = false;
-        shieldText.enabled = false;
+        //shieldText.enabled = false;
         shield = 0;
 
         if (startShield == 0) return;
@@ -932,7 +996,7 @@ public class Enemy : MonoBehaviour
             health -= incomingDamage + (penetrationDamage - currentArmor) * 2;
 
             healthBar.fillAmount = (float) health / (float) startHealth;
-            healthText.text = $"{health}/{startHealth}";
+            //healthText.text = $"{health}/{startHealth}";
 
             if (health <= 0)
                 Die();
@@ -947,26 +1011,47 @@ public class Enemy : MonoBehaviour
             health = startHealth;
 
         healthBar.fillAmount = (float) health / (float) startHealth;
-        healthText.text = $"{health}/{startHealth}";
+        //healthText.text = $"{health}/{startHealth}";
     }
 
 
     public void Die()
     {
         if (alreadyDead) return;
+        if (!essenceAOEInstances.IsNullOrEmpty())
+        {
+            foreach (EssenceAOEInstance instance 
+                in essenceAOEInstances.Where(instance => instance.tower.GainEssences(essences)))
+            {
+                break;
+            }
+        }
+        UntieLightningPoints();
         PlayerStats.enemiesAlive--;
         Destroy(gameObject);
         GameObject effectInst = (GameObject) Instantiate(deathEffect,
             new Vector3(transform.position.x, transform.position.y, -100), transform.rotation);
+        
 
         Destroy(effectInst, 10f);
+
         alreadyDead = true;
     }
 
     private void DamagePlayer()
     {
+        UntieLightningPoints();
         Destroy(gameObject);
         PlayerStats.enemiesAlive--;
         PlayerStats.Lives -= damage;
+    }
+
+    private void UntieLightningPoints()
+    {
+        foreach (GameObject lightningPoint in lightningPoints)
+        {
+            lightningPoint.transform.parent = null;
+            lightningPoint.transform.position = transform.position;
+        }
     }
 }

@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 739452735176853657}
   - component: {fileID: -4468468569504624784}
   - component: {fileID: -2128077320147672410}
+  - component: {fileID: 4509373051803201255}
   m_Layer: 2
   m_Name: AOE Pinar
   m_TagString: Tower
@@ -143,7 +144,7 @@ MonoBehaviour:
   upgradeVariants:
   - {fileID: 11400000, guid: d012aaa1373b8d44e95971a065d377c6, type: 2}
   - {fileID: 11400000, guid: 1b84721cbdf950b45a3be8bfe60a3bfb, type: 2}
-  - {fileID: 11400000, guid: 03a4de61c3a218c4793b7e4cc549f1e1, type: 2}
+  - {fileID: 11400000, guid: 65c3a59100f0e6145a535fedc23b45f9, type: 2}
   - {fileID: 11400000, guid: 334c9f57de238a44c88a799d2cba86eb, type: 2}
   isLinearAOE: 1
   linearAOEProjectile: {fileID: 8086809444864487078, guid: 74e102d4d98511a40b917afc0b6ea636,
@@ -160,11 +161,9 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   isSplitshot: 0
   startSplitshotTargetCount: 3
-  splitshotTargetCount: 0
   isChainLighting: 0
   startChainLength: 0
   startChainSeekRadius: 0
-  chainSeekRadius: 0
   isAura: 0
   startAuraRadius: 0
   auraRadius: 0
@@ -190,6 +189,13 @@ MonoBehaviour:
   waveCounterMineSpawn: 0
   mineGameObject: {fileID: 0}
   blowEffect: {fileID: 0}
+  isFreeEssenceGain: 0
+  essenceGainAmount: 0
+  isEnemySuckGain: 0
+  maxSuckAmount: 0
+  isFullOfEssence: 0
+  suckAOE: 0
+  suckAmount: 0
   isDOT: 0
   startDOTDamage: 0
   dOTDamage: 0
@@ -224,6 +230,7 @@ MonoBehaviour:
     floatStat: 0
     amount: 50
   externalStatsBoostInt: []
+  shootEffect: {fileID: 0}
 --- !u!58 &-4468468569504624784
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -261,6 +268,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4509373051803201255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950006273266695334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3653348cb2a7df24da615657df765345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 1
+  items: []
 --- !u!1001 &6711200176949118098
 PrefabInstance:
   m_ObjectHideFlags: 0

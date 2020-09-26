@@ -36,14 +36,14 @@ public class Node : MonoBehaviour
     public bool isExternal;
 
     public Color towerColor;
-    [ColorUsage(false, true)] public Color hoverColor;
+    [ColorUsage(true, true)] public Color hoverColor;
     private SpriteRenderer rend;
     
-    [ColorUsage(false, true)] private Color startColor;
+    [ColorUsage(true, true)] private Color startColor;
 
-    [ColorUsage(false, true)] public Color notEnoughMoneyColor;
+    [ColorUsage(true, true)] public Color selectedColor;
 
-    [ColorUsage(false, true)] public Color selectedColor;
+    public bool isSelected;
 
     public GameObject ui;
 
@@ -54,6 +54,8 @@ public class Node : MonoBehaviour
     public GameObject upgradeMark;
 
     BuildManager buildManager;
+
+    public bool towerColorSet;
 
     //private float standartIntensity = 3.2f;
 
@@ -66,6 +68,7 @@ public class Node : MonoBehaviour
 
     private void Start()
     {
+        towerColorSet = false;
         buildManager = BuildManager.instance;
         rend = GetComponent<SpriteRenderer>();
         startColor = rend.material.color;
@@ -99,7 +102,9 @@ public class Node : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (rend.material.color != selectedColor)
-            rend.material.color = hoverColor;
+        {
+            ChangeColorTo(hoverColor);
+        }
     }
 
     public Vector3 GetBuildPosition()
@@ -109,28 +114,45 @@ public class Node : MonoBehaviour
 
     public void OnMouseExit()
     {
-        if (rend.material.color != selectedColor)
-            rend.material.color = startColor;
+       SetNormalColor();
     }
 
     public void SetNormalColor()
     {
-        rend.material.color = startColor;
+        if (isSelected) return;
+
+        if (!towerColorSet)
+        {
+            ChangeColorTo(startColor);
+        }
+        else
+        {
+            ChangeColorTo(towerColor);
+        }
+    }
+
+    private void ChangeColorTo(Color color)
+    {
+        rend.material.color = color;
+        rend.color = color;
+        Color rendColor = rend.color;
+        rendColor.a = 100;
+        // ReSharper disable once Unity.InefficientPropertyAccess
+        rend.color = rendColor;
     }
 
     public void SetTowerColor()
     {
+        towerColorSet = true;
         towerColor = turret.gameObject.GetComponent<Renderer>().material.color;
-        float intensity = (towerColor.r + towerColor.g + towerColor.b) / 3f;
-        towerColor = turret.gameObject.GetComponent<Renderer>().material.color;
-        towerColor = new Color(towerColor.r*intensity, towerColor.g*intensity, towerColor.b*intensity, 0f);
-        rend.material.color = towerColor;
+        ChangeColorTo(towerColor);
         //Debug.Log(rend.material.color);
     }
 
 
     public void SetSelected()
     {
+        isSelected = true;
         rend.material.color = selectedColor;
     }
 
@@ -165,7 +187,7 @@ public class Node : MonoBehaviour
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.PenetrateAmount);
                     break;
                 case Stats.IntStatName.SplitshotTargetsCount:
-                    towerAI.startSplitshotTargetCount = (int) stat.statValue;
+                    towerAI.startSplitshotTargetCount += (int) stat.statValue;
                     towerAI.IntegerStatRecalculate(Stats.IntStatName.SplitshotTargetsCount);
                     break;
                 case Stats.IntStatName.ChainLength:
@@ -285,19 +307,17 @@ public class Node : MonoBehaviour
         TowerAI towerAi = turret.GetComponent<TowerAI>();
         Inventory inventory = towerAi.gameObject.GetComponent<Inventory>();
 
-        if (inventory == null)
-        {
-            Debug.Log("inventory is null");
-        }
-
         DestroyTurretGroundShit();
 
         GameObject currentTurret = Instantiate(prefab,
             new Vector3(this.transform.position.x, this.transform.position.y, -2), Quaternion.identity);
 
         currentTurret.GetComponent<TowerAI>().totalCost = towerAi.totalCost + cost;
-
+        
+       
         if (inventory != null)
+        {
+            inventory.Remove();
             foreach (Item inventoryItem in inventory.items)
             {
                 try
@@ -318,6 +338,11 @@ public class Node : MonoBehaviour
                     throw;
                 }
             }
+        }
+        else
+        {
+            Debug.Log("inventory is null");
+        }
 
         ItemManager.instance.ClearInventoryPanels();
 
@@ -327,6 +352,8 @@ public class Node : MonoBehaviour
         turret = currentTurret;
 
         //Debug.Log(turret.GetComponent<TowerAI>().totalCost);
+
+        SetTowerColor();
 
         uiScript.UIDeselect();
         UpdateTowerNode();

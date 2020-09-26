@@ -17,50 +17,63 @@ MonoBehaviour:
       type: 3}
     enemyCount: 11
     nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
       type: 3}
     enemyCount: 6
     nextDelay: 2
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
       type: 3}
     enemyCount: 6
     nextDelay: 2
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
       type: 3}
     enemyCount: 6
     nextDelay: 1
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 507e4b1e93c7580409a6bf636a4286fe,
       type: 3}
     enemyCount: 1
     nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
       type: 3}
     enemyCount: 6
     nextDelay: 2
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
       type: 3}
     enemyCount: 6
     nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: c8ba5b4b37ffa394cb224eb40554d47d,
       type: 3}
     enemyCount: 30
     nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 507e4b1e93c7580409a6bf636a4286fe,
       type: 3}
     enemyCount: 1
     nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: c8ba5b4b37ffa394cb224eb40554d47d,
       type: 3}
     enemyCount: 30
     nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 570b632dfa9a8e64497a4d68132e87ef,
       type: 3}
     enemyCount: 1
     nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 8b885edc6bb74934185db3cca3a37199,
       type: 3}
     enemyCount: 1
     nextDelay: 0
+    nextIsSimultaneous: 0
   nextMacroWave: {fileID: 11400000, guid: 2521272165b588d42a2fed51d1cdab93, type: 2}
-  moneyGain: 25
+  moneyGain: 60
   manaGain: 30
+  essenceGain: 0

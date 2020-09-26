@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7370315278563187094}
   - component: {fileID: 5767876392527953980}
   - component: {fileID: 3952921304430568807}
+  - component: {fileID: 7862161264501681054}
   m_Layer: 2
   m_Name: AUR Frost
   m_TagString: Tower
@@ -155,16 +156,14 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   isSplitshot: 0
   startSplitshotTargetCount: 3
-  splitshotTargetCount: 0
   isChainLighting: 0
   startChainLength: 0
   startChainSeekRadius: 0
-  chainSeekRadius: 0
   isAura: 1
-  startAuraRadius: 2
+  startAuraRadius: 3
   auraRadius: 2
   isSlowing: 1
-  startSlowingAuraPercentage: 10
+  startSlowingAuraPercentage: 20
   slowingAuraPercentage: 0
   isSnaring: 0
   startSnaringStrength: 0
@@ -185,8 +184,15 @@ MonoBehaviour:
   waveCounterMineSpawn: 0
   mineGameObject: {fileID: 0}
   blowEffect: {fileID: 0}
+  isFreeEssenceGain: 0
+  essenceGainAmount: 0
+  isEnemySuckGain: 0
+  maxSuckAmount: 0
+  isFullOfEssence: 0
+  suckAOE: 0
+  suckAmount: 0
   isDOT: 1
-  startDOTDamage: 1
+  startDOTDamage: 2
   dOTDamage: 1
   startingDOTPenetration: 0
   dOTPenetration: 0
@@ -195,7 +201,7 @@ MonoBehaviour:
   dOTUniqueIdentifier: X1
   startDotDuration: 0.175
   dotDuration: 0
-  startDebuffTickFrequency: 2
+  startDebuffTickFrequency: 1
   debuffTickFrequency: 2
   isDOTSlowing: 0
   isStackable: 0
@@ -216,6 +222,7 @@ MonoBehaviour:
   editorShowExternalBuffs: 0
   externalStatsBoostFloat: []
   externalStatsBoostInt: []
+  shootEffect: {fileID: 0}
 --- !u!58 &5767876392527953980
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -253,6 +260,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7862161264501681054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476632279043047183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3653348cb2a7df24da615657df765345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 1
+  items: []
 --- !u!1001 &1978859256295099186
 PrefabInstance:
   m_ObjectHideFlags: 0

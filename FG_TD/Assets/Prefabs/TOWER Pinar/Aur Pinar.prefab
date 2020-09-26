@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7370315278563187094}
   - component: {fileID: 5767876392527953980}
   - component: {fileID: 6575378089188105986}
+  - component: {fileID: -4253934077829626177}
   m_Layer: 2
   m_Name: Aur Pinar
   m_TagString: Tower
@@ -128,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a51e07633a9d9147b5663d0f590a17c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRange: 4
+  startRange: 2
   startingFireRate: 0.75
   startAOE: 0
   startDamage: 0
@@ -158,13 +159,11 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   isSplitshot: 0
   startSplitshotTargetCount: 3
-  splitshotTargetCount: 0
   isChainLighting: 0
   startChainLength: 0
   startChainSeekRadius: 0
-  chainSeekRadius: 0
   isAura: 1
-  startAuraRadius: 2
+  startAuraRadius: 4
   auraRadius: 2
   isSlowing: 1
   startSlowingAuraPercentage: 5
@@ -174,12 +173,17 @@ MonoBehaviour:
   snaringStrength: 0
   isAffectingTowers: 1
   isAttackBuffAura: 1
-  flatAttackBuff: 0
+  flatAttackBuff: 1
+  auraAffectsPenDamage: 0
+  auraAffectsOnlyPen: 0
+  auraAffectsDisruptionDamage: 0
+  auraAffectsOnlyDisruption: 0
   percentageAttackBuff: 5
   isAttackSpeedBuffAura: 1
   flatAttackSpeedBuff: 0
   percentageAttackSpeedBuff: 5
   isRadiusBuff: 0
+  radiusBuffFlat: 0
   radiusBuffPercentage: 0
   isMineTrap: 0
   mineCountOneSide: 0
@@ -188,6 +192,13 @@ MonoBehaviour:
   waveCounterMineSpawn: 0
   mineGameObject: {fileID: 0}
   blowEffect: {fileID: 0}
+  isFreeEssenceGain: 0
+  essenceGainAmount: 0
+  isEnemySuckGain: 0
+  maxSuckAmount: 0
+  isFullOfEssence: 0
+  suckAOE: 0
+  suckAmount: 0
   isDOT: 1
   startDOTDamage: 1
   dOTDamage: 1
@@ -219,6 +230,7 @@ MonoBehaviour:
   editorShowExternalBuffs: 0
   externalStatsBoostFloat: []
   externalStatsBoostInt: []
+  shootEffect: {fileID: 0}
 --- !u!58 &5767876392527953980
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -256,6 +268,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-4253934077829626177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476632279043047183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3653348cb2a7df24da615657df765345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 1
+  items: []
 --- !u!1001 &1978859256295099186
 PrefabInstance:
   m_ObjectHideFlags: 0

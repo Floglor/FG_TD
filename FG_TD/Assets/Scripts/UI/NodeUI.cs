@@ -84,13 +84,19 @@ public class NodeUI : MonoBehaviour
                 Button buttonComponent = newButton.GetComponent<Button>();
                 buttonComponent.onClick.AddListener(delegate { node.UpgradeTower(upgradeVariant); });
 
-                Text text = newButton.GetComponentInChildren<Text>();
+                TextMeshProUGUI text = newButton.GetComponentInChildren<TextMeshProUGUI>();
 
                 StringBuilder sb = new StringBuilder();
-                sb.Append(upgradeVariant.cost + "G|| ");
+                sb.Append(upgradeVariant.cost + "G || ");
                 foreach (Stats stat in upgradeVariant.statList)
                 {
-                    sb.Append(stat.intStatName + "+" + stat.statValue + "|| ");
+                    if (stat.intStatName != Stats.IntStatName.None)
+                        sb.Append(stat.intStatName + " + " + stat.statValue + " || ");
+                    if (stat.floatStatName != Stats.FloatStatName.None)
+                        sb.Append(stat.floatStatName + " + " + stat.statValue + " || ");
+                    if (stat.boolStatName != Stats.BoolStatName.None)
+                        sb.Append(stat.boolStatName + " + " + stat.statValue + " || ");
+                    
                     text.text = sb.ToString();
                 }
 
@@ -115,16 +121,16 @@ public class NodeUI : MonoBehaviour
 
                     StringBuilder sb = new StringBuilder();
 
-                    Text text = newButton.GetComponentInChildren<Text>();
+                    TextMeshProUGUI text = newButton.GetComponentInChildren<TextMeshProUGUI>();
 
                     TowerAI towerAttr = tower.tower.GetComponent<TowerAI>();
 
                     //Button text
                     sb.Append("/"
                               + tower.tower.name + " "
-                              + tower.cost + "G|| "
-                              + towerAttr.startDamage + " damage|| "
-                              + towerAttr.startingFireRate + " attackspeed|| "
+                              + tower.cost + "G || "
+                              + towerAttr.startDamage + " damage || "
+                              + towerAttr.startingFireRate + " attackspeed || "
                               + towerAttr.aoe
                               + " AOE/");
 
@@ -162,12 +168,13 @@ public class NodeUI : MonoBehaviour
     private void ShowSellButton()
     {
         CalculateSellPercentageText();
-        sellButton.GetComponent<Button>().enabled = true;
+        sellButton.GetComponent<Button>().interactable = true;
+        
     }
 
     private void HideSellButton()
     {
-        sellButton.GetComponent<Button>().enabled = false;
+        sellButton.GetComponent<Button>().interactable = false;
     }
 
     public void SellTower()
@@ -175,9 +182,16 @@ public class NodeUI : MonoBehaviour
         //Debug.Log($"blurp { targetNode.turret.GetComponent<TowerAI>().totalCost *( (float) PlayerStats.instance.sellingPercentage / 100)}");
         PlayerStats.instance.SpendMoney((int) -(targetNode.turret.GetComponent<TowerAI>().totalCost *
                                                 ((float) PlayerStats.instance.sellingPercentage / 100)));
+        Inventory inventory = targetNode.turret.gameObject.GetComponent<Inventory>();
+        if (inventory != null)
+        {
+            
+        }
         targetNode.DestroyTurretGroundShit();
         Destroy(targetNode.turret);
         targetNode.turret = null;
+        targetNode.towerColorSet = false;
+        targetNode.SetNormalColor();
         UIDeselect();
     }
 }

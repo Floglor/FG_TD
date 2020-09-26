@@ -2,7 +2,6 @@
 using System.Linq;
 using Managers;
 using MyBox;
-using Unity.UNetWeaver;
 using UnityEngine;
 
 namespace Shooting
@@ -22,7 +21,7 @@ namespace Shooting
                 return;
             
             if (!enemy.isFlyingNow)
-                Damage(collision.gameObject);
+                DamageWithoutDestroy(collision.gameObject, isMagical);
 
             Utils.ApplyColliderEntry(enemy,
                 !dOTUniqueIdentifier.IsNullOrEmpty()
@@ -65,14 +64,6 @@ namespace Shooting
         }
 
 
-        private void Damage(GameObject enemy)
-        {
-            if (enemy == null) return;
-
-            Enemy enemyObj = enemy.GetComponent<Enemy>();
-            if (penetration > 0)
-                enemyObj.TakeDamage(damage, penetration);
-            else enemyObj.TakeDamage(damage, isMagical);
-        }
+    
     }
 }

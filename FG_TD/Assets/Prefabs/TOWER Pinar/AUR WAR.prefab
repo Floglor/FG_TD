@@ -154,13 +154,11 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   isSplitshot: 0
   startSplitshotTargetCount: 3
-  splitshotTargetCount: 0
   isChainLighting: 0
   startChainLength: 0
   startChainSeekRadius: 0
-  chainSeekRadius: 0
   isAura: 1
-  startAuraRadius: 3
+  startAuraRadius: 2
   auraRadius: 3
   isSlowing: 0
   startSlowingAuraPercentage: 0
@@ -170,12 +168,17 @@ MonoBehaviour:
   snaringStrength: 0
   isAffectingTowers: 1
   isAttackBuffAura: 1
-  flatAttackBuff: 0
+  flatAttackBuff: 1
+  auraAffectsPenDamage: 0
+  auraAffectsOnlyPen: 0
+  auraAffectsDisruptionDamage: 0
+  auraAffectsOnlyDisruption: 0
   percentageAttackBuff: 14
   isAttackSpeedBuffAura: 1
   flatAttackSpeedBuff: 0
   percentageAttackSpeedBuff: 14
   isRadiusBuff: 0
+  radiusBuffFlat: 0
   radiusBuffPercentage: 0
   isMineTrap: 0
   mineCountOneSide: 0
@@ -184,6 +187,13 @@ MonoBehaviour:
   waveCounterMineSpawn: 0
   mineGameObject: {fileID: 0}
   blowEffect: {fileID: 0}
+  isFreeEssenceGain: 0
+  essenceGainAmount: 0
+  isEnemySuckGain: 0
+  maxSuckAmount: 0
+  isFullOfEssence: 0
+  suckAOE: 0
+  suckAmount: 0
   isDOT: 0
   startDOTDamage: 0
   dOTDamage: 0
@@ -215,6 +225,7 @@ MonoBehaviour:
   editorShowExternalBuffs: 0
   externalStatsBoostFloat: []
   externalStatsBoostInt: []
+  shootEffect: {fileID: 0}
 --- !u!58 &5767876392527953980
 CircleCollider2D:
   m_ObjectHideFlags: 0

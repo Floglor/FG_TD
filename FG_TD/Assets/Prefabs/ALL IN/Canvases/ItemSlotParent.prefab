@@ -75,6 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
+  isInventorySlot: 0
   item: {fileID: 0}
   index: 0
 --- !u!1001 &1046825023304057444
@@ -84,6 +85,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7076754622033155221}
     m_Modifications:
+    - target: {fileID: 3096756804817914928, guid: bf411bf64b3fbc3499184a6f79b58c5e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5c49ef3a1a4460b4ca3a969124efb7fa,
+        type: 3}
+    - target: {fileID: 3096756804817914928, guid: bf411bf64b3fbc3499184a6f79b58c5e,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.79607844
+      objectReference: {fileID: 0}
     - target: {fileID: 4791698977411396038, guid: bf411bf64b3fbc3499184a6f79b58c5e,
         type: 3}
       propertyPath: m_LocalPosition.x

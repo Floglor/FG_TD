@@ -86,7 +86,7 @@ public class ChainLightning : Spell
             
             
 
-            bullet.isChainLighting = isChainLighting;
+            bullet.isChainLightning = isChainLighting;
             bullet.chainLength = chainLength;
             bullet.chainTargetRange = chainSeekRadius;
             

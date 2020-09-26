@@ -37,19 +37,21 @@ namespace Shooting
         //==============================
 
         //CHAIN
-        public bool isChainLighting { get; set; }
+        public bool isChainLightning { get; set; }
         public int chainLength { get; set; }
         public float chainTargetRange { get; set; }
         protected const float GraphicPauseTime = 0.2f;
-        public Texture2D lightingTextures;
+        public Texture2D lightningTextures;
         public GameObject spritePrefab;
         protected List<Transform> damagedEnemies;
+
+        public GameObject lightning;
 
         //private bool chainLightingStarted;
 
         protected float pauseTimeCurrent;
 
-        protected Sprite[] sprites;
+        //protected Sprite[] sprites;
         //==============================
 
         public bool shouldTurn;
@@ -71,7 +73,7 @@ namespace Shooting
         public float debuffTickFrequency { get; set; }
 
         public bool isStackable { get; set; }
-        
+
         public bool updatesAllSimilarDOTsCooldown { get; set; }
 
         public bool isSlowing { get; set; }
@@ -85,7 +87,7 @@ namespace Shooting
         private void Awake()
         {
             slowIdentifier = GetInstanceID();
-           
+            
         }
 
         protected void ApplyEffectStatChanges()
@@ -104,6 +106,12 @@ namespace Shooting
 
             Enemy enemyObj = enemy.GetComponent<Enemy>();
 
+            if (enemyObj.ignoresNextAttack)
+            {
+                enemyObj.IgnoreAttackProc();
+                return;
+            }
+
             if (enemyObj == null) return;
 
             if (isDamaging) CheckAndApplyDot(enemyObj);
@@ -118,6 +126,29 @@ namespace Shooting
             }
         }
 
+        public void Damage(GameObject enemy, bool magical)
+        {
+            Destroy(gameObject);
+            if (enemy != null)
+            {
+                Enemy enemyObj = enemy.GetComponent<Enemy>();
+                
+                if (enemyObj.ignoresNextAttack)
+                {
+                    enemyObj.IgnoreAttackProc();
+                    return;
+                }
+
+                if (isDamaging) CheckAndApplyDot(enemyObj);
+
+                if (isMagical)
+                    enemyObj.TakeDamage(damage, magical, disruption);
+                else enemyObj.TakeDamage(damage, penetration, disruption);
+
+                //motherTower.showTotalDamage();
+            }
+        }
+        
         protected void CheckAndApplyDot(Enemy enemy)
         {
             ApplyDamageDot(enemy);
@@ -125,8 +156,6 @@ namespace Shooting
 
         private void ApplySlow(Enemy enemy)
         {
-         
-
             List<SlowInstance> slowInstances = enemy.slowInstances;
 
             int biggestSlowInstance = slowRate;
@@ -146,16 +175,14 @@ namespace Shooting
 
                 slowInstance.duration = debuffDuration;
                 slowInstances[i] = slowInstance;
-             
+
                 enemy.ResetMVSP();
                 return;
             }
 
-           
 
             slowInstances.Add(new SlowInstance(slowIdentifier, slowRate, debuffDuration));
 
-            
 
             if (biggestSlowInstance > slowRate) return;
 
@@ -174,9 +201,9 @@ namespace Shooting
                 {
                     //Debug.Log($"{dOTUniqueIdentifier} and {enemyDamageDotInstance.uniqueIdentifier}");
                     isAlreadyOn = true;
-                    
+
                     if (!updatesAllSimilarDOTsCooldown) continue;
-                    
+
                     if (debuffDuration > enemyDamageDotInstance.dotDuration)
                         enemyDamageDotInstance.dotDuration = debuffDuration;
                 }
@@ -187,14 +214,13 @@ namespace Shooting
             }
 
             if (!isStackable && !(this is GroundProjectile))
-                if (isAlreadyOn) return;
+                if (isAlreadyOn)
+                    return;
 
             //Debug.Log("Inst add");
             enemy.AddDotInstance(new DamageDotInstance(debuffTickFrequency, dOTDamage, debuffDuration,
                 GetInstanceID(), dOTMagical, dOTPenetration, dOTUniqueIdentifier,
                 isStackable, updatesAllSimilarDOTsCooldown, this is GroundProjectile, isSlowing, slowRate));
-
-          
         }
 
         protected void LinearExplode()

@@ -27,7 +27,7 @@ MonoBehaviour:
   - intStatName: 0
     floatStatName: 3
     boolStatName: 0
-    statValue: 0.4
+    statValue: 0.35
     falseCrits: []
   nextUpgrades:
   - {fileID: 11400000, guid: e59358c66818c9e4b9d877a11213cb19, type: 2}

@@ -17,7 +17,7 @@ MonoBehaviour:
   - intStatName: 0
     floatStatName: 4
     boolStatName: 0
-    statValue: 3
+    statValue: -3
     falseCrits: []
   - intStatName: 0
     floatStatName: 5

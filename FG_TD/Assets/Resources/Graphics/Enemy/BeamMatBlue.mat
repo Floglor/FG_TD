@@ -10,7 +10,7 @@ Material:
   m_Name: BeamMatBlue
   m_Shader: {fileID: -6465566751694194690, guid: d875256145d27074488dd46c4efde672,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -30,4 +30,4 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - _Color: {r: 0, g: 0.0006601199, b: 30.425756, a: 0}
+    - _Color: {r: 0, g: 0.0055459356, b: 1.0592737, a: 0}

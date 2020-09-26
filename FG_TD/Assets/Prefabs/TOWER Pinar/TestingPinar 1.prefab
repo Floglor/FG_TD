@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 6716770814947315874}
   - component: {fileID: 2639337216879242752}
   - component: {fileID: 5907906449778862106}
+  - component: {fileID: -2040848663319799998}
   m_Layer: 2
   m_Name: TestingPinar 1
   m_TagString: Tower
@@ -255,11 +256,9 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   isSplitshot: 0
   startSplitshotTargetCount: 3
-  splitshotTargetCount: 0
   isChainLighting: 0
   startChainLength: 5
   startChainSeekRadius: 2
-  chainSeekRadius: 2
   isAura: 1
   startAuraRadius: 0
   auraRadius: 0
@@ -317,6 +316,7 @@ MonoBehaviour:
   editorShowExternalBuffs: 0
   externalStatsBoostFloat: []
   externalStatsBoostInt: []
+  shootEffect: {fileID: 0}
 --- !u!58 &2639337216879242752
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -354,6 +354,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2040848663319799998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4373355419225571022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3653348cb2a7df24da615657df765345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 2
+  items: []
 --- !u!1 &6949369866644763230
 GameObject:
   m_ObjectHideFlags: 0

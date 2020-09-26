@@ -15,20 +15,70 @@ MonoBehaviour:
   microwaves:
   - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
       type: 3}
-    enemyCount: 41
-    nextDelay: 10
+    enemyCount: 4
+    nextDelay: 0
+    nextIsSimultaneous: 1
+  - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
+      type: 3}
+    enemyCount: 4
+    nextDelay: 0
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
       type: 3}
-    enemyCount: 1
-    nextDelay: 20
-  - enemyType: {fileID: 6702962538568995052, guid: 87594fbbbf2bf9e4ab8e321086cdc6f8,
+    enemyCount: 3
+    nextDelay: 3
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
       type: 3}
-    enemyCount: 1
-    nextDelay: 20
+    enemyCount: 3
+    nextDelay: 3
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
+      type: 3}
+    enemyCount: 5
+    nextDelay: 4
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
+      type: 3}
+    enemyCount: 5
+    nextDelay: 4
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
+      type: 3}
+    enemyCount: 5
+    nextDelay: 4
+    nextIsSimultaneous: 0
   - enemyType: {fileID: 6702962538568995052, guid: 8b885edc6bb74934185db3cca3a37199,
       type: 3}
-    enemyCount: 2
+    enemyCount: 1
+    nextDelay: 4
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
+      type: 3}
+    enemyCount: 20
+    nextDelay: 1
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
+      type: 3}
+    enemyCount: 6
+    nextDelay: 3
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 29c8f4d96396b7740943727e7a165914,
+      type: 3}
+    enemyCount: 6
+    nextDelay: 1
+    nextIsSimultaneous: 0
+  - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
+      type: 3}
+    enemyCount: 11
     nextDelay: 0
+    nextIsSimultaneous: 1
+  - enemyType: {fileID: 6702962538568995052, guid: 9efc64add5fad604a8d6fc559b39b165,
+      type: 3}
+    enemyCount: 11
+    nextDelay: 0
+    nextIsSimultaneous: 0
   nextMacroWave: {fileID: 11400000, guid: d9909ed2ee6a27f4bb93b2f9b0cc58ca, type: 2}
-  moneyGain: 30
+  moneyGain: 70
   manaGain: 35
+  essenceGain: 0

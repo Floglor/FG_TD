@@ -6,6 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/UISCENE.unity
+    path: Assets/Technical/Scenes/MainMenu.unity
+    guid: e35bfee4d5da72947b6639c619041557
+  - enabled: 1
+    path: Assets/Technical/Scenes/UISCENE.unity
     guid: 1c2c5cda5112ee549a8819f8299f5bcb
-  m_configObjects: {}
+  m_configObjects:
+    addressableimportsettings: {fileID: 11400000, guid: 9ff96e68288d3614ab5d4af5f1010470,
+      type: 2}
+    com.unity.addressableassets: {fileID: 11400000, guid: 1cc647b15e6809b4e861e071d7e2a076,
+      type: 2}

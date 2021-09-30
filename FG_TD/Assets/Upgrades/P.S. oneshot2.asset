@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adda92d43e6932544a306e86fb1265b6, type: 3}
+  m_Name: P.S. oneshot2
+  m_EditorClassIdentifier: 
+  towerCostData:
+    totalDamage: 0
+    totalDamageCost: 0
+    totalRange: 0
+    totalRangeCost: 0
+    totalFireRate: 0
+    totalFireRateCost: 0
+  cost: 35
+  statList:
+  - statCost: 9
+    intStatName: 0
+    floatStatName: 3
+    boolStatName: 0
+    statValue: 0.12
+    falseCrits: []
+  - statCost: 18
+    intStatName: 1
+    floatStatName: 0
+    boolStatName: 0
+    statValue: 3
+    falseCrits: []
+  - statCost: 0
+    intStatName: 2
+    floatStatName: 0
+    boolStatName: 0
+    statValue: 1
+    falseCrits: []
+  nextUpgrades:
+  - {fileID: 11400000, guid: 2b8b2c927fce0024aa4bd884c54cdd4a, type: 2}
+  towerUpgrades: []

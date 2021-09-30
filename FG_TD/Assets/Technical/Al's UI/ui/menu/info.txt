@@ -1,0 +1,5 @@
+main menu bg-1 opacity - 50%
+others menu bg-1 opacity - 30%
+
+Title and logo name - Gotham Medium - 83pt
+Other - Gotham Book - 57pt

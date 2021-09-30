@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: F1
   m_EditorClassIdentifier: 
   isBasic: 0
-  itemImage: {fileID: 21300000, guid: 2cb44d3a1c8ab014f820bb946d763f4d, type: 3}
+  itemImage: {fileID: 3286163911610860551, guid: 63ab127b56ca04848ac22a65d9203284,
+    type: 3}
   tier: 1
   integerTowerBuffs: []
   integerTowerDebuffs: []

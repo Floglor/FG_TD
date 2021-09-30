@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: B
   m_EditorClassIdentifier: 
   isBasic: 0
-  itemImage: {fileID: 21300000, guid: 4fca0ff2bbc0ee942bc8387a2399d48e, type: 3}
+  itemImage: {fileID: 3286163911610860551, guid: d9cdd05364cf3b0498efe9a97e1e306e,
+    type: 3}
   tier: 0
   integerTowerBuffs:
   - isPercentage: 1
@@ -22,6 +23,5 @@ MonoBehaviour:
   integerTowerDebuffs: []
   floatTowerBuffs: []
   floatTowerDebuffs: []
-  booleanStats: []
   falseCrits: []
   combination: []

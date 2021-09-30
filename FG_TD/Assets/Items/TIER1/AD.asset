@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: AD
   m_EditorClassIdentifier: 
   isBasic: 0
-  itemImage: {fileID: 21300000, guid: c598f2c8fd7eef54bb301603b1ef1a4e, type: 3}
+  itemImage: {fileID: 3286163911610860551, guid: 63ab127b56ca04848ac22a65d9203284,
+    type: 3}
   tier: 1
   integerTowerBuffs:
   - isPercentage: 0

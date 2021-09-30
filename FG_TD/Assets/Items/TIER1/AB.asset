@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: AB
   m_EditorClassIdentifier: 
   isBasic: 0
-  itemImage: {fileID: 21300000, guid: 0786edbd94839e34591f4d5d18100802, type: 3}
+  itemImage: {fileID: 3286163911610860551, guid: 63ab127b56ca04848ac22a65d9203284,
+    type: 3}
   tier: 1
   integerTowerBuffs:
   - isPercentage: 0

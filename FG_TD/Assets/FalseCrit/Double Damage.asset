@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77983fb7a0f54994b9a7f42cd2252d22, type: 3}
   m_Name: Double Damage
   m_EditorClassIdentifier: 
+  description: Doubles the damage
   damageMultiplier: 2

@@ -178,7 +178,7 @@ namespace Managers
 
             currentInventory = inventory;
             SetItemWheelGraphics();
-            //ClearInventoryPanels();
+            ClearInventoryPanels();
 
 
             for (int i = 0; i < currentInventory.capacity; i++)
@@ -245,13 +245,15 @@ namespace Managers
 
         public void ClearInventoryPanels()
         {
-            /* return;
+            
             Debug.Log("clearing panels");
             if (currentInventory != null)
             {
-                foreach (GameObject child in inventoryCanvas.transform.gameObject.GetAllChildren())
+                List<GameObject> children = inventoryCanvas.transform.gameObject.GetAllChildren();
+                // ReSharper disable once ForCanBeConvertedToForeach
+                for (int i = 0; i < children.Count-1; i++)
                 {
-                    Destroy(child);
+                    Destroy(children[i]);
                 }
             }
             else
@@ -259,7 +261,7 @@ namespace Managers
                 Debug.Log("currentInventory is null");
             }
 
-            inventoryPanels.Clear(); */
+            inventoryPanels.Clear(); 
         }
 
         public void GICreatePossibleItemsButtons()
@@ -545,13 +547,13 @@ namespace Managers
 
         void Start()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                GetItemByNumber(i);
-                GetItemByNumber(i);
-            }
-            
-            GetItemByNumber(26);
+            //for (int i = 0; i < 2; i++)
+            //{
+            //    GetItemByNumber(i);
+            //    GetItemByNumber(i);
+            //}
+            //
+            //GetItemByNumber(26);
         }        
     }
 }

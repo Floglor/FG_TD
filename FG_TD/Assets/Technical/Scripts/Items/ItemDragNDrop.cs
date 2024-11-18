@@ -44,7 +44,7 @@ namespace UI
             if (Input.GetMouseButtonDown(1))
             {
                 //do stuff here
-                Debug.Log("Right click");
+               // Debug.Log("Right click");
                 timesClicked = 0;
                 NodeUI.instance.mainItemDescription.Show();
                 if (item == null)

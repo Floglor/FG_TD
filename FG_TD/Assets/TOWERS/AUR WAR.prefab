@@ -127,6 +127,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a51e07633a9d9147b5663d0f590a17c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTargeted: 0
+  towerCostData:
+    totalDamage: 0
+    totalDamageCost: 0
+    totalRange: 0
+    totalRangeCost: 0
+    totalFireRate: 0
+    totalFireRateCost: 0
+  lockedDamage: 0
+  lockedFireRate: 0
+  lockedRange: 0
+  freeDamage: 0
+  freeFireRate: 0
+  freeRange: 0
+  upgradeVariants: []
   damageModifier: 0
   attackSpeedModifier: 0
   startRange: 4
@@ -142,7 +157,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: 555802578716727818, guid: e0236a7093f32e543a7ef065c655ad9e,
     type: 3}
   firePoint: {fileID: 576826696}
-  upgradeVariants: []
   isLinearAOE: 0
   linearAOEProjectile: {fileID: 0}
   startLinearTravelDistance: 0

@@ -102,6 +102,7 @@ public class Inventory : MonoBehaviour
 
     public void RemoveEffects(Item item)
     {
+        if (item == null) return;
         if (!item.floatTowerBuffs.IsNullOrEmpty())
         {
             foreach (FloatTowerBuff itemFloatTowerBuff in item.floatTowerBuffs)

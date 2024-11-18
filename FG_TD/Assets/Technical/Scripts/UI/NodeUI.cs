@@ -26,6 +26,7 @@ public class NodeUI : MonoBehaviour
 
     BuildManager buildManager;
     public GameObject towerInfo;
+    public TextMeshProUGUI towerName;
     public GameObject mainStatsGO;
     public GameObject buttonPrefab;
     public GameObject smallStatList;
@@ -160,6 +161,8 @@ public class NodeUI : MonoBehaviour
         ClearButtons();
         targetNode = node;
         selectedTower = node.turret.GetComponent<TowerAI>();
+        towerName.text = selectedTower.name;
+        towerName.text = towerName.text.Replace("(Clone)", "");
         selectedTower.isTargeted = true;
 
         SetStatsPanels(selectedTower);
